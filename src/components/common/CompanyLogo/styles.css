@@ -1,0 +1,34 @@
+@use postcss-short;
+@use postcss-inline-svg;
+@use postcss-center;
+
+.company-logo {
+  position: relative;
+  size: 100%;
+  border-radius: 4px;
+  background-color: #fff;
+  overflow: hidden;
+
+  & img {
+    size: 100%;
+  }
+}
+
+.blackout {
+  position: absolute 0 * * 0;
+  height: 100%;
+  width: 100%;
+  background-color: rgba(0, 0, 0, .05);
+}
+
+.blackout-empty {
+  composes: blackout;
+  background-color: transparent;
+}
+
+.empty {
+  background-image: svg-load('./svg/logo.svg');
+  size: size('./svg/logo.svg');
+  top: center;
+  left: center;
+}

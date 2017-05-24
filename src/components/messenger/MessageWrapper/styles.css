@@ -1,0 +1,85 @@
+@use postcss-short;
+
+.messages-wrapper {
+  margin-top: 10px;
+}
+
+.message {
+  cursor: text;
+  position: relative;
+  padding: 5px 40px 5px 100px;
+  transition: background-color ease-out 0.2s;
+
+  &:hover {
+    background-color: #f3f5f7;
+  }
+}
+
+.avatar {
+  position: absolute 5px * * 40px;
+  size: 44px;
+}
+
+.content {
+  font-size: 14px/20px;
+  color: #222222;
+}
+
+.favorite {
+  cursor: pointer;
+  position: absolute 10px 10px * *;
+  display: none;
+}
+
+.head {
+  position: relative;
+  margin-bottom: 5px;
+  display: inline-block;
+}
+
+.unread {
+  composes: head;
+
+  &:before {
+    content: '';
+    position: absolute 7px -12px * *;
+    size: 7px;
+    border-radius: 7px;
+    background-color: #0070e0;
+  }
+}
+
+.name {
+  font: 600 14px/19px 'Open Sans';
+  color: #0070e0;
+}
+
+.company {
+  margin-left: 10px;
+  margin-right: 5px;
+  font: 400 14px/19px 'Open Sans';
+  letter-spacing: -0.3px;
+  color: #9da0a4;
+}
+
+.date {
+  margin-left: 5px;
+  font: 400 12px/19px 'Open Sans';
+  letter-spacing: -0.2px;
+  color: #9da0a4;
+}
+
+/* User avatar */
+.avatar {
+  cursor: pointer;
+}
+
+.empty {
+  size: 44px;
+  border-radius: 4px;
+  font: 600 14px/20px 'Open Sans';
+  letter-spacing: -0.2px;
+  padding: 12px *;
+  text-align: center;
+  color: #ffffff;
+}

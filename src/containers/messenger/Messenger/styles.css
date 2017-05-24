@@ -1,0 +1,17 @@
+.messenger {
+  height: calc(100vh - 60px);
+}
+
+.dialogs-block, .messeges-block {
+  float: left;
+  height: inherit;
+}
+
+.dialogs-block {
+  width: 378px;
+  border-right: 1px solid #dbdfe4;
+}
+
+.messeges-block {
+  width: 750px;
+}

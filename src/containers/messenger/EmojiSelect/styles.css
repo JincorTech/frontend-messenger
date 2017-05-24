@@ -1,0 +1,82 @@
+@use postcss-inline-svg;
+@use postcss-short;
+
+
+.emoji-select {
+  display: inline-block;
+  position: relative;
+}
+
+.toggle {
+  display: inline-block;
+  cursor: pointer;
+  size: size('svg/smile.svg');
+  background: svg-load('svg/smile.svg');
+}
+
+.dropdown {
+  position: absolute * 0px 100% *;
+  padding: 0 10px;
+  margin-bottom: 15px;
+  size: 300px 280px;
+  border-radius: 4px;
+  background-color: #ffffff;
+  box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.2);
+
+  &:after {
+    position: absolute * 0px -15px *;
+    display: block;
+    content: '';
+    size: 100px 15px;
+  }
+}
+
+.group {
+  padding: 0 10px;
+}
+
+.group-title {
+  opacity: 0.75;
+  font-size: 14px/20px;
+  letter-spacing: -0.2px;
+  color: #595959;
+  padding: 5px 10px;
+}
+
+.emojis {
+  margin: 0px -3px;
+}
+
+.indicator {
+  display: inline-block;
+  size: 10px;
+  border-radius: 10px;
+  background-color: #dbdfe4;
+  cursor: pointer;
+  margin: * 3px;
+  transition: background-color ease-out 0.2s;
+
+  &:hover {
+    background-color: #C2C8D0;
+  }
+}
+
+.active {
+  composes: indicator;
+  background-color: #9da0a4 !important;
+}
+
+.scroll-spy {
+  text-align: center;
+  padding-top: 7px;
+}
+
+.current-group {
+  composes: group-title;
+  padding: 5px;
+}
+
+.emoji {
+  margin: 3px 4px;
+  cursor: pointer;
+}

@@ -1,0 +1,52 @@
+@use postcss-inline-svg;
+@use postcss-short;
+
+
+.image-upload {
+  position: relative;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.logo {
+  border-radius: 4px;
+}
+
+.img-bg {
+  & > img {
+    background-color: #fff;
+  }
+}
+
+.overlay {
+  position: absolute 0 0 0 0;
+  cursor: pointer;
+}
+
+.blackout {
+  position: absolute 0 0 0 0;
+  background-color: rgba(0, 0, 0, 0.25);
+  cursor: pointer;
+}
+
+.camera {
+  position: absolute 0 0 0 0;
+  margin: auto;
+  background: transparent svg-load('svg/camera.svg') center no-repeat;
+  size: size('svg/camera.svg');
+  transition: transform linear 0.2s;
+
+  &:hover {
+    transform: scale(1.1);
+  }
+}
+
+.overlay:hover {
+  .camera {
+    transform: scale(1.1);
+  }
+}
+
+.input-hidden {
+  visibility: hidden;
+}

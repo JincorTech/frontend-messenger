@@ -1,0 +1,18 @@
+@use postcss-short;
+
+.emoji {
+  display: inline-block;
+}
+
+.default {
+  composes: emoji;
+  size: 30px;
+  background-size: 30px;
+}
+
+.small {
+  composes: emoji;
+  size: 19px;
+  background-size: 19px;
+  vertical-align: bottom;
+}
