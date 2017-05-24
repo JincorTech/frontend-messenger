@@ -1,0 +1,50 @@
+@use postcss-short;
+
+.input {
+  font: normal 16px/22px 'Open Sans';
+  color: #222222;
+  background: #ffffff;
+  size: 100% 45px;
+  border-radius: 4px;
+  padding: 8px 12px 10px;
+  box-sizing: border-box;
+  transition: border-color linear 0.2s;
+
+  &::placeholder {
+    transition: color linear 0.2s;
+  }
+}
+
+.default {
+  composes: input;
+  border: solid 1px #dbdfe4;
+
+  &::placeholder {
+    color: #9da0a4;
+  }
+
+  &:focus {
+    outline: 0;
+    border-color: #0070e0;
+
+    &::placeholder {
+      color: #ebeced;
+    }
+  }
+}
+
+.invalid {
+  composes: input;
+  border: solid 1px #D0011B;
+  color: #D0011B;
+
+  &::placeholder {
+    color: #D0011B;
+  }
+
+  &:focus {
+    &::placeholder {
+      color: #ebeced;
+    }
+  }
+}

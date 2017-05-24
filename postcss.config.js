@@ -6,7 +6,9 @@ module.exports = {
         'postcss-inline-svg',
         'postcss-center',
         'postcss-clearfix',
-        'postcss-triangle'
+        'postcss-triangle',
+        'postcss-for',
+        'postcss-calc'
       ]
     },
     'postcss-cssnext': {},

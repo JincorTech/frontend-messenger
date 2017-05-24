@@ -1,0 +1,57 @@
+@use postcss-short;
+
+/*Sidebar*/
+.sidebar {
+  position: fixed;
+  padding: 112px 30px 30px;
+  top: 0;
+  bottom: 0;
+  z-index: 10000;
+  width: 240px;
+  background-color: #ffffff;
+  box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.1);
+  transition: left linear 0.2s;
+}
+
+.sidebar-open {
+  composes: sidebar;
+  left: 0;
+}
+
+.sidebar-close {
+  composes: sidebar;
+  left: -250px;
+}
+
+.link {
+  display: block;
+  font-size: 16px;
+  cursor: pointer;
+  margin-bottom: 12px;
+  color: #9da0a4 !important;
+
+  &:hover {
+    color: #0070e0 !important;
+    text-decoration: none;
+  }
+}
+
+.active {
+  display: block;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-bottom: 12px;
+  color: #0070e0 !important;
+  pointer-events: none;
+
+  &:hover {
+    text-decoration: none;
+  }
+}
+
+.close-icon {
+  position: absolute 14px * * 35px;
+  display: inline-block;
+  cursor: pointer;
+}
