@@ -1,0 +1,49 @@
+@use postcss-short;
+@use postcss-center;
+
+.messeges {
+
+}
+
+.header {
+  position: relative;
+  height: 65px;
+  padding-left: 40px;
+}
+
+.name {
+  font: 20px/27px 'Open Sans';
+  color: #202020;
+  padding: 17px 85px 21px *;
+}
+
+.search-input {
+  padding-right: 43px;
+}
+
+.company {
+  color: #9da0a4;
+  margin-left: 5px;
+}
+
+.search, .settings {
+  top: center;
+  cursor: pointer;
+}
+
+.search {
+  right: 50px;
+}
+
+.settings {
+  right: 10px;
+}
+
+.content {
+
+}
+
+.footer {
+  height: 50px;
+  background: #fff;
+}

@@ -1,0 +1,290 @@
+@use postcss-inline-svg;
+@use postcss-short;
+
+.icon {
+  display: inline-block;
+}
+
+/* Auth */
+.arrow-down {
+  composes: icon;
+  size: size('svg/arrow-down.svg');
+  background: svg-load('svg/arrow-down.svg');
+}
+
+.arrow-right {
+  composes: icon;
+  size: size('svg/arrow-right.svg');
+  background: svg-load('svg/arrow-right.svg');
+}
+
+.arrow-down-red {
+  composes: icon;
+  size: size('svg/arrow-down.svg');
+  background: svg-load('svg/arrow-down.svg', fill=#D0011B);
+}
+
+.close {
+  composes: icon;
+  size: size('svg/close.svg');
+  background: svg-load('svg/close.svg');
+}
+
+.eye {
+  composes: icon;
+  size: size('svg/eye.svg');
+  background: svg-load('svg/eye.svg');
+}
+
+.eye-active {
+  composes: icon;
+  size: size('svg/eye-active.svg');
+  background: svg-load('svg/eye-active.svg');
+}
+
+/* Common */
+.star {
+  composes: icon;
+  size: size('svg/star.svg');
+  background: svg-load('svg/star.svg');
+}
+
+.flip {
+  composes: icon;
+  size: size('svg/flip.svg');
+  background: svg-load('svg/flip.svg');
+}
+
+/* Profile */
+.camera {
+  composes: icon;
+  size: size('svg/camera.svg');
+  background: svg-load('svg/camera.svg');
+}
+
+.close-popup {
+  composes: icon;
+  size: size('svg/close-popup.svg');
+  background: svg-load('svg/close-popup.svg');
+}
+
+.close-popup-black {
+  composes: icon;
+  size: size('svg/close-popup-black.svg');
+  background: svg-load('svg/close-popup-black.svg');
+}
+
+.sort-down {
+  composes: icon;
+  size: size('svg/sort-down.svg');
+  background: svg-load('svg/sort-down.svg');
+}
+
+.plus {
+  composes: icon;
+  size: size('svg/plus.svg');
+  background: svg-load('svg/plus.svg');
+}
+
+.email {
+  composes: icon;
+  size: size('svg/email.svg');
+  background: svg-load('svg/email.svg');
+}
+
+.phone {
+  composes: icon;
+  size: size('svg/phone.svg');
+  background: svg-load('svg/phone.svg');
+}
+
+.activity {
+  composes: icon;
+  size: size('svg/activity.svg');
+  background: svg-load('svg/activity.svg');
+}
+
+/* Employee */
+.close-alert {
+  composes: icon;
+  size: size('svg/close-alert.svg');
+  background: svg-load('svg/close-alert.svg');
+}
+
+.logout {
+  composes: icon;
+  size: size('svg/logout.svg');
+  background: svg-load('svg/logout.svg');
+}
+
+.lock {
+  composes: icon;
+  size: size('svg/lock.svg');
+  background: svg-load('svg/lock.svg');
+}
+
+.pencil {
+  composes: icon;
+  size: size('svg/pencil.svg');
+  background: svg-load('svg/pencil.svg');
+}
+
+.bookmark {
+  composes: icon;
+  size: size('svg/bookmark.svg');
+  background: svg-load('svg/bookmark.svg');
+
+  &:hover {
+    background: svg-load('svg/bookmark-border.svg');
+  }
+}
+
+.bookmark-filled {
+  composes: icon;
+  size: size('svg/bookmark-filled.svg');
+  background: svg-load('svg/bookmark-filled.svg');
+
+  &:hover {
+    background: svg-load('svg/bookmark-border.svg');
+  }
+}
+
+.company-type {
+  composes: icon;
+  size: size('svg/company-type.svg');
+  background: svg-load('svg/company-type.svg');
+}
+
+/* social icons */
+.social-facebook {
+  composes: icon;
+  size: size('svg/social-facebook.svg');
+  background: svg-load('svg/social-facebook.svg');
+}
+
+.social-googleplus {
+  composes: icon;
+  size: size('svg/social-googleplus.svg');
+  background: svg-load('svg/social-googleplus.svg');
+}
+
+.social-instagram {
+  composes: icon;
+  size: size('svg/social-instagram.svg');
+  background: svg-load('svg/social-instagram.svg');
+}
+
+.social-linkedin {
+  composes: icon;
+  size: size('svg/social-linkedin.svg');
+  background: svg-load('svg/social-linkedin.svg');
+}
+
+.social-pinterest {
+  composes: icon;
+  size: size('svg/social-pinterest.svg');
+  background: svg-load('svg/social-pinterest.svg');
+}
+
+.social-tumblr {
+  composes: icon;
+  size: size('svg/social-tumblr.svg');
+  background: svg-load('svg/social-tumblr.svg');
+}
+
+.social-twitter {
+  composes: icon;
+  size: size('svg/social-twitter.svg');
+  background: svg-load('svg/social-twitter.svg');
+}
+
+.social-url {
+  composes: icon;
+  size: size('svg/social-url.svg');
+  background: svg-load('svg/social-url.svg');
+}
+
+.social-vk {
+  composes: icon;
+  size: size('svg/social-vk.svg');
+  background: svg-load('svg/social-vk.svg');
+}
+
+.social-youtube {
+  composes: icon;
+  size: size('svg/social-youtube.svg');
+  background: svg-load('svg/social-youtube.svg');
+}
+
+/* Messenger */
+.user {
+  composes: icon;
+  size: size('svg/user.svg');
+  background: svg-load('svg/user.svg');
+}
+
+.chat {
+  composes: icon;
+  size: size('svg/chat.svg');
+  background: svg-load('svg/chat.svg');
+}
+
+.search {
+  composes: icon;
+  size: size('svg/search.svg');
+  background: svg-load('svg/search.svg');
+}
+
+.search-light {
+  composes: icon;
+  size: size('svg/search.svg');
+  background: svg-load('svg/search.svg', fill=#dbdfe4);
+}
+
+.group-chat {
+  composes: icon;
+  size: size('svg/group-chat.svg');
+  background: svg-load('svg/group-chat.svg');
+}
+
+.channel {
+  composes: icon;
+  size: size('svg/channel.svg');
+  background: svg-load('svg/channel.svg');
+}
+
+.remove {
+  composes: icon;
+  size: size('svg/clear-value.svg');
+  background: svg-load('svg/clear-value.svg');
+}
+
+.unread {
+  composes: icon;
+  size: size('svg/unread.svg');
+  background: svg-load('svg/unread.svg');
+}
+
+.new {
+  composes: icon;
+  size: size('svg/new.svg');
+  background: svg-load('svg/new.svg');
+}
+
+.settings {
+  composes: icon;
+  size: size('svg/settings.svg');
+  background: svg-load('svg/settings.svg');
+}
+
+.favorite {
+  composes: icon;
+  size: size('svg/favorite.svg');
+  background: svg-load('svg/favorite.svg');
+}
+
+.favorite-active {
+  composes: icon;
+  size: size('svg/favorite-active.svg');
+  background: svg-load('svg/favorite-active.svg');
+}

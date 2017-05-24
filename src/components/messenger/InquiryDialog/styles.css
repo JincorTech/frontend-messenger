@@ -1,0 +1,13 @@
+@use postcss-short;
+@use postcss-inline-svg;
+
+.empty {
+  size: 60px;
+  border-radius: 4px;
+  font: 600 20px/27px 'Open Sans';
+  letter-spacing: -0.3px;
+  text-align: center;
+  color: #ffffff;
+  cursor: default;
+  background: svg-load('svg/inquiries.svg') center no-repeat;
+}

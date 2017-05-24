@@ -7,6 +7,8 @@
       "single",
       "jsx-double"
     ],
-    "semicolon": [true, "always"]
+    "semicolon": [true, "always"],
+    "space-before-function-paren": [true, "never"],
+    "member-ordering": [false]
   }
 }

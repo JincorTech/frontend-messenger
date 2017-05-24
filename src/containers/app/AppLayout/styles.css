@@ -1,0 +1,46 @@
+@use postcss-inline-svg;
+@use postcss-short;
+@use postcss-center;
+@use postcss-clearfix;
+
+/*App*/
+.app-layout {
+  position: relative;
+}
+
+.container {
+  width: 1128px;
+  margin: 0 auto;
+  clear: fix;
+}
+
+/*Header*/
+.header {
+  position: relative;
+  height: 50px;
+  padding: 6px 0;
+  box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.15);
+}
+
+.module-name {
+  font-size: 18px/20px;
+  color: #9da0a4;
+  display: inline-block;
+}
+
+.pull-right {
+  float: right;
+}
+
+.pull-left {
+  float: left;
+  padding: 9px *;
+}
+
+.logo {
+  margin-right: 15px;
+}
+
+.logo, .module-name {
+  vertical-align: middle;
+}
