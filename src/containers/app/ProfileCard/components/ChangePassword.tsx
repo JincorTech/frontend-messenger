@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Component } from 'react';
-import '../styles.css';
 import { reduxForm, Field, FormProps, SubmitHandler } from 'redux-form';
+import '../styles.css';
 
 import { required, password } from '../../../../utils/validators';
 

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { PureComponent, HTMLProps } from 'react';
-import './styles.css';
 import { InjectedCSSModuleProps } from 'react-css-modules';
+import './styles.css';
 
 import Icon from '../../common/Icon';
 
@@ -44,12 +44,13 @@ class Sidebar extends PureComponent<Props, {}> {
   }
 
   public render(): JSX.Element {
-    const { open, onClose, styles, children, ...divProps } = this.props;
+    const { open, onClose, styles, children, className, ...divProps } = this.props;
     // const { link, active } = styles;
 
     return (
       <aside
         styleName={open ? 'sidebar-open' : 'sidebar-close'}
+        className={className}
         ref={(aside) => this.aside = aside}
         {...divProps}>
 

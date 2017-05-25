@@ -6,8 +6,8 @@ export type Props = HTMLProps<HTMLSpanElement> & {
   name: string
 };
 
-const Icon: SFC<Props> = ({ name, ...spanProps }) => (
-  <span styleName={name} {...spanProps}/>
+const Icon: SFC<Props> = ({ name, className, ...spanProps }) => (
+  <span styleName={name} className={className} {...spanProps}/>
 );
 
 export default Icon;

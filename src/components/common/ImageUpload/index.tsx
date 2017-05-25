@@ -94,10 +94,21 @@ class ImageUpload extends Component<Props, {}> {
    * Render component
    */
   public render(): JSX.Element {
-    const { src, alt, width, height, defaultElement, overlay, onImgSelect, children, ...divProps } = this.props;
+    const {
+      src,
+      alt,
+      width,
+      height,
+      defaultElement,
+      overlay,
+      onImgSelect,
+      children,
+      className,
+      ...divProps
+    } = this.props;
 
     return (
-      <div styleName="image-upload" style={{ width, height }} {...divProps}>
+      <div styleName="image-upload" className={className} style={{ width, height }} {...divProps}>
         <div styleName="logo" style={{ width, height }}>
           {src ? <div styleName="img-bg"><img src={src} alt={alt}/></div> : defaultElement}
         </div>

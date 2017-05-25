@@ -4,9 +4,6 @@ import { connect } from 'react-redux';
 import './styles.css';
 
 import { getBackgroundColor, getInitials } from '../../../utils/colorFunction';
-
-import ProfileEdit from './components/ProfileEdit';
-import ChangePassword from './components/ChangePassword';
 import {
   changeView,
   closeProfileCard,
@@ -19,6 +16,8 @@ import {
 import { User as UserProps } from '../../../redux/modules/app/appLayout';
 import { StateMap as StateProps, BottomView as BottomViewProps } from '../../../redux/modules/app/profileCard';
 
+import ProfileEdit from './components/ProfileEdit';
+import ChangePassword from './components/ChangePassword';
 import Popup, { Props as PopupProps } from '../../../components/common/Popup';
 import Icon from '../../../components/common/Icon';
 import CompanyLogo from '../../../components/common/CompanyLogo';

@@ -15,13 +15,13 @@ export type Props = InputProps & JSX.IntrinsicClassAttributes<InputProps> & {
 /**
  * Component
  */
-const SearchInput: SFC<Props> = ({ onRemove, ...props}) => (
+const SearchInput: SFC<Props> = ({ onRemove, className, ...props}) => (
   <div styleName="search">
     <Icon
       styleName="search-icon"
       name="search-light"/>
 
-    <Input styleName="search-field" {...props}/>
+    <Input styleName="search-field" className={className} {...props}/>
 
     <Icon
       styleName="clear-value"

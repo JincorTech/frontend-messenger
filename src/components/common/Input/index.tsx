@@ -10,10 +10,14 @@ export class Input extends Component<Props, {}> {
   public inputElement: HTMLInputElement;
 
   public render(): JSX.Element {
-    const { invalid, ...inputProps } = this.props;
+    const { invalid, className, ...inputProps } = this.props;
 
     return (
-      <input styleName={invalid ? 'invalid' : 'default'} ref={(input) => this.inputElement = input} {...inputProps} />
+      <input
+        styleName={invalid ? 'invalid' : 'default'}
+        className={className}
+        ref={(input) => this.inputElement = input}
+        {...inputProps} />
     );
   }
 }
