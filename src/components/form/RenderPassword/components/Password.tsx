@@ -37,13 +37,22 @@ class Password extends Component<PasswordProps, {}> {
   }
 
   public render(): JSX.Element {
-    const { visible, onChangeVisibility, ref, ...inputProps } = this.props;
+    const { visible, onChangeVisibility, ref, className, ...inputProps } = this.props;
 
     return (
       <div styleName="password-input-wrap">
         { visible
-          ? <InputComponent styleName="password-input" type="text" ref={(input) => this.input = input} {...inputProps}/>
-          : <InputComponent styleName="password-input" type="password" ref={(input) => this.input = input} {...inputProps}/>
+          ? <InputComponent
+              styleName="password-input"
+              className={className} type="text"
+              ref={(input) => this.input = input}
+              {...inputProps}/>
+          : <InputComponent
+              styleName="password-input"
+              className={className}
+              type="password"
+              ref={(input) => this.input = input}
+              {...inputProps}/>
         }
 
         <Icon

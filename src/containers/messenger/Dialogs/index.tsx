@@ -21,11 +21,11 @@ export type Props = HTMLProps<HTMLDivElement> & {
  * Component
  */
 const Dialogs: SFC<Props> = (props) => {
-  const { search, height, children, ...divProps } = props;
+  const { search, height, children, className, ...divProps } = props;
   const contentHeight = height - 65;
 
   return (
-    <div styleName="dialogs" {...divProps}>
+    <div styleName="dialogs" className={className} {...divProps}>
       <div styleName="header">
         {!search && <div styleName="menu">
           <Icon name="user"/>

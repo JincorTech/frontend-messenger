@@ -4,7 +4,6 @@ import './styles.css';
 import Scrollbars from 'react-custom-scrollbars';
 
 import Icon from '../../../components/common/Icon';
-import Emoji from '../../../components/messenger/Emoji';
 import SearchInput from '../../../components/messenger/SearchInput';
 import MessageWrapper from '../../../components/messenger/MessageWrapper';
 import ContentEditable from '../../../components/messenger/ContentEditable';
@@ -67,18 +66,17 @@ class Messeges extends Component<Props, State> {
   }
 
   private updateHeight(height: number): void {
-    console.log(this.footer.clientHeight);
-    const contentHeight = height - 65 - 50; // headerHeight
+    const contentHeight = height - 65 - 50;
 
     this.setState({ contentHeight });
   }
 
   public render(): JSX.Element {
-    const { name, company, search, children, ...divProps } = this.props;
+    const { name, company, search, children, className, ...divProps } = this.props;
     const { contentHeight } = this.state;
 
     return (
-      <div styleName="messeges" {...divProps}>
+      <div styleName="messeges" className={className} {...divProps}>
         <div styleName="header">
           {!search && <div styleName="name">
             {name}
@@ -112,7 +110,7 @@ class Messeges extends Component<Props, State> {
         </div>
 
         <div ref={(footer) => this.footer = footer} styleName="footer">
-          <ContentEditable>sds <Emoji name="rage" small/></ContentEditable>
+          <ContentEditable />
           <EmojiSelect open currentGroup="animals"/>
         </div>
       </div>

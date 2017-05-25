@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { SFC, Component } from 'react';
 import { WrappedFieldProps } from 'redux-form';
-import './styles.css';
 
 import Password from './components/Password';
 import FieldError from '../../common/FieldError';

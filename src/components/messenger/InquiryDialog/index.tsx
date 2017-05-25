@@ -1,10 +1,9 @@
 import * as React from 'react';
 import { SFC, HTMLProps } from 'react';
-import './styles.css';
 import { getBackgroundColor } from '../../../utils/colorFunction';
+import './styles.css';
 
 import DialogItem from '../DialogItem';
-const { empty } = require('./styles.css');
 
 /**
  * Types
@@ -23,7 +22,7 @@ const InquiryDialog: SFC<Props> = (props) => {
   const { src, id } = props;
   const avatar = src
     ? <img src={src}/>
-    : <div className={empty} style={getBackgroundColor(id)}/>;
+    : <div styleName="empty" style={getBackgroundColor(id)}/>;
 
   return <DialogItem avatar={avatar} {...props}/>;
 };

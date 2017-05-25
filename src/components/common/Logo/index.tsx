@@ -4,8 +4,8 @@ import './styles.css';
 
 export type LogoProps = HTMLProps<HTMLAnchorElement>;
 
-const Logo: SFC<LogoProps> = (props) => (
-  <a href="javascript:void(0);" styleName="logo" {...props}/>
+const Logo: SFC<LogoProps> = ({ className, ...props }) => (
+  <a href="javascript:void(0);" styleName="logo" className={className} {...props}/>
 );
 
 export default Logo;

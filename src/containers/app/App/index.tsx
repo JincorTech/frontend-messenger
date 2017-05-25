@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Component } from 'react';
-import './styles.css';
 import { connect } from 'react-redux';
+import './styles.css';
 
 import { checkAuth, StateMap as StateProps } from '../../../redux/modules/app/app';
 

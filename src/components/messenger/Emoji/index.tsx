@@ -7,9 +7,10 @@ export type Props = HTMLProps<HTMLImageElement> & {
   small?: boolean
 };
 
-const Emoji: SFC<Props> = ({ name, small, ...imgProps }) => (
+const Emoji: SFC<Props> = ({ name, small, className, ...imgProps }) => (
   <img
     styleName={small ? 'small' : 'default'}
+    className={className}
     src={require(`./img/${name}.png`)}
     alt={name}
     title={name}

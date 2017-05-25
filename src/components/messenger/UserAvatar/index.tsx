@@ -18,10 +18,10 @@ export type Props = HTMLProps<HTMLDivElement> & {
  * @param props
  */
 const UserAvatar: SFC<Props> = (props) => {
-  const { src, fullName, id, children, ...divProps } = props;
+  const { src, fullName, id, children, className, ...divProps } = props;
 
   return (
-    <div styleName="avatar" {...divProps}>
+    <div styleName="avatar" className={className} {...divProps}>
       {src
         ? <img src={src}/>
         : <div styleName="empty" style={getBackgroundColor(id)}>
