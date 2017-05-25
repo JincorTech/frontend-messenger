@@ -1,0 +1,27 @@
+@use postcss-short;
+@use postcss-for;
+@use postcss-calc;
+
+@keyframes spinner-animate {
+  0% { opacity: 1 }
+  100% { opacity: 0 }
+}
+
+.spinner {
+  display: inline-block;
+  position: relative;
+  size: 32px;
+  vertical-align: middle;
+}
+
+@for $i from 0 to 330 by 30 {
+  .stick-$i {
+    position: absolute 12px * * 15px;
+    size: 2px 8px;
+    background: #ffffff;
+    border-radius: 2px;
+    animation: spinner-animate 1s linear infinite;
+    transform: rotate($(i)deg) translate(0,-10px);
+    animation-delay: calc(-0.5s + $i/360);
+  }
+}

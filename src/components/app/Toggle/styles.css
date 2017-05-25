@@ -1,0 +1,23 @@
+@use postcss-short;
+@use postcss-center;
+
+.stripe {
+  display: block;
+  margin-bottom: 5px;
+  width: 24px;
+  height: 2px;
+  background-color: #d8d8d8;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.menu-toggle {
+  position: absolute;
+  top: center;
+  left: 28px;
+  padding: 5px;
+  cursor: pointer;
+  vertical-align: middle;
+}

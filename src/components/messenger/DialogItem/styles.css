@@ -1,0 +1,71 @@
+@use postcss-short;
+@use postcss-clearfix;
+@use postcss-center;
+
+.dialog {
+  position: relative;
+  clear: fix;
+  padding: 8px 40px 8px 7px;
+  transition: background ease-out 0.2s;
+  cursor: default;
+
+  &:hover {
+    background: #f3f5f7;
+    cursor: pointer;
+  }
+}
+
+.avatar {
+  width: 60px;
+}
+
+.body {
+  width: 270px;
+  padding-left: 10px;
+}
+
+.avatar, .body {
+  float: left;
+}
+
+.fullname {
+  display: block;
+  font: 600 14px/19px 'Open Sans';
+  margin-bottom: 3px;
+  letter-spacing: -0.2px;
+  color: #222222;
+}
+
+.preview {
+  position: relative;
+  height: 36px;
+}
+
+.messege {
+  top: center;
+  font-size: 13px/18px;
+  letter-spacing: -0.2px;
+  color: #7f7f7f;
+  margin: 0;
+
+  & .you {
+    color: #222222;
+    margin-right: 5px;
+  }
+}
+
+.date {
+  position: absolute 12px 30px * *;
+  font-size: 12px/17px;
+  color: #9da0a4;
+  letter-spacing: -0.2px;
+}
+
+.unread {
+  margin-right: 4px;
+}
+
+.new-messege {
+  top: center;
+  left: -17px;
+}

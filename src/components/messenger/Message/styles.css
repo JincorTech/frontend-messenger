@@ -1,0 +1,42 @@
+@use postcss-short;
+
+.message {
+  position: relative;
+  cursor: text;
+  padding: 5px 40px 5px 100px;
+  letter-spacing: -0.2px;
+  transition: background-color ease-out 0.3s;
+
+  &:hover {
+    background-color: #f3f5f7;
+  }
+}
+
+.content {
+  position: relative;
+  font-size: 14px/20px;
+  color: #222222;
+}
+
+.unread {
+  composes: content;
+
+  &:before {
+    content: '';
+    position: absolute 7px * * -22px;
+    size: 7px;
+    border-radius: 7px;
+    background-color: #0070e0;
+  }
+}
+
+.date {
+  position: absolute 7px * * 42px;
+  font-size: 12px/17px;
+  color: #9da0a4;
+}
+
+.favorite {
+  cursor: pointer;
+  position: absolute 10px 10px * *;
+}
