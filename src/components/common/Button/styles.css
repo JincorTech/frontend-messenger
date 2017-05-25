@@ -1,0 +1,60 @@
+@use postcss-short;
+
+.button {
+  font: 600 16px/22px 'Open Sans';
+  color: #000;
+  size: 100% 40px;
+  border-radius: 4px;
+  background-color: #a2a2a2;
+  text-align: center;
+  cursor: pointer;
+  transition: background linear 0.1s;
+
+  &:disabled {
+    cursor: not-allowed;
+  }
+}
+
+.default {
+  composes: button;
+  color: #fff;
+  background-color: #0070e0;
+
+  &:disabled {
+    background-color: #cdcecf !important;
+  }
+
+  &:hover {
+    background-color: color(#0070e0 shade(10%))
+  }
+
+  &:active {
+    background-color: color(#0070e0 shade(20%))
+  }
+}
+
+.default-loaded {
+  composes: button;
+  background-color: color(#0070e0 shade(20%));
+  cursor: default !important;
+}
+
+.outline {
+  composes: button;
+  font: normal 16px/22px 'Open Sans';
+  background-color: transparent;
+  color: #0070e0;
+  border: 1px solid #dbdfe4;
+
+  &:disabled {
+    background-color: #cdcecf !important;
+  }
+
+  &:hover {
+    border: 1px solid #0070e0;
+  }
+}
+
+.outline-loaded {
+  composes: button;
+}

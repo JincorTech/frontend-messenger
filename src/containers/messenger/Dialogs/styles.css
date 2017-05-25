@@ -1,0 +1,39 @@
+@use postcss-short;
+@use postcss-center;
+
+
+.dialogs {}
+
+.custom-scrollbar {
+  margin-left: -25px;
+}
+
+.dialog-list {
+  padding-left: 17px;
+}
+
+.header {
+  size: 345px 65px;
+}
+
+.menu {
+  padding: 14px *;
+  text-align: center;
+
+  & .chat {
+    margin: * 80px;
+  }
+
+  & span {
+    cursor: pointer;
+    padding: 5px;
+    background-position: center;
+    background-repeat: no-repeat;
+    opacity: 0.8;
+    transition: opacity ease-out 0.2s;
+
+    &:hover {
+      opacity: 1;
+    }
+  }
+}

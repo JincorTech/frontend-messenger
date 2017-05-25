@@ -1,0 +1,24 @@
+@use postcss-short;
+
+.overlay {
+  position: fixed 0 0 0 0;
+  z-index: 10000;
+  overflow-y: scroll;
+  background: rgba(0,0,0, 0.5);
+}
+
+.popup {
+  background: #fff;
+  width: 420px;
+  height: 640px;
+  margin: 105px auto 50px;
+  border-radius: 4px;
+}
+
+.close {
+  position: absolute;
+  top: 35px;
+  right: 35px;
+  z-index: 10000;
+  cursor: pointer;
+}

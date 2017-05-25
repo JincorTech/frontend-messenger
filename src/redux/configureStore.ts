@@ -13,12 +13,11 @@ const loggerMiddleware = createLogger({
   collapsed: false
 });
 
-
 /**
  * Create store for production env
  * @param initialState - redux init state
  */
-function configureStoreProd (initialState: State): Store<State> {
+function configureStoreProd(initialState: State): Store<State> {
   const middlewares = [
     sagaMiddleware
   ];
@@ -38,7 +37,7 @@ function configureStoreProd (initialState: State): Store<State> {
  * Create store for development env
  * @param initialState - redux init state
  */
-function configureStoreDev (initialState: State): Store<State> {
+function configureStoreDev(initialState: State): Store<State> {
   const middlewares = [
     sagaMiddleware,
     loggerMiddleware
@@ -53,8 +52,8 @@ function configureStoreDev (initialState: State): Store<State> {
   sagaMiddleware.run(rootSaga);
 
   if (module.hot) {
-    module.hot.accept('../reducers', () => {
-      const nextReducer = require('../reducers').default;
+    module.hot.accept('./rootReducer', () => {
+      const nextReducer = require('./rootReducer').default;
       store.replaceReducer(nextReducer);
     });
   }

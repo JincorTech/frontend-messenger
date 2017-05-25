@@ -1,6 +1,0 @@
-@use postcss-short;
-
-.test {
-  color: red;
-  margin: 15px *;
-}
