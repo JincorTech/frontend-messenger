@@ -9,6 +9,6 @@
     "react-hot-loader/babel",
     "transform-runtime",
     "transform-react-jsx",
-    [ "react-css-modules", { "generateScopedName": "[name]__[hash:base64:5]" }]
+    [ "react-css-modules", { "generateScopedName": "[local]___[hash:base64:5]" }]
   ]
 }

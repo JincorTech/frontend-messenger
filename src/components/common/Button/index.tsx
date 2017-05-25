@@ -10,11 +10,12 @@ type ButtonProps = HTMLProps<HTMLButtonElement> & {
 };
 
 const Button: SFC<ButtonProps> = (props) => {
-  const {spinner, disabled, children, bStyle = 'default', ...btnProps} = props;
+  const {spinner, disabled, children, className, bStyle = 'default', ...btnProps} = props;
 
   return (
     <button
       styleName={spinner ? `${bStyle}-loaded` : bStyle}
+      className={className}
       disabled={spinner || disabled}
       {...btnProps}>
       {spinner ? <Spinner /> : children}

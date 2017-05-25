@@ -78,7 +78,7 @@ module.exports = {
               modules: true,
               importLoaders: 1,
               sourceMap: true,
-              localIdentName: '[name]__[hash:base64:5]',
+              localIdentName: '[local]___[hash:base64:5]',
             }
           },
           { loader: 'postcss-loader' }

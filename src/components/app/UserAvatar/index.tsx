@@ -12,12 +12,12 @@ export type UserAvatarProps = HTMLProps<HTMLDivElement> & {
 };
 
 const UserAvatar: SFC<UserAvatarProps> = (props) => {
-  const { src, alt, id, name, children, ...divProps } = props;
+  const { src, alt, id, name, children, className, ...divProps } = props;
   const backgroundColor = getBackgroundColor(id);
   const initials = getInitials(name);
 
   return (
-    <div styleName="user-avatar" {...divProps}>
+    <div styleName="user-avatar" className={className} {...divProps}>
       { src
         ? <img src={src} alt={alt}/>
         : <div styleName="user-avatar-empty" style={backgroundColor}>{initials}</div>}

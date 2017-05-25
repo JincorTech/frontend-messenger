@@ -1,9 +1,7 @@
 import * as React from 'react';
 import { Component, HTMLProps, MouseEvent } from 'react';
 import { render, unmountComponentAtNode } from 'react-dom';
-import * as classnames from 'classnames';
-
-const { popup, overlay, close } = require('./styles.css');
+import './styles.css';
 
 import Icon from '../Icon';
 
@@ -104,10 +102,10 @@ class Popup extends Component<Props, {}> {
     render (
       <Provider store={store}>
         <div className="portal">
-          {open && <div className={overlay} onClick={onClose}>
-            {!hideClose && <Icon className={close} name="close-popup"/>}
+          {open && <div styleName="overlay" onClick={onClose}>
+            {!hideClose && <Icon styleName="close" name="close-popup"/>}
 
-            <div className={classnames(popup, className)} onClick={this.handleClick} {...divProps}>
+            <div styleName="popup" className="className" onClick={this.handleClick} {...divProps}>
               {children}
             </div>
           </div>}

@@ -8,11 +8,22 @@ export type CompanyLogoProps = HTMLProps<HTMLDivElement> & {
   borderRadius?: string
 };
 
-const CompanyLogo: SFC<CompanyLogoProps> = ({ src, alt, borderRadius = '4px', children, ...divProps }) => (
-  <div styleName="company-logo" style={{ borderRadius }} {...divProps}>
-    <div styleName={ src ? 'blackout' : 'blackout-empty' }/>
-    {src ? <img src={src} alt={alt}/> : <div styleName="empty"/>}
-  </div>
-);
+const CompanyLogo: SFC<CompanyLogoProps> = (props) => {
+  const {
+    src,
+    alt,
+    borderRadius = '4px',
+    children,
+    className,
+    ...divProps
+  } = props;
+
+  return (
+    <div styleName="company-logo" className={className} style={{ borderRadius }} {...divProps}>
+      <div styleName={ src ? 'blackout' : 'blackout-empty' }/>
+      {src ? <img src={src} alt={alt}/> : <div styleName="empty"/>}
+    </div>
+  );
+};
 
 export default CompanyLogo;
