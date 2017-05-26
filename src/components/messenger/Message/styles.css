@@ -15,13 +15,13 @@
 .content {
   position: relative;
   font-size: 14px/20px;
-  color: #222222;
+  color: #222;
 }
 
 .unread {
   composes: content;
 
-  &:before {
+  &::before {
     content: '';
     position: absolute 7px * * -22px;
     size: 7px;

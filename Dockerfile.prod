@@ -1,0 +1,8 @@
+FROM alpine:3.5
+
+RUN mkdir -p /usr/src/app/dist
+COPY dist /usr/src/app/dist
+
+VOLUME /usr/src/app/dist
+
+CMD /bin/true

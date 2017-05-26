@@ -21,7 +21,7 @@
 .arrow-down-red {
   composes: icon;
   size: size('svg/arrow-down.svg');
-  background: svg-load('svg/arrow-down.svg', fill=#D0011B);
+  background: svg-load('svg/arrow-down.svg', fill=#d0011b);
 }
 
 .close {

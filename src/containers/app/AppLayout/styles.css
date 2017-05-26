@@ -3,7 +3,7 @@
 @use postcss-center;
 @use postcss-clearfix;
 
-/*App*/
+/* App */
 .app-layout {
   position: relative;
 }
@@ -14,7 +14,7 @@
   clear: fix;
 }
 
-/*Header*/
+/* Header */
 .header {
   position: relative;
   height: 50px;
@@ -41,6 +41,7 @@
   margin-right: 15px;
 }
 
-.logo, .module-name {
+.logo,
+.module-name {
   vertical-align: middle;
 }

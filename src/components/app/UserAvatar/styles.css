@@ -1,6 +1,6 @@
 @use postcss-short;
 
-/*User avatar*/
+/* User avatar */
 .user-avatar {
   display: inline-block;
   size: 36px;

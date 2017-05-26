@@ -2,7 +2,8 @@
   height: calc(100vh - 60px);
 }
 
-.dialogs-block, .messeges-block {
+.dialogs-block,
+.messeges-block {
   float: left;
   height: inherit;
 }

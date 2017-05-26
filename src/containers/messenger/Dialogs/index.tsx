@@ -25,7 +25,7 @@ const Dialogs: SFC<Props> = (props) => {
   const contentHeight = height - 65;
 
   return (
-    <div styleName="dialogs" className={className} {...divProps}>
+    <div className={className} {...divProps}>
       <div styleName="header">
         {!search && <div styleName="menu">
           <Icon name="user"/>

@@ -3,8 +3,8 @@
 @use postcss-calc;
 
 @keyframes spinner-animate {
-  0% { opacity: 1 }
-  100% { opacity: 0 }
+  0% { opacity: 1; }
+  100% { opacity: 0; }
 }
 
 .spinner {
@@ -18,10 +18,11 @@
   .stick-$i {
     position: absolute 12px * * 15px;
     size: 2px 8px;
-    background: #ffffff;
+    background: #fff;
     border-radius: 2px;
     animation: spinner-animate 1s linear infinite;
-    transform: rotate($(i)deg) translate(0,-10px);
+    /* stylelint-disable-next-line function-whitespace-after */
+    transform: rotate($(i)deg) translate(0, -10px);
     animation-delay: calc(-0.5s + $i/360);
   }
 }

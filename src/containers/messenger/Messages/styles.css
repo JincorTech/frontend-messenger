@@ -1,10 +1,6 @@
 @use postcss-short;
 @use postcss-center;
 
-.messeges {
-
-}
-
 .header {
   position: relative;
   height: 65px;
@@ -12,7 +8,7 @@
 }
 
 .name {
-  font: 20px/27px 'Open Sans';
+  font: 20px/27px Open Sans;
   color: #202020;
   padding: 17px 85px 21px *;
 }
@@ -26,7 +22,8 @@
   margin-left: 5px;
 }
 
-.search, .settings {
+.search,
+.settings {
   top: center;
   cursor: pointer;
 }
@@ -40,7 +37,7 @@
 }
 
 .content {
-
+  display: block;
 }
 
 .footer {
