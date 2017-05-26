@@ -15,16 +15,16 @@
 }
 
 .dropdown {
-  position: absolute * 0px 100% *;
+  position: absolute * 0 100% *;
   padding: 0 10px;
   margin-bottom: 15px;
   size: 300px 280px;
   border-radius: 4px;
-  background-color: #ffffff;
+  background-color: #fff;
   box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.2);
 
-  &:after {
-    position: absolute * 0px -15px *;
+  &::after {
+    position: absolute * 0 -15px *;
     display: block;
     content: '';
     size: 100px 15px;
@@ -44,7 +44,7 @@
 }
 
 .emojis {
-  margin: 0px -3px;
+  margin: 0 -3px;
 }
 
 .indicator {
@@ -57,7 +57,7 @@
   transition: background-color ease-out 0.2s;
 
   &:hover {
-    background-color: #C2C8D0;
+    background-color: #c2c8d0;
   }
 }
 

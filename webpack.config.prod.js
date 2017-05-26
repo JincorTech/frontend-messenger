@@ -1,20 +1,20 @@
 const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const WebpackMd5Hash = require('webpack-md5-hash');
+var ExtractTextPlugin = require('extract-text-webpack-plugin');
 const { TsConfigPathsPlugin } = require('awesome-typescript-loader');
 
 module.exports = {
   entry: [
     'babel-polyfill',
-    'react-hot-loader/patch',
-    'webpack-hot-middleware/client?reload=true',
     path.resolve(__dirname, 'src/index')
   ],
-  devtool: 'inline-source-map',
+  devtool: 'cheap-source-map',
   output: {
     path: path.resolve('dist'),
     publicPath: '/',
-    filename: 'bundle.js'
+    filename: '[name].[chunkhash].js'
   },
   resolve: {
     extensions: ['.js', '.jsx', '.json', '.ts', '.tsx'],
@@ -24,25 +24,38 @@ module.exports = {
     ]
   },
   plugins: [
+    new WebpackMd5Hash(),
     new webpack.DefinePlugin({ 
       'process.env': {
-        NODE_ENV: JSON.stringify('development'),
+        NODE_ENV: JSON.stringify('production'),
         API_PREFIX: JSON.stringify(process.env.API_PREFIX || ''),
         API_HOST: JSON.stringify(process.env.API_HOST || '')
       }
     }),
-    new webpack.HotModuleReplacementPlugin(),
-    new webpack.NamedModulesPlugin(),
-    new webpack.NoEmitOnErrorsPlugin(),
-    new TsConfigPathsPlugin(),
+    new ExtractTextPlugin({
+      filename: '[name].[contenthash].css',
+      allChunks: true
+    }),
     new HtmlWebpackPlugin({
       template: 'src/index.html',
       minify: {
         removeComments: true,
-        collapseWhitespace: true
+        collapseWhitespace: true,
+        removeRedundantAttributes: true,
+        useShortDoctype: true,
+        removeEmptyAttributes: true,
+        removeStyleLinkTypeAttributes: true,
+        keepClosingSlash: true,
+        minifyJS: true,
+        minifyCSS: true,
+        minifyURLs: true
       },
       inject: true
     }),
+    new webpack.optimize.UglifyJsPlugin({
+      sourceMap: true
+    }),
+    new TsConfigPathsPlugin()
   ],
   module: {
     rules: [
@@ -70,24 +83,29 @@ module.exports = {
         test: /\.css$/,
         include: /src/,
         exclude: /src\/assets/,
-        use: [
-          { loader: 'style-loader' },
-          { 
-            loader: 'css-loader',
-            options: {
-              modules: true,
-              importLoaders: 1,
-              sourceMap: true,
-              localIdentName: '[local]___[hash:base64:5]',
-            }
-          },
-          { loader: 'postcss-loader' }
-        ]
+        use: ExtractTextPlugin.extract({
+          fallback: 'style-loader',
+          use: [
+            { 
+              loader: 'css-loader',
+              options: {
+                modules: true,
+                importLoaders: 1,
+                sourceMap: true,
+                localIdentName: '[local]___[hash:base64:5]',
+              }
+            },
+            { loader: 'postcss-loader' }
+          ]
+        })
       },
       {
         test: /\.css$/,
         include: /(src\/assets|node_modules)/,
-        use: ['style-loader', 'css-loader']
+        use: ExtractTextPlugin.extract({
+          fallback: 'style-loader',
+          use: 'css-loader'
+        })
       },
       {
         test:   /\.(ttf|otf|eot|svg|woff2?)(\?.+)?$/,

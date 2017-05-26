@@ -24,16 +24,17 @@
   padding-left: 10px;
 }
 
-.avatar, .body {
+.avatar,
+.body {
   float: left;
 }
 
 .fullname {
   display: block;
-  font: 600 14px/19px 'Open Sans';
+  font: 600 14px/19px Open Sans;
   margin-bottom: 3px;
   letter-spacing: -0.2px;
-  color: #222222;
+  color: #222;
 }
 
 .preview {
@@ -49,7 +50,7 @@
   margin: 0;
 
   & .you {
-    color: #222222;
+    color: #222;
     margin-right: 5px;
   }
 }

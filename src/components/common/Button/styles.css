@@ -1,7 +1,7 @@
 @use postcss-short;
 
 .button {
-  font: 600 16px/22px 'Open Sans';
+  font: 600 16px/22px Open Sans;
   color: #000;
   size: 100% 40px;
   border-radius: 4px;
@@ -25,11 +25,11 @@
   }
 
   &:hover {
-    background-color: color(#0070e0 shade(10%))
+    background-color: color(#0070e0 shade(10%));
   }
 
   &:active {
-    background-color: color(#0070e0 shade(20%))
+    background-color: color(#0070e0 shade(20%));
   }
 }
 
@@ -41,7 +41,7 @@
 
 .outline {
   composes: button;
-  font: normal 16px/22px 'Open Sans';
+  font: normal 16px/22px Open Sans;
   background-color: transparent;
   color: #0070e0;
   border: 1px solid #dbdfe4;

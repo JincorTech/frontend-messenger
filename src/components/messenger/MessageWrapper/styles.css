@@ -18,11 +18,12 @@
 .avatar {
   position: absolute 5px * * 40px;
   size: 44px;
+  cursor: pointer;
 }
 
 .content {
   font-size: 14px/20px;
-  color: #222222;
+  color: #222;
 }
 
 .favorite {
@@ -40,7 +41,7 @@
 .unread {
   composes: head;
 
-  &:before {
+  &::before {
     content: '';
     position: absolute 7px -12px * *;
     size: 7px;
@@ -50,36 +51,32 @@
 }
 
 .name {
-  font: 600 14px/19px 'Open Sans';
+  font: 600 14px/19px Open Sans;
   color: #0070e0;
 }
 
 .company {
   margin-left: 10px;
   margin-right: 5px;
-  font: 400 14px/19px 'Open Sans';
+  font: normal 14px/19px Open Sans;
   letter-spacing: -0.3px;
   color: #9da0a4;
 }
 
 .date {
   margin-left: 5px;
-  font: 400 12px/19px 'Open Sans';
+  font: normal 12px/19px Open Sans;
   letter-spacing: -0.2px;
   color: #9da0a4;
 }
 
 /* User avatar */
-.avatar {
-  cursor: pointer;
-}
-
 .empty {
   size: 44px;
   border-radius: 4px;
-  font: 600 14px/20px 'Open Sans';
+  font: 600 14px/20px Open Sans;
   letter-spacing: -0.2px;
   padding: 12px *;
   text-align: center;
-  color: #ffffff;
+  color: #fff;
 }

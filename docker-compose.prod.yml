@@ -1,0 +1,8 @@
+version: '3'
+services:
+
+  frontend:
+    image: registry.jincor.com/frontend/dist:latest
+    build:
+      context: .
+      dockerfile: Dockerfile.prod  

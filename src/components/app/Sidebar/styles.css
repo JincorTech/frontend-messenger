@@ -1,6 +1,6 @@
 @use postcss-short;
 
-/*Sidebar*/
+/* Sidebar */
 .sidebar {
   position: fixed;
   padding: 112px 30px 30px;
@@ -8,7 +8,7 @@
   bottom: 0;
   z-index: 10000;
   width: 240px;
-  background-color: #ffffff;
+  background-color: #fff;
   box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.1);
   transition: left linear 0.2s;
 }

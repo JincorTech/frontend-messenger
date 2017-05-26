@@ -1,9 +1,6 @@
 @use postcss-short;
 @use postcss-center;
 
-
-.dialogs {}
-
 .custom-scrollbar {
   margin-left: -25px;
 }

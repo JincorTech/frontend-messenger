@@ -1,0 +1,10 @@
+version: '3'
+services:
+
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes: 
+      - ./dist:/usr/src/app/dist  
+    command: npm run build

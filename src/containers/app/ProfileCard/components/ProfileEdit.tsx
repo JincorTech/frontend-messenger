@@ -60,7 +60,7 @@ class ProfileEdit extends Component<Props, {}> {
 
     return (
       <div style={blackout}>
-        <div styleName="camera" style={camera}/>
+        <div style={camera}/>
       </div>
     );
   }
