@@ -1,101 +1,103 @@
 import * as React from 'react';
 import { SFC, HTMLProps } from 'react';
-import './styles.css';
-import Scrollbars from 'react-custom-scrollbars';
+import { connect } from 'react-redux';
 
-import Icon from '../../../components/common/Icon';
-import SearchInput from '../../../components/messenger/SearchInput';
-import Dialog from '../../../components/messenger/UserDialog';
-import Channel from '../../../components/messenger/ChannelDialog';
-import Inquiry from '../../../components/messenger/InquiryDialog';
+import './styles.css';
+
+import { StateObj as StateProps } from '../../../redux/modules/messenger/dialogs';
+
+import {
+  showSearchInput,
+  hideSearchInput,
+  showSearchResults,
+  hideSearchResults
+} from '../../../redux/modules/messenger/dialogs';
+
+import Scrollbars from 'react-custom-scrollbars';
+import RoomsHeader from '../../../components/messenger/RoomsHeader';
+import Rooms from '../../../components/messenger/Rooms';
+import SearchRooms from '../../../components/messenger/SearchRooms';
 
 /**
  * Types
  */
-export type Props = HTMLProps<HTMLDivElement> & {
-  search: boolean
-  height: number
+
+export type Props = ComponentProps & DispatchProps & StateProps;
+
+export type ComponentProps = HTMLProps<HTMLDivElement> & {
+  height?: number
+};
+
+export type DispatchProps = {
+  showSearchInput: () => void
+  hideSearchInput: () => void
+  showSearchResults: () => void
+  hideSearchResults: () => void
 };
 
 /**
  * Component
  */
+
 const Dialogs: SFC<Props> = (props) => {
-  const { search, height, children, className, ...divProps } = props;
+  const {
+    height,
+    children,
+    className,
+    searchable,
+    resultsVisible,
+    rooms,
+    searchResults,
+    showSearchInput,
+    hideSearchInput,
+    showSearchResults,
+    hideSearchResults,
+    ...divProps
+  } = props;
+
   const contentHeight = height - 65;
 
   return (
     <div className={className} {...divProps}>
-      <div styleName="header">
-        {!search && <div styleName="menu">
-          <Icon name="user"/>
-          <Icon styleName="chat" name="chat"/>
-          <Icon name="search"/>
-        </div>}
-
-        {search && <SearchInput placeholder="Поиск"/>}
-      </div>
+      <RoomsHeader
+        showSearchInput={showSearchInput}
+        hideSearchInput={hideSearchInput}
+        showSearchResults={showSearchResults}
+        hideSearchResults={hideSearchResults}
+        searchable={searchable}/>
 
       <Scrollbars
         autoHide
         styleName="custom-scrollbar"
         style={{height: contentHeight, width: 'calc(100% + 25px)'}}>
         <div styleName="dialog-list">
-          <Channel
-            id="test0"
-            name="Альфа Банг"
-            preview="Завтра состоится капустник, поэтому просим всех быть на работе не позже…"/>
-
-          <Inquiry
-            id="test20"
-            name="Обращения"
-            preview="Добрый день. Вас беспокоит отдел продаж компании “Норникель”. Мы хот..."/>
-
-          <Dialog
-            src=""
-            id="test"
-            fullName="Александр Пушкин"
-            preview="Добрый день. Вас беспокоит отдел продаж компании “Норникель”. Мы хот..."/>
-
-          <Dialog
-            src=""
-            id="test1"
-            fullName="Александр Пушкин"
-            preview="Добрый день. Вас беспокоит отдел продаж компании “Норникель”. Мы хот..."/>
-
-          <Dialog
-            src=""
-            id="test2"
-            fullName="Александр Пушкин"
-            preview="Добрый день. Вас беспокоит отдел продаж компании “Норникель”. Мы хот..."/>
-
-          <Dialog
-            src=""
-            id="test3"
-            fullName="Александр Пушкин"
-            preview="Добрый день. Вас беспокоит отдел продаж компании “Норникель”. Мы хот..."/>
-
-          <Dialog
-            src=""
-            id="test4"
-            fullName="Александр Пушкин"
-            preview="Добрый день. Вас беспокоит отдел продаж компании “Норникель”. Мы хот..."/>
-
-          <Dialog
-            src=""
-            id="test5"
-            fullName="Александр Пушкин"
-            preview="Добрый день. Вас беспокоит отдел продаж компании “Норникель”. Мы хот..."/>
-
-          <Dialog
-            src=""
-            id="test6"
-            fullName="Александр Пушкин"
-            preview="Добрый день. Вас беспокоит отдел продаж компании “Норникель”. Мы хот..."/>
+          {resultsVisible
+            ? <SearchRooms
+                searchable={searchable}
+                resultsVisible={resultsVisible}
+                rooms={rooms}
+                searchResults={searchResults}/>
+            : <Rooms
+                searchable={searchable}
+                resultsVisible={resultsVisible}
+                rooms={rooms}
+                searchResults={searchResults}/>}
         </div>
       </Scrollbars>
     </div>
   );
 };
 
-export default Dialogs;
+/**
+ * Export
+ */
+
+export default connect<StateProps, DispatchProps, ComponentProps>(
+  (state) => state.messenger.dialogs,
+  {
+    showSearchInput,
+    hideSearchInput,
+    showSearchResults,
+    hideSearchResults
+  }
+)(Dialogs);
