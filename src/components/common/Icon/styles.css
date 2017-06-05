@@ -288,3 +288,9 @@
   size: size('svg/favorite-active.svg');
   background: svg-load('svg/favorite-active.svg');
 }
+
+.contact-arrow {
+  composes: icon;
+  size: size('svg/contact-arrow.svg');
+  background: svg-load('svg/contact-arrow.svg');
+}

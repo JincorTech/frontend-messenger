@@ -1,0 +1,38 @@
+@use postcss-short;
+@use postcss-inline-svg;
+
+.avatar {
+  size: 60px;
+  border-radius: 4px;
+  display: block;
+  cursor: default;
+}
+
+.empty-dialog {
+  font: 600 20px/27px Open Sans;
+  letter-spacing: -0.3px;
+  padding: 16px *;
+  text-align: center;
+  color: #fff;
+}
+
+.empty-group {
+  size: 100%;
+  background-image: svg-load('./svg/group.svg');
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+.empty-channel {
+  size: 100%;
+  background-image: svg-load('./svg/channel.svg');
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+.empty-inquiry {
+  size: 100%;
+  background-image: svg-load('./svg/inquiry.svg');
+  background-repeat: no-repeat;
+  background-size: contain;
+}

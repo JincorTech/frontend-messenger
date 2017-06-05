@@ -44,7 +44,6 @@ class Messenger extends Component<{}, State> {
     return (
       <div styleName="messenger">
         <Dialogs
-          search
           height={height}
           styleName="dialogs-block"/>
 
