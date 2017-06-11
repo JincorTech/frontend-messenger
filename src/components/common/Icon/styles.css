@@ -294,3 +294,9 @@
   size: size('svg/contact-arrow.svg');
   background: svg-load('svg/contact-arrow.svg');
 }
+
+.back {
+  composes: icon;
+  size: size('svg/back.svg');
+  background: svg-load('svg/back.svg');
+}

@@ -1,0 +1,47 @@
+@use postcss-short;
+@use postcss-inline-svg;
+
+.contacts {
+  position: relative;
+}
+
+.wrapper {
+  width: 370px;
+  margin: 0 auto;
+}
+
+.title {
+  font: bold 36px Open Sans;
+  color: #333;
+  text-align: center;
+  padding: 23px 5px 30px;
+}
+
+.add {
+  text-align: center;
+  padding: 0 5px;
+
+  & a {
+    font: normal 18px Open Sans;
+    color: #0070e0;
+    outline: none;
+    cursor: pointer;
+
+    &:hover {
+      text-decoration: none;
+    }
+  }
+
+  & .plus-icon {
+    display: inline-block;
+    size: 16px;
+    background-image: svg-load('./svg/plus.svg');
+    background-size: contain;
+    margin-right: 8px;
+    position: relative 2px * * *;
+  }
+}
+
+.search {
+  padding: 15px 5px;
+}

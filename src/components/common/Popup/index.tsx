@@ -1,13 +1,15 @@
 import * as React from 'react';
 import { Component, HTMLProps, MouseEvent } from 'react';
 import { render, unmountComponentAtNode } from 'react-dom';
-import './styles.css';
+import * as classnames from 'classnames';
+
+const { popup, overlay, close } = require('./styles.css');
 
 import Icon from '../Icon';
 
 // TODO don't forget about dat
 import { Provider } from 'react-redux';
-import configureStore from '../../../redux/configureStore';
+import { store } from '../../../index';
 
 /**
  * Types
@@ -20,8 +22,6 @@ export type ComponentProps = {
   hideClose?: boolean
   onClose?: () => void
 };
-
-const store = configureStore({});
 
 /**
  * Component
@@ -76,10 +76,9 @@ class Popup extends Component<Props, {}> {
     }
   }
 
-  // never used tslint error
-  // private componentDidUpdate(): void {
-  //   this.renderModal();
-  // }
+  public componentDidUpdate(): void {
+    this.renderModal();
+  }
 
   private handleClick(e: MouseEvent<HTMLDivElement>): void {
     e.stopPropagation();
@@ -102,10 +101,10 @@ class Popup extends Component<Props, {}> {
     render (
       <Provider store={store}>
         <div className="portal">
-          {open && <div styleName="overlay" onClick={onClose}>
-            {!hideClose && <Icon styleName="close" name="close-popup"/>}
+          {open && <div className={overlay} onClick={onClose}>
+            {!hideClose && <Icon className={close} name="close-popup"/>}
 
-            <div styleName="popup" className="className" onClick={this.handleClick} {...divProps}>
+            <div className={classnames(popup, className)} onClick={this.handleClick} {...divProps}>
               {children}
             </div>
           </div>}

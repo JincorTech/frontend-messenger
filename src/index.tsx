@@ -15,6 +15,8 @@ import './assets/main.css';
 
 const store = configureStore({});
 
+export { store };
+
 const render = (Component: any) => {
   ReactDOM.render(
     <AppContainer>

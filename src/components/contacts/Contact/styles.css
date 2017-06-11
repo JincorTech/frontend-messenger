@@ -1,0 +1,100 @@
+@use postcss-short;
+@use postcss-clearfix;
+@use postcss-center;
+
+.contact {
+  position: relative;
+  clear: fix;
+  padding: 7px 30px 8px 7px;
+  transition: 0.1s linear background-color;
+  border-radius: 4px;
+}
+
+.avatar {
+  width: 50px;
+}
+
+.body {
+  width: 260px;
+  padding-left: 10px;
+}
+
+.avatar,
+.body {
+  float: left;
+  height: 50px;
+}
+
+.avatar-component {
+  size: 50px;
+  font: normal 20px/50px Open Sans;
+}
+
+.wrapper {
+  position: relative;
+  top: center;
+}
+
+.fullname {
+  display: block;
+  font: normal 16px/24px Open Sans;
+  margin-bottom: 1px;
+  letter-spacing: -0.2px;
+  color: #222;
+  height: 24px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  cursor: default;
+  user-select: none;
+}
+
+.info {
+  position: relative;
+  font: normal 16px/24px Open Sans;
+  height: 24px;
+  color: #222;
+  opacity: 0.4;
+  cursor: default;
+  user-select: none;
+}
+
+.company,
+.role {
+  position: absolute;
+  max-width: 220px;
+  opacity: 0;
+  height: 24px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  transition: 0.1s linear opacity;
+}
+
+.company {
+  opacity: 1;
+}
+
+.icon {
+  top: center;
+  right: 17px;
+  opacity: 0;
+  transition: 0.1s linear opacity;
+  cursor: pointer;
+}
+
+.contact:hover {
+  background-color: #f3f5f7;
+
+  & .icon {
+    opacity: 1;
+  }
+
+  & .company {
+    opacity: 0;
+  }
+
+  & .role {
+    opacity: 1;
+  }
+}

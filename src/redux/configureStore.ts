@@ -1,7 +1,7 @@
 import { createStore, applyMiddleware, Store } from 'redux';
 import createSagaMiddleware from 'redux-saga';
 import { createLogger } from 'redux-logger';
-import { composeWithDevTools } from 'redux-devtools-extension';
+// import { composeWithDevTools } from 'redux-devtools-extension';
 import { stateTransformer } from 'redux-seamless-immutable';
 
 import rootReducer, { State } from './rootReducer';
@@ -46,7 +46,8 @@ function configureStoreDev(initialState: State): Store<State> {
   const store = createStore(
     rootReducer,
     initialState,
-    composeWithDevTools(applyMiddleware(...middlewares))
+    // composeWithDevTools(applyMiddleware(...middlewares))
+    applyMiddleware(...middlewares)
   );
 
   sagaMiddleware.run(rootSaga);
