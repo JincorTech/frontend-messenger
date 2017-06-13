@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { SFC, HTMLProps } from 'react';
+import Emojify from 'react-emojione';
 import './styles.css';
 
 export type Props = HTMLProps<HTMLImageElement> & {
@@ -8,13 +9,9 @@ export type Props = HTMLProps<HTMLImageElement> & {
 };
 
 const Emoji: SFC<Props> = ({ name, small, className, ...imgProps }) => (
-  <img
-    styleName={small ? 'small' : 'default'}
-    className={className}
-    src={require(`./img/${name}.png`)}
-    alt={name}
-    title={name}
-    {...imgProps}/>
+  <span className={className} styleName="emoji">
+    <Emojify children={`:${name}:`}/>
+  </span>
 );
 
 Emoji.defaultProps = {
