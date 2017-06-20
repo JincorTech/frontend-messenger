@@ -5,7 +5,7 @@
 .dialog {
   position: relative;
   clear: fix;
-  padding: 8px 40px 8px 7px;
+  padding: 7px 30px 8px 7px;
   transition: background ease-out 0.2s;
   cursor: default;
 
@@ -32,7 +32,7 @@
 .fullname {
   display: block;
   font: 600 14px/19px Open Sans;
-  margin-bottom: 3px;
+  margin: 2px * 1px;
   letter-spacing: -0.2px;
   color: #222;
 }
@@ -42,7 +42,7 @@
   height: 36px;
 }
 
-.messege {
+.message {
   top: center;
   font-size: 13px/18px;
   letter-spacing: -0.2px;
@@ -63,10 +63,17 @@
 }
 
 .unread {
-  margin-right: 4px;
+  size: 7px;
+  border-radius: 50%;
+  background-color: #0070e0;
+  position: absolute;
+  margin: 5px -13px;
 }
 
-.new-messege {
+.new-message {
+  size: 12px;
+  border-radius: 50%;
+  background-color: #0070e0;
+  position: absolute * * * -17px;
   top: center;
-  left: -17px;
 }

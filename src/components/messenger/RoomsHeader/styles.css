@@ -1,0 +1,25 @@
+@use postcss-short;
+
+.header {
+  size: 345px 59px;
+}
+
+.menu {
+  padding: 18px * 6px 11px;
+  text-align: center;
+}
+
+.button {
+  size: 35px;
+  padding: 0;
+  background-color: transparent;
+  border-radius: 2px;
+  outline: none;
+  cursor: pointer;
+  margin: 0 30px;
+  transition: 0.1s linear background-color;
+
+  &:hover {
+    background-color: #f9f9f9;
+  }
+}

@@ -9,7 +9,7 @@ import Icon from '../../common/Icon';
  * Types
  */
 export type Props = InputProps & JSX.IntrinsicClassAttributes<InputProps> & {
-  onRemove?: any
+  onRemove?: Function
 };
 
 /**
@@ -25,7 +25,8 @@ const SearchInput: SFC<Props> = ({ onRemove, className, ...props}) => (
 
     <Icon
       styleName="clear-value"
-      name="remove"/>
+      name="remove"
+      onClick={() => onRemove()}/>
   </div>
 );
 
