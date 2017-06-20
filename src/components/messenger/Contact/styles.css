@@ -51,6 +51,7 @@
 .company,
 .role {
   position: absolute;
+  color: #999;
   max-width: 220px;
   opacity: 0;
   height: 1em;

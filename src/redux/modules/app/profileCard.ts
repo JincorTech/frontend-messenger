@@ -12,8 +12,6 @@ export type StateMap = {
   bottomView: BottomView
   spinner: false
   src: string
-  editProfileForm: ProfileFields
-  changePasswordForm: PasswordFields
 };
 
 export type BottomView = 'buttons' | 'password-form' | 'profile-form';
@@ -64,17 +62,7 @@ const initialState: State = from<StateMap>({
   open: false,
   bottomView: 'buttons',
   spinner: false,
-  src: '',
-  editProfileForm: {
-    firstName: '',
-    lastName: '',
-    position: '',
-    avatar: ''
-  },
-  changePasswordForm: {
-    oldPassword: '',
-    password: ''
-  }
+  src: ''
 });
 
 export default createReducer<State>({

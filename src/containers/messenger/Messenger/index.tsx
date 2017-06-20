@@ -4,6 +4,8 @@ import './styles.css';
 
 import Dialogs from '../Dialogs';
 import Messages from '../Messages';
+import ContactsPopup from '../../../components/contacts/ContactsPopup';
+import NewContactPopup from '../../../components/contacts/NewContactPopup';
 
 export type State = {
   height: number
@@ -53,6 +55,9 @@ class Messenger extends Component<{}, State> {
           name="Александр Пушкин"
           company="Альфа-Банк"
           styleName="messeges-block"/>
+
+        <ContactsPopup open={false}/>
+        <NewContactPopup open={false} step={4}/>
       </div>
     );
   }

@@ -1,11 +1,10 @@
 @use postcss-short;
 @use postcss-center;
-
+@use postcss-inline-svg;
 
 .search {
   position: relative;
-  padding: 12.5px 0;
-  width: 330px;
+  width: 100%;
 }
 
 .search-field {
@@ -15,14 +14,19 @@
 }
 
 .clear-value {
+  size: 30px;
+  background-image: svg-load('./svg/remove.svg');
+  background-repeat: no-repeat;
+  background-size: 16px;
+  background-position: 50%;
+  border-radius: 2px;
   cursor: pointer;
   top: center;
-  right: 12px;
-  opacity: 0.6;
-  transition: opacity ease-out 0.2s;
+  right: 5px;
+  transition: linear 0.1s background-color;
 
   &:hover {
-    opacity: 1;
+    background-color: #f9f9f9;
   }
 }
 

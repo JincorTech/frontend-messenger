@@ -1,0 +1,92 @@
+@use postcss-short;
+@use postcss-inline-svg;
+
+.edit-profile {
+  padding: 15px 30px 30px;
+  size: 100%;
+  position: absolute 0 * * 0;
+  transition: 0.2s linear opacity;
+}
+
+.profile-bottom-form {
+  height: 100%;
+  position: relative;
+
+  & input {
+    height: 40px;
+    margin: 0;
+  }
+}
+
+.avatar-upload {
+  size: 325px;
+  position: absolute;
+  top: -340px;
+  left: -30px;
+  z-index: 1;
+}
+
+.upload-field {
+  position: relative;
+  border-radius: 4px 4px 0 0;
+  overflow: hidden;
+}
+
+.form-buttons {
+  position: absolute;
+  bottom: 0;
+}
+
+.form-submit-button {
+  composes: button from '../../common/Button/styles.css';
+  width: 160px;
+  display: inline-block;
+}
+
+.form-cancel-button {
+  composes: button from '../../common/Button/styles.css';
+  width: 100px;
+  margin: 0 5px 0 0;
+  display: inline-block;
+  font-weight: normal;
+  background-color: transparent;
+  color: #0070e0;
+
+  &:hover {
+    background-color: transparent;
+    text-decoration: none;
+  }
+
+  &:active {
+    background-color: transparent;
+  }
+}
+
+.blackout {
+  position: absolute 0 0 0 0;
+  background-image:
+    linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0.4),
+      rgba(0, 0, 0, 0.15) 32%,
+      rgba(0, 0, 0, 0.15) 66%,
+      rgba(0, 0, 0, 0.4)
+    );
+}
+
+.blackout-empty {
+  position: absolute 0 0 0 0;
+  background-image: rgba(0, 0, 0, 0.2);
+}
+
+.camera {
+  position: absolute 20px * * 20px;
+  margin: auto;
+  background: transparent svg-load('svg/camera.svg') center no-repeat;
+  size: size('svg/camera.svg');
+  transition: transform linear 0.2s;
+
+  &:hover {
+    transform: scale(1.1);
+  }
+}

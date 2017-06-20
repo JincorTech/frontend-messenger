@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="36px" height="36px" viewBox="0 0 36 36" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 44.1 (41455) - http://www.bohemiancoding.com/sketch -->
+    <title>Right Arrow Blue</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Symbols" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Right-Arrow-Grey" fill-rule="nonzero" fill="#0070e0">
+            <path d="M21.2572128,26.613347 C21.6784481,27.0389171 22.2485427,27.0372603 22.6714264,26.613347 C23.0943101,26.1894337 23.0948654,25.6224886 22.6714264,25.1991335 L15.4377216,17.9654287 L22.671421,10.7317294 C23.09486,10.3083742 23.09486,9.74087092 22.671421,9.3175158 C22.2479819,8.89416069 21.6806479,8.89416211 21.2572074,9.3175158 L13.3164013,17.2583219 C12.8744837,17.7008125 12.9053662,18.260657 13.3472837,18.7025845 L21.2572128,26.613347 Z" id="Shape" transform="translate(17.994500, 17.965952) scale(-1, 1) translate(-17.994500, -17.965952) "></path>
+        </g>
+    </g>
+</svg>

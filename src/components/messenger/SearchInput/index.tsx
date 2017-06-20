@@ -23,9 +23,8 @@ const SearchInput: SFC<Props> = ({ onRemove, className, ...props}) => (
 
     <Input styleName="search-field" className={className} {...props}/>
 
-    <Icon
+    <div
       styleName="clear-value"
-      name="remove"
       onClick={() => onRemove()}/>
   </div>
 );

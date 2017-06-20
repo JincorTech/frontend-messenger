@@ -1,0 +1,179 @@
+@use postcss-short;
+@use postcss-clearfix;
+
+.wrapper {
+  size: 100%;
+}
+
+.blackout {
+  &::before {
+    z-index: 1;
+    content: '';
+    position: absolute 0 * * 0;
+    size: 100%;
+    border-radius: 4px 4px 0 0;
+    background-image:
+      linear-gradient(
+        to bottom,
+        rgba(0, 0, 0, 0.4),
+        rgba(0, 0, 0, 0.15) 32%,
+        rgba(0, 0, 0, 0.15) 66%,
+        rgba(0, 0, 0, 0.4)
+      );
+  }
+}
+
+.blackout-empty {
+  size: 325px;
+
+  &::before {
+    z-index: 1;
+    content: '';
+    position: absolute 0 * * 0;
+    size: 100%;
+    border-radius: 4px 4px 0 0;
+    background-color: rgba(0, 0, 0, 0.2);
+  }
+}
+
+.avatar {
+  background-color: #fff;
+  position: absolute;
+  border-radius: 4px 4px 0 0;
+  user-select: none;
+  cursor: default;
+}
+
+.avatar-empty {
+  position: absolute 0 * * 0;
+  size: 100%;
+  font: bold 150px/325px Open Sans;
+  text-align: center;
+  border-radius: 4px 4px 0 0;
+  color: rgba(255, 255, 255, 0.25);
+  cursor: default;
+  user-select: none;
+}
+
+.company {
+  z-index: 1;
+  position: absolute 0 0 * *;
+  height: 48px;
+  text-align: right;
+  user-select: none;
+  cursor: default;
+}
+
+.company-hidden {
+  composes: company;
+  display: none;
+}
+
+.company-name {
+  display: inline-block;
+  vertical-align: top;
+  font-size: 18px/48px;
+  margin: 0 15px 0 0;
+  color: #fff;
+  letter-spacing: -0.2px;
+  white-space: nowrap;
+  max-width: 250px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  user-select: none;
+  cursor: default;
+}
+
+.company-logo {
+  display: inline-block;
+  background-color: #c8c8c8;
+  margin-left: -5px;
+  border-radius: 0 4px;
+  size: 48px;
+  overflow: hidden;
+  user-select: none;
+  cursor: default;
+}
+
+.company-logo-empty {
+  composes: company-logo;
+  display: none;
+}
+
+.info {
+  z-index: 1;
+  max-width: 325px;
+  position: absolute * * 0;
+  padding: 15px;
+  opacity: 1;
+  user-select: none;
+  cursor: default;
+  transition: 0.2s linear all;
+}
+
+.info-hidden {
+  composes: info;
+  display: none;
+}
+
+.name {
+  font: bold 30px/1.17 Open Sans;
+  color: #fff;
+  letter-spacing: -0.2px;
+  user-select: none;
+  cursor: default;
+  height: 35px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.position {
+  font: normal 18px Open Sans;
+  color: #fff;
+  letter-spacing: -0.2px;
+  user-select: none;
+  cursor: default;
+  margin-top: 5px;
+}
+
+
+/* employee type */
+
+.user {
+  size: 325px;
+  clear: fix;
+}
+
+.employee {
+  size: 325px;
+  clear: fix;
+
+  & .blackout::after,
+  & .blackout-empty::after {
+    z-index: 1;
+    content: '';
+    opacity: 0;
+    position: absolute 0 * * 0;
+    size: 100%;
+    border-radius: 4px 4px 0 0;
+    background-image:
+      linear-gradient(
+        to bottom,
+        rgba(0, 0, 0, 0.3),
+        rgba(0, 0, 0, 0.3)
+      );
+    transition: 0.2s linear all;
+  }
+}
+
+.employee:hover {
+  & .info {
+    opacity: 0;
+  }
+
+  & .blackout::after,
+  & .blackout-empty::after {
+    opacity: 1;
+  }
+}

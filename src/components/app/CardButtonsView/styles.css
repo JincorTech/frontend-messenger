@@ -1,0 +1,30 @@
+@use postcss-short;
+
+.control-buttons {
+  padding: 30px 20px;
+  size: 100%;
+
+  & button {
+    background-color: transparent;
+    display: block;
+    width: 100%;
+    text-align: left;
+    border-radius: 4px;
+    padding: 1px 10px;
+    margin: 0 0 5px;
+    font: normal 16px/30px Open Sans;
+    letter-spacing: -0.3px;
+    cursor: pointer;
+    transition: 0.2s linear background-color;
+
+    & .icon {
+      size: 30px;
+      vertical-align: top;
+      margin: 0 6px 0 0;
+    }
+
+    &:hover {
+      background-color: rgba(0, 0, 0, 0.03);
+    }
+  }
+}

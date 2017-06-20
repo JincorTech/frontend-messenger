@@ -1,0 +1,26 @@
+@use postcss-short;
+@use postcss-inline-svg;
+@use postcss-center;
+
+.search {
+  position: relative;
+  width: 100%;
+  border-bottom: 2px solid #c6c6c6;
+}
+
+.icon {
+  top: center;
+  left: 0;
+  size: 25px;
+  background-image: svg-load('./svg/loupe.svg');
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+.input {
+  width: 100%;
+  border: none;
+  outline: none;
+  font: normal 20px Open Sans;
+  padding: 5px 5px 5px 40px;
+}

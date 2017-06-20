@@ -1,5 +1,5 @@
 import { SagaIterator } from 'redux-saga';
-import { takeLatest, call, put, fork } from 'redux-saga/effects';
+import { all, takeLatest, call, put, fork } from 'redux-saga/effects';
 
 import { removeToken, setToken, getToken, isAuth } from '../../utils/auth';
 import { Action } from '../../utils/actions';
@@ -70,9 +70,9 @@ function* loginSaga(): SagaIterator {
  * App saga
  */
 export default function*(): SagaIterator {
-  yield [
+  yield all([
     fork(loginSaga),
     fork(logoutSaga),
     fork(checkAuthSaga)
-  ];
+  ]);
 }

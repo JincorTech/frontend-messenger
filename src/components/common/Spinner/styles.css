@@ -14,15 +14,145 @@
   vertical-align: middle;
 }
 
-@for $i from 0 to 330 by 30 {
-  .stick-$i {
-    position: absolute 12px * * 15px;
-    size: 2px 8px;
-    background: #fff;
-    border-radius: 2px;
-    animation: spinner-animate 1s linear infinite;
-    /* stylelint-disable-next-line function-whitespace-after */
-    transform: rotate($(i)deg) translate(0, -10px);
-    animation-delay: calc(-0.5s + $i/360);
-  }
+.stick-0 {
+  position: absolute 12px * * 15px;
+  size: 2px 8px;
+  background: #fff;
+  border-radius: 2px;
+  animation: spinner-animate 1s linear infinite;
+  /* stylelint-disable-next-line function-whitespace-after */
+  transform: rotate(0deg) translate(0, -10px);
+  animation-delay: calc(-0.5s + 0 / 360);
+}
+
+.stick-30 {
+  position: absolute 12px * * 15px;
+  size: 2px 8px;
+  background: #fff;
+  border-radius: 2px;
+  animation: spinner-animate 1s linear infinite;
+  /* stylelint-disable-next-line function-whitespace-after */
+  transform: rotate(30deg) translate(0, -10px);
+  animation-delay: calc(-0.5s + 30 / 360);
+}
+
+.stick-60 {
+  position: absolute 12px * * 15px;
+  size: 2px 8px;
+  background: #fff;
+  border-radius: 2px;
+  animation: spinner-animate 1s linear infinite;
+  /* stylelint-disable-next-line function-whitespace-after */
+  transform: rotate(60deg) translate(0, -10px);
+  animation-delay: calc(-0.5s + 60 / 360);
+}
+
+.stick-90 {
+  position: absolute 12px * * 15px;
+  size: 2px 8px;
+  background: #fff;
+  border-radius: 2px;
+  animation: spinner-animate 1s linear infinite;
+  /* stylelint-disable-next-line function-whitespace-after */
+  transform: rotate(90deg) translate(0, -10px);
+  animation-delay: calc(-0.5s + 90 / 360);
+}
+
+.stick-120 {
+  position: absolute 12px * * 15px;
+  size: 2px 8px;
+  background: #fff;
+  border-radius: 2px;
+  animation: spinner-animate 1s linear infinite;
+  /* stylelint-disable-next-line function-whitespace-after */
+  transform: rotate(120deg) translate(0, -10px);
+  animation-delay: calc(-0.5s + 120 / 360);
+}
+
+.stick-150 {
+  position: absolute 12px * * 15px;
+  size: 2px 8px;
+  background: #fff;
+  border-radius: 2px;
+  animation: spinner-animate 1s linear infinite;
+  /* stylelint-disable-next-line function-whitespace-after */
+  transform: rotate(150deg) translate(0, -10px);
+  animation-delay: calc(-0.5s + 15 / 360);
+}
+
+.stick-180 {
+  position: absolute 12px * * 15px;
+  size: 2px 8px;
+  background: #fff;
+  border-radius: 2px;
+  animation: spinner-animate 1s linear infinite;
+  /* stylelint-disable-next-line function-whitespace-after */
+  transform: rotate(180deg) translate(0, -10px);
+  animation-delay: calc(-0.5s + 180 / 360);
+}
+
+.stick-210 {
+  position: absolute 12px * * 15px;
+  size: 2px 8px;
+  background: #fff;
+  border-radius: 2px;
+  animation: spinner-animate 1s linear infinite;
+  /* stylelint-disable-next-line function-whitespace-after */
+  transform: rotate(210deg) translate(0, -10px);
+  animation-delay: calc(-0.5s + 210 / 360);
+}
+
+.stick-240 {
+  position: absolute 12px * * 15px;
+  size: 2px 8px;
+  background: #fff;
+  border-radius: 2px;
+  animation: spinner-animate 1s linear infinite;
+  /* stylelint-disable-next-line function-whitespace-after */
+  transform: rotate(240deg) translate(0, -10px);
+  animation-delay: calc(-0.5s + 240 / 360);
+}
+
+.stick-270 {
+  position: absolute 12px * * 15px;
+  size: 2px 8px;
+  background: #fff;
+  border-radius: 2px;
+  animation: spinner-animate 1s linear infinite;
+  /* stylelint-disable-next-line function-whitespace-after */
+  transform: rotate(270deg) translate(0, -10px);
+  animation-delay: calc(-0.5s + 270 / 360);
+}
+
+.stick-300 {
+  position: absolute 12px * * 15px;
+  size: 2px 8px;
+  background: #fff;
+  border-radius: 2px;
+  animation: spinner-animate 1s linear infinite;
+  /* stylelint-disable-next-line function-whitespace-after */
+  transform: rotate(300deg) translate(0, -10px);
+  animation-delay: calc(-0.5s + 300 / 360);
+}
+
+.stick-330 {
+  position: absolute 12px * * 15px;
+  size: 2px 8px;
+  background: #fff;
+  border-radius: 2px;
+  animation: spinner-animate 1s linear infinite;
+  /* stylelint-disable-next-line function-whitespace-after */
+  transform: rotate(330deg) translate(0, -10px);
+  animation-delay: calc(-0.5s + 330 / 360);
+}
+
+.stick-360 {
+  position: absolute 12px * * 15px;
+  size: 2px 8px;
+  background: #fff;
+  border-radius: 2px;
+  animation: spinner-animate 1s linear infinite;
+  /* stylelint-disable-next-line function-whitespace-after */
+  transform: rotate(360deg) translate(0, -10px);
+  animation-delay: calc(-0.5s + 360 / 360);
 }

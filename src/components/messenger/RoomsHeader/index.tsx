@@ -45,7 +45,10 @@ const RoomsHeader: SFC<Props> = (props) => {
         </button>
       </div>}
 
-      {searchable && <SearchInput placeholder="Поиск по диалогам" onRemove={hideSearchInput}/>}
+      {searchable &&
+        <div styleName="search">
+          <SearchInput placeholder="Поиск по диалогам" onRemove={hideSearchInput}/>
+        </div>}
     </header>
   );
 };
