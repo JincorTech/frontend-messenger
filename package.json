@@ -8,6 +8,7 @@
     "classnames": "^2.2.5",
     "date-fns": "^1.28.4",
     "jwt-decode": "^2.2.0",
+    "matrix-js-sdk": "0.7.12",
     "normalize.css": "7.0.0",
     "react": "^15.5.4",
     "react-custom-scrollbars": "^4.0.1",
