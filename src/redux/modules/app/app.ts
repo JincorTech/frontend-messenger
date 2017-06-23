@@ -9,11 +9,13 @@ export type State = StateMap & ImmutableObject<StateMap>;
 export type StateMap = {
   authorized: boolean
   token: string
+  login: string
 };
 
 export type AuthProps = {
   authorized: boolean
   token: string
+  login: string
 };
 
 /**
@@ -37,7 +39,8 @@ export const checkAuth = createAction<void>(CHECK_AUTH);
  */
 const initialState: State = from<StateMap>({
   authorized: false,
-  token: ''
+  token: '',
+  login: ''
 });
 
 export default createReducer<State>({

@@ -2,17 +2,17 @@
   height: calc(100vh - 60px);
 }
 
-.dialogs-block,
-.messeges-block {
+.dialogs,
+.messages {
   float: left;
   height: inherit;
 }
 
-.dialogs-block {
+.dialogs {
   width: 360px;
   border-right: 1px solid #dbdfe4;
 }
 
-.messeges-block {
+.messages {
   width: 750px;
 }

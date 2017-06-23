@@ -5,17 +5,18 @@ import * as ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { AppContainer } from 'react-hot-loader';
 
+import matrix from './utils/matrix';
+
 import configureStore from './redux/configureStore';
 
 import App from './containers/app/App';
+import AppPreloader from './components/app/AppPreloader';
 
 import 'normalize.css';
 import './assets/fonts/OpenSans/stylesheet.css';
 import './assets/main.css';
 
-const store = configureStore({});
-
-export { store };
+export const store = configureStore({});
 
 const render = (Component: any) => {
   ReactDOM.render(
@@ -28,7 +29,24 @@ const render = (Component: any) => {
   );
 };
 
-render(App);
+// render preloader until matrix load
+render(AppPreloader);
+
+matrix.on('sync', function(state, prevState, data) {
+  // console.log('MatrixClient sync state => %s', state);
+
+  // render error component
+  if (state === 'ERROR') {
+    console.error(`SYNC ERROR ${state}`);
+    return;
+  }
+
+  // matrix ready, render the app
+  if (state === 'PREPARED') {
+    render(App);
+    return;
+  }
+});
 
 if (module.hot) {
   module.hot.accept('./containers/app/App', () => {

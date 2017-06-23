@@ -5,8 +5,9 @@ import app from './modules/app/app';
 import appLayout from './modules/app/appLayout';
 import profileCard from './modules/app/profileCard';
 
+import messenger from './modules/messenger/messenger';
+import rooms from './modules/messenger/rooms';
 import emojiSelect from './modules/messenger/emojiSelect';
-import dialogs from './modules/messenger/dialogs';
 
 /**
  * Global App state
@@ -29,7 +30,8 @@ export default combineReducers({
   }),
 
   messenger: combineReducers({
-    emojiSelect,
-    dialogs
+    messenger,
+    rooms,
+    emojiSelect
   })
 });

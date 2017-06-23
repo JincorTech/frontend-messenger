@@ -1,7 +1,10 @@
 import * as React from 'react';
 import { SFC, HTMLProps } from 'react';
+import { format } from 'date-fns';
 
 import './styles.css';
+
+import { Room as RoomProps } from '../../../redux/modules/messenger/rooms';
 
 import Avatar from '../Avatar';
 
@@ -9,17 +12,7 @@ import Avatar from '../Avatar';
  * Types
  */
 
-export type Props = HTMLProps<HTMLDivElement> & {
-  type: 'dialog' | 'group' | 'channel' | 'inquiry'
-  id: string
-  src?: string
-  title: string
-  time: string // todo change
-  unreadIn: boolean // todo change
-  unreadOut: boolean // todo change
-  last?: string // todo change
-  preview: string
-};
+export type Props = HTMLProps<HTMLDivElement> & RoomProps;
 
 /**
  * Component
@@ -34,7 +27,7 @@ const Room: SFC<Props> = (props) => {
     type,
     src,
     title,
-    time,
+    timestamp,
     unreadIn,
     unreadOut,
     last,
@@ -62,7 +55,7 @@ const Room: SFC<Props> = (props) => {
 
       <span styleName="date">
         {unreadOut && <div styleName="unread"/>}
-        {time}
+        {format(timestamp, 'HH:mm')}
       </span>
     </div>
   );

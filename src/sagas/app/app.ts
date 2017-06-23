@@ -1,7 +1,7 @@
 import { SagaIterator } from 'redux-saga';
 import { all, takeLatest, call, put, fork } from 'redux-saga/effects';
 
-import { removeToken, setToken, getToken, isAuth } from '../../utils/auth';
+import { removeToken, setToken, getToken, isAuth, getUserId } from '../../utils/auth';
 import { Action } from '../../utils/actions';
 
 import {
@@ -25,7 +25,7 @@ function* checkAuthIterator(): SagaIterator {
     const token = yield call(getToken);
     yield put(login(token));
   } else {
-    yield put(setAuthState({ authorized: false, token: '' }));
+    yield put(setAuthState({ authorized: false, token: '', login: '' }));
   }
 }
 
@@ -41,7 +41,7 @@ function* checkAuthSaga(): SagaIterator {
  */
 function* logoutIterator(): SagaIterator {
   yield call(removeToken);
-  yield put(setAuthState({ authorized: false, token: '' }));
+  yield put(setAuthState({ authorized: false, token: '', login: '' }));
 }
 
 function* logoutSaga(): SagaIterator {
@@ -56,7 +56,8 @@ function* logoutSaga(): SagaIterator {
  */
 function* loginIterator({ payload: token }: Action<string>): SagaIterator {
   yield call(setToken, token);
-  yield put(setAuthState({ authorized: true, token }));
+  const login = yield call(getUserId);
+  yield put(setAuthState({ authorized: true, token, login }));
 }
 
 function* loginSaga(): SagaIterator {

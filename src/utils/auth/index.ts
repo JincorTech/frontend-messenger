@@ -8,6 +8,18 @@ export function getToken(): string {
   return localStorage.getItem('token') || '';
 }
 
+export function getUserId(): string {
+  const token = getToken();
+
+  if (token) {
+    const decoded = jwtDecode(token);
+
+    return `${decoded.sub}:${decoded.aud}`;
+  }
+
+  return null;
+}
+
 export function isAuth(): boolean {
   const token = getToken();
 

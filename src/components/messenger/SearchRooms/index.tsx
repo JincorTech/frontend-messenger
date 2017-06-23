@@ -2,7 +2,7 @@ import * as React from 'react';
 import { SFC } from 'react';
 
 import SearchGroup from '../SearchGroup';
-import Room from '../Room';
+// import Room from '../Room';
 import Contact from '../Contact';
 
 /**
@@ -24,7 +24,7 @@ const SearchRooms: SFC<Props> = (props) => {
   return (
     <div>
       <SearchGroup title="Чаты" count={4}>
-        <Room
+        {/*<Room
           type="dialog"
           id="5"
           title="Николай Басков"
@@ -59,7 +59,7 @@ const SearchRooms: SFC<Props> = (props) => {
           preview="Тинькофф нас обгонит скоро. Нам надо что-то с этим делать. Как ты думаешь, к..."
           time="14/03/2017"
           unreadIn={false}
-          unreadOut={false}/>
+          unreadOut={false}/>*/}
       </SearchGroup>
 
       <SearchGroup title="Контакты" count={3}>
