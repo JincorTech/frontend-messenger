@@ -76,7 +76,7 @@ class Messeges extends Component<Props, State> {
     const { contentHeight } = this.state;
 
     return (
-      <div className={className} {...divProps}>
+      <div {...divProps}>
         <div styleName="header">
           {!search && <div styleName="name">
             {name}

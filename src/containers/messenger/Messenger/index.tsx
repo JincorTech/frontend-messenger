@@ -1,17 +1,36 @@
 import * as React from 'react';
 import { Component } from 'react';
+import { connect } from 'react-redux';
 import './styles.css';
 
-import Dialogs from '../Dialogs';
+import { StateObj as StateProps } from '../../../redux/modules/messenger/messenger';
+
+import { startMatrix } from '../../../redux/modules/messenger/messenger';
+
+import Rooms from '../Rooms';
 import Messages from '../Messages';
 import ContactsPopup from '../../../components/contacts/ContactsPopup';
 import NewContactPopup from '../../../components/contacts/NewContactPopup';
 
-export type State = {
-  height: number
+/**
+ * Types
+ */
+
+export type Props = ComponentProps & DispatchProps & StateProps;
+
+export type ComponentProps = {
+  height?: number
 };
 
-class Messenger extends Component<{}, State> {
+export type DispatchProps = {
+  startMatrix: () => void
+};
+
+/**
+ * Component
+ */
+
+class Messenger extends Component<Props, StateProps> {
   public state = {
     height: 0
   };
@@ -24,6 +43,8 @@ class Messenger extends Component<{}, State> {
 
   public componentWillMount(): void {
     this.updateDimensions();
+
+    this.props.startMatrix();
   }
 
   public componentDidMount(): void {
@@ -45,22 +66,30 @@ class Messenger extends Component<{}, State> {
 
     return (
       <div styleName="messenger">
-        <Dialogs
-          height={height}
-          styleName="dialogs-block"/>
+        <div styleName="dialogs">
+          <Rooms height={height}/>
+        </div>
 
-        <Messages
-          search={false}
-          height={height}
-          name="Александр Пушкин"
-          company="Альфа-Банк"
-          styleName="messeges-block"/>
+        <div styleName="messages">
+          <Messages
+            search={false}
+            height={height}
+            name="Александр Пушкин"
+            company="Альфа-Банк"/>
+        </div>
 
         <ContactsPopup open={false}/>
-        <NewContactPopup open={false} step={4}/>
+        <NewContactPopup open={false} step={1}/>
       </div>
     );
   }
 }
 
-export default Messenger;
+/**
+ * Export
+ */
+
+export default connect<StateProps, DispatchProps, {}>(
+  state => state.messenger.messenger,
+  { startMatrix }
+)(Messenger);
