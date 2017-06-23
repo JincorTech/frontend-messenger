@@ -11,11 +11,13 @@ import SearchInput from '../SearchInput';
  */
 
 export type Props = {
+  search: string
   searchable: boolean
   showSearchInput: () => void
   hideSearchInput: () => void
-  showSearchResults: () => void
-  hideSearchResults: () => void
+  changeSearchQuery: (query: string) => void
+  resetSearchQuery: () => void
+  openContacts: () => void
 };
 
 /**
@@ -24,16 +26,19 @@ export type Props = {
 
 const RoomsHeader: SFC<Props> = (props) => {
   const {
+    search,
     searchable,
     showSearchInput,
-    hideSearchInput
+    changeSearchQuery,
+    resetSearchQuery,
+    openContacts
   } = props;
 
   return (
     <header styleName="header">
       {!searchable && <div styleName="menu">
         <button styleName="button" type="button">
-          <Icon name="user"/>
+          <Icon name="user" onClick={() => openContacts()}/>
         </button>
 
         <button styleName="button" type="button">
@@ -47,7 +52,11 @@ const RoomsHeader: SFC<Props> = (props) => {
 
       {searchable &&
         <div styleName="search">
-          <SearchInput placeholder="Поиск по диалогам" onRemove={hideSearchInput}/>
+          <SearchInput
+            placeholder="Поиск по диалогам"
+            value={search}
+            onChange={(e) => changeSearchQuery(e.target.value)}
+            onRemove={resetSearchQuery}/>
         </div>}
     </header>
   );

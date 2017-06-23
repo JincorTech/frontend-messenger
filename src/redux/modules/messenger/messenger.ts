@@ -15,13 +15,13 @@ export type StateObj = {
  * Constants
  */
 
-export const START_MATRIX = 'messenger/messenger/START_MATRIX';
+export const SEND_TEST_MESSAGE = 'SEND_TEXT_MESSAGE';
 
 /**
  * Action creators
  */
 
-export const startMatrix = createAction<void>(START_MATRIX);
+export const sendTestMessage = createAction<string>(SEND_TEST_MESSAGE);
 
 /**
  * Reducer

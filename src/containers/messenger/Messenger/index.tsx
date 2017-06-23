@@ -5,12 +5,10 @@ import './styles.css';
 
 import { StateObj as StateProps } from '../../../redux/modules/messenger/messenger';
 
-import { startMatrix } from '../../../redux/modules/messenger/messenger';
+// import { sendTestMessage } from '../../../redux/modules/messenger/messenger';
 
 import Rooms from '../Rooms';
 import Messages from '../Messages';
-import ContactsPopup from '../../../components/contacts/ContactsPopup';
-import NewContactPopup from '../../../components/contacts/NewContactPopup';
 
 /**
  * Types
@@ -23,7 +21,7 @@ export type ComponentProps = {
 };
 
 export type DispatchProps = {
-  startMatrix: () => void
+  // sendTestMessage: () => void
 };
 
 /**
@@ -43,8 +41,6 @@ class Messenger extends Component<Props, StateProps> {
 
   public componentWillMount(): void {
     this.updateDimensions();
-
-    this.props.startMatrix();
   }
 
   public componentDidMount(): void {
@@ -63,10 +59,12 @@ class Messenger extends Component<Props, StateProps> {
 
   public render(): JSX.Element {
     const { height } = this.state;
+    // const { sendTestMessage } = this.props;
 
     return (
       <div styleName="messenger">
         <div styleName="dialogs">
+          {/*<button type="button" onClick={() => sendTestMessage()}>clickme</button>*/}
           <Rooms height={height}/>
         </div>
 
@@ -77,9 +75,6 @@ class Messenger extends Component<Props, StateProps> {
             name="Александр Пушкин"
             company="Альфа-Банк"/>
         </div>
-
-        <ContactsPopup open={false}/>
-        <NewContactPopup open={false} step={1}/>
       </div>
     );
   }
@@ -91,5 +86,7 @@ class Messenger extends Component<Props, StateProps> {
 
 export default connect<StateProps, DispatchProps, {}>(
   state => state.messenger.messenger,
-  { startMatrix }
+  {
+    // sendTestMessage
+  }
 )(Messenger);

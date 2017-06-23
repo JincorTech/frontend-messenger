@@ -1,21 +1,15 @@
 import Matrix from 'matrix-js-sdk';
 
-// import { getToken, getUserId } from '../../utils/auth';
-// import { messengerConfig } from '../../config';
+import { getToken, getUserId } from '../../utils/auth';
+import { messengerConfig } from '../../config';
 
 const localStorage = window.localStorage;
 
 const opts = {
-  baseUrl: 'https://matrix.org',
-  accessToken: 'MDAxOGxvY2F0aW9uIG1hdHJpeC5vcmcKMDAxM2lkZW50aWZpZXIga2V5CjAwMTBjaWQgZ2VuID0gMQowMDJjY2lkIHVzZXJfaWQgPSBAc3BhY2UuaW52YWRlcjptYXRyaXgub3JnCjAwMTZjaWQgdHlwZSA9IGFjY2VzcwowMDIxY2lkIG5vbmNlID0gbTBQaElhNlY6K09GaFM4JgowMDJmc2lnbmF0dXJlIIpGa4jq_N5am0z3v3S1ANhL1KdbEBMG7ZJZw8sZHhpcCg',
-  userId: '@space.invader:matrix.org'
+  baseUrl: messengerConfig.baseUrl,
+  accessToken: getToken(),
+  userId: getUserId()
 };
-
-// const opts = {
-//   baseUrl: messengerConfig.baseUrl,
-//   accessToken: getToken(),
-//   userId: getUserId()
-// };
 
 const createMatrixClient = (opts) => {
   const storeOpts = {

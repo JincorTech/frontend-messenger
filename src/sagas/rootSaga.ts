@@ -6,7 +6,10 @@ import appSaga from './app/app';
 import appLayoutSaga from './app/appLayout';
 import profileCardSaga from './app/profileCard';
 
-// import messengerSaga from './messenger/messenger';
+import contactsSaga from './contacts/contacts';
+import newContactSaga from './contacts/newContact';
+
+import messengerSaga from './messenger/messenger';
 import roomsSaga from './messenger/rooms';
 
 export default function*(): SagaIterator {
@@ -16,7 +19,10 @@ export default function*(): SagaIterator {
     fork(formActionSaga),
     fork(profileCardSaga),
 
-    // fork(messengerSaga),
+    fork(contactsSaga),
+    fork(newContactSaga),
+
+    fork(messengerSaga),
     fork(roomsSaga)
   ]);
 }
