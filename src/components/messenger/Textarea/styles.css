@@ -4,7 +4,7 @@
 .wrapper {
   height: 90px;
   background-color: #fff;
-  padding: 10px 0px 40px 58px;
+  padding: 5px 0 40px 58px;
 }
 
 .icon {
@@ -28,7 +28,6 @@
   font: normal 14px Open Sans;
   outline: none;
 }
-
 
 .add {
   background-color: transparent;

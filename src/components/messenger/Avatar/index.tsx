@@ -9,7 +9,7 @@ import './styles.css';
  */
 
 export type Props = HTMLProps<HTMLDivElement> & {
-  type: string
+  type?: string
   src: string
   fullName?: string
   id: string

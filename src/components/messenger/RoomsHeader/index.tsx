@@ -21,6 +21,12 @@ export type Props = {
 };
 
 /**
+ * Constants
+ */
+
+export const HEIGHT = 59;
+
+/**
  * Component
  */
 

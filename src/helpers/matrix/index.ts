@@ -62,6 +62,18 @@ export const getAnotherGuyId = (rooms): string => {
 };
 
 /**
+ * Get matrixIds from Room without domain
+ * @param room MatrixRoom
+ * @return matrixIds string[]
+ */
+
+export const getMembersIdsFromRoom = (room): string[] => {
+  const keys = Object.keys(room.currentState.members);
+
+  return keys.map((key) => removeDomain(key));
+};
+
+/**
  * Store rooms
  * @param matrixRooms MatrixRoom[]
  * @param users User[]
@@ -114,4 +126,23 @@ export const createRooms = (matrixRooms, users: User[]): Room[] => {
   }, []);
 
   return data;
+};
+
+export const getMessages = (room) => {
+  const events = room.getLiveTimeline().getEvents();
+  const messages = events.filter((event) => event.getType() === 'm.room.message');
+
+  return messages.reduce((acc, message) => {
+    return acc.concat([{
+      sender: removeDomain(message.getSender()),
+      timestamp: message.getTs(),
+      content: message.getContent().body
+    }]);
+  }, []);
+};
+
+export const membersTransformer = (members) => {
+  return members.reduce((acc, member) => {
+    return Object.assign(acc, { [member.matrixId]: member });
+  }, {});
 };
