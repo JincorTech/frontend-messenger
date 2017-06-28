@@ -65,10 +65,6 @@ const initialState: State = from<StateObj>({
   list: []
 });
 
-// Потом здесь нужно отчистить resultsVisible.
-// Чтобы точно не потерять я использую
-// наше особоe стоп-слово - console.log() :)
-
 export default createReducer<State>({
   [SHOW_SEARCH_INPUT]: (state: State): State => (
     state.merge({ searchable: true })
