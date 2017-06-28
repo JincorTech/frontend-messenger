@@ -8,6 +8,8 @@ import { StateObj as StateProps } from '../../../redux/modules/messenger/messeng
 // import { sendTestMessage } from '../../../redux/modules/messenger/messenger';
 
 import Rooms from '../Rooms';
+import MessagesHeader from '../../../components/messenger/MessagesHeader';
+import Textarea from '../../../components/messenger/Textarea';
 import Messages from '../Messages';
 
 /**
@@ -53,27 +55,29 @@ class Messenger extends Component<Props, StateProps> {
 
   private updateDimensions(): void {
     this.setState({
-      height: window.innerHeight - 65 // Header height
+      height: window.innerHeight - 50 // Header height
     });
   }
 
   public render(): JSX.Element {
     const { height } = this.state;
-    // const { sendTestMessage } = this.props;
+
+    const messagesAreaHeight = height - 65 - 90; // messages-height and textarea-height
 
     return (
       <div styleName="messenger">
-        <div styleName="dialogs">
-          {/*<button type="button" onClick={() => sendTestMessage()}>clickme</button>*/}
+        <div styleName="rooms-wrapper">
           <Rooms height={height}/>
         </div>
 
-        <div styleName="messages">
-          <Messages
-            search={false}
-            height={height}
-            name="Александр Пушкин"
-            company="Альфа-Банк"/>
+        <div styleName="messages-wrapper">
+          <MessagesHeader/>
+
+          <div styleName="messages-area" style={{height: messagesAreaHeight, backgroundColor: '#f9f9f9'}}>
+
+          </div>
+
+          <Textarea/>
         </div>
       </div>
     );

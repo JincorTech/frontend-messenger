@@ -71,7 +71,7 @@ class Rooms extends Component<Props, StateProps> {
       openContacts
     } = this.props;
 
-    const contentHeight = height - 65;
+    const contentHeight = height - 59; // rooms header
 
     return (
       <div>
