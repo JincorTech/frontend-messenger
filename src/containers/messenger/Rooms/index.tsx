@@ -17,7 +17,7 @@ import {
 import { openContacts } from '../../../redux/modules/contacts/contacts';
 
 import Scrollbars from 'react-custom-scrollbars';
-import RoomsHeader from '../../../components/messenger/RoomsHeader';
+import RoomsHeader, { HEIGHT as ROOM_HEADER_HEIGHT } from '../../../components/messenger/RoomsHeader';
 import RoomsList from '../../../components/messenger/RoomsList';
 
 /**
@@ -71,7 +71,7 @@ class Rooms extends Component<Props, StateProps> {
       openContacts
     } = this.props;
 
-    const contentHeight = height - 59; // rooms header
+    const contentHeight = height - ROOM_HEADER_HEIGHT;
 
     return (
       <div>

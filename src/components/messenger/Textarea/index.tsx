@@ -10,10 +10,18 @@ import './styles.css';
 export type Props = {};
 
 /**
+ * Constants
+ */
+
+export const HEIGHT = 90;
+
+/**
  * Component
  */
 
 const Textarea = (props) => {
+  const { ...inputProps } = props;
+
   return (
     <div styleName="wrapper">
       <div styleName="icon">
@@ -21,7 +29,7 @@ const Textarea = (props) => {
       </div>
 
       <div styleName="input">
-        <input styleName="textarea" type="text"/>
+        <input styleName="textarea" type="text" {...inputProps}/>
       </div>
 
       <div styleName="icon">

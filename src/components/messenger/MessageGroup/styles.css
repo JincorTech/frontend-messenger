@@ -1,0 +1,52 @@
+@use postcss-short;
+
+.message-group {
+  padding-top: 10px;
+}
+
+.message {
+  cursor: text;
+  position: relative;
+  padding: 5px 40px 5px 100px;
+  transition: background-color ease-out 0.2s;
+
+  &:hover {
+    background-color: #f3f5f7;
+  }
+}
+
+.avatar {
+  position: absolute 5px * * 40px;
+  size: 44px;
+  user-select: none;
+}
+
+.content {
+  font-size: 14px/20px;
+  color: #222;
+}
+
+.favorite {
+  cursor: pointer;
+  position: absolute 10px 10px * *;
+  display: none;
+}
+
+.head {
+  position: relative;
+  margin-bottom: 5px;
+  display: inline-block;
+
+  &::after {
+    content: attr(data-timestamp);
+    margin-left: 5px;
+    font: normal 12px/19px Open Sans;
+    letter-spacing: -0.2px;
+    color: #9da0a4;
+  }
+}
+
+.name {
+  font: 600 14px/19px Open Sans;
+  color: #0070e0;
+}

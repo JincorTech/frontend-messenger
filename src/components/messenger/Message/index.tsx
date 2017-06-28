@@ -5,32 +5,35 @@ import './styles.css';
 import Icon from '../../common/Icon';
 
 /**
- * Type
+ * Types
  */
-export type Props = HTMLProps<HTMLDivElement> & {
-  date: string
+
+export type Props = {
+  timestamp: any // TODO
   content: string
-  favorite: boolean
-  unread: boolean
 };
 
 /**
  * Component
  */
+
 const Message: SFC<Props> = (props) => {
-  const { date, content, favorite, unread } = props;
+  const {
+    timestamp,
+    content
+  } = props;
 
   return (
-    <div styleName="message">
-      <span styleName="date">{date}</span>
-      <div styleName={unread ? 'unread' : 'content'}>
+    <div styleName="message" data-timestamp={timestamp}>
+      <div styleName="content">
         {content}
       </div>
-      {favorite
-        ? <Icon styleName="favorite" name="favorite-active"/>
-        : <Icon styleName="favorite" name="favorite"/>}
     </div>
   );
 };
+
+/**
+ * Export
+ */
 
 export default Message;

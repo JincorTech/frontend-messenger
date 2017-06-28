@@ -45,8 +45,15 @@ export type DispatchProps = {
 };
 
 /**
+ * Contants
+ */
+
+export const HEIGHT = 50;
+
+/**
  * Component
  */
+
 class AppLayout extends Component<Props, StateProps> {
   public componentDidMount(): void {
     this.props.fetchUser();
