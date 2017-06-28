@@ -3660,9 +3660,8 @@
     },
     "js-base64": {
       "version": "2.1.9",
-      "from": "js-base64@>=2.1.9 <3.0.0",
-      "resolved": "https://registry.npmjs.org/js-base64/-/js-base64-2.1.9.tgz",
-      "dev": true
+      "from": "https://registry.npmjs.org/js-base64/-/js-base64-2.1.9.tgz",
+      "resolved": "https://registry.npmjs.org/js-base64/-/js-base64-2.1.9.tgz"
     },
     "js-tokens": {
       "version": "3.0.1",
@@ -5425,6 +5424,11 @@
       "version": "5.0.5",
       "from": "react-redux@>=5.0.4 <6.0.0",
       "resolved": "https://registry.npmjs.org/react-redux/-/react-redux-5.0.5.tgz"
+    },
+    "react-redux-loading-bar": {
+      "version": "2.9.2",
+      "from": "react-redux-loading-bar@latest",
+      "resolved": "https://registry.npmjs.org/react-redux-loading-bar/-/react-redux-loading-bar-2.9.2.tgz"
     },
     "react-router-redux": {
       "version": "4.0.8",

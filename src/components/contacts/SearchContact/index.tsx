@@ -3,21 +3,22 @@ import { SFC } from 'react';
 
 import './styles.css';
 
+import {
+  User as UserProps,
+  AddContactReq as AddContactReqProps
+ } from '../../../redux/modules/contacts/newContact';
+
 import CardAvatar from '../../app/CardAvatar';
 
 /**
  * Types
  */
 
-export type Props = {
-  avatar: string
-  id: string
-  name: string
-  firstName: string
-  lastName: string
-  position: string
-  companyName: string
-  companyLogo: string
+export type Props = UserProps & DispatchProps;
+
+export type DispatchProps = {
+  onAddToContacts: (user: AddContactReqProps) => void
+  onRemoveFromContacts: (userId: string) => void
 };
 
 /**
@@ -31,9 +32,14 @@ const SearchContact: SFC<Props> = (props) => {
     name,
     firstName,
     lastName,
+    email,
     position,
     companyName,
-    companyLogo
+    companyLogo,
+    companyId,
+    added,
+    onAddToContacts,
+    onRemoveFromContacts
   } = props;
 
   return (
@@ -50,7 +56,9 @@ const SearchContact: SFC<Props> = (props) => {
         companyLogo={companyLogo}>
         <div styleName="buttons">
           <button type="button">Сообщение</button>
-          <button type="button">Добавить в контакты</button>
+          {added
+            ? <button type="button" onClick={() => onRemoveFromContacts(id)}>Удалить из контактов</button>
+            : <button type="button" onClick={() => onAddToContacts({ email, companyId })}>Добавить в контакты</button>}
           <button type="button">Заблокировать</button>
         </div>
       </CardAvatar>

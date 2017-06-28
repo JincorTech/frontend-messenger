@@ -9,24 +9,32 @@ import Icon from '../../common/Icon';
  * Types
  */
 export type Props = InputProps & JSX.IntrinsicClassAttributes<InputProps> & {
-  onRemove?: Function
+  value?: string
+  onRemove?: () => void
+  onChange?: (value: string) => void
+  hideRemoveIfValueEmpty?: boolean
 };
 
 /**
  * Component
  */
-const SearchInput: SFC<Props> = ({ onRemove, className, ...props}) => (
+const SearchInput: SFC<Props> = ({ onRemove, value, hideRemoveIfValueEmpty, className, ...props}) => (
   <div styleName="search">
     <Icon
       styleName="search-icon"
       name="search-light"/>
 
-    <Input styleName="search-field" className={className} {...props}/>
+    <Input styleName="search-field" value={value} className={className} {...props}/>
 
-    <div
-      styleName="clear-value"
-      onClick={() => onRemove()}/>
+    {!(hideRemoveIfValueEmpty && !Boolean(value.length))
+      && <div
+        styleName="clear-value"
+        onClick={() => onRemove()}/>}
   </div>
 );
+
+SearchInput.defaultProps = {
+  hideRemoveIfValueEmpty: false
+};
 
 export default SearchInput;

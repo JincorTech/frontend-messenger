@@ -33,8 +33,6 @@ const render = (Component: any) => {
 render(AppPreloader);
 
 matrix.on('sync', function(state, prevState, data) {
-  // console.log('MatrixClient sync state => %s', state);
-
   // render error component
   if (state === 'ERROR') {
     console.error(`SYNC ERROR ${state}`);

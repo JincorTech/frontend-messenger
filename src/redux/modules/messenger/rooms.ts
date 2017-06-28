@@ -9,13 +9,12 @@ export type State = StateObj & ImmutableObject<StateObj>;
 
 export type StateObj = {
   searchable: boolean
-  resultsVisible: boolean
-  list: any[]
-  searchResults: any[]
+  search: string
+  list: Room[]
 };
 
 export type Room = {
-  type: 'dialog' | 'group' | 'channel' | 'inquiry'
+  type: string
   id: string
   src?: string
   title: string
@@ -32,10 +31,14 @@ export type Room = {
 
 export const SHOW_SEARCH_INPUT = 'messenger/dialogs/SHOW_SEARCH_INPUT';
 export const HIDE_SEARCH_INPUT = 'messenger/dialogs/HIDE_SEARCH_INPUT';
-export const SHOW_SEARCH_RESULTS = 'messenger/dialogs/SHOW_SEARCH_RESULTS';
-export const HIDE_SEARCH_RESULTS = 'messenger/dialogs/HIDE_SEARCH_RESULTS';
+export const CHANGE_SEARCH_QUERY = 'messenger/dialogs/CHANGE_SEARCH_QUERY';
+export const RESET_SEARCH_QUERY = 'messenger/dialogs/RESET_SEARCH_QUERY';
 
 export const FETCH_ROOMS = 'messenger/dialogs/FETCH_ROOMS';
+
+export const OPEN_ROOM = 'messenger/dialogs/OPEN_ROOM';
+export const CREATE_ROOM = 'messenger/dialogs/CREATE_ROOM';
+export const SELECT_ROOM = 'messenger/dialogs/SELECT_ROOM';
 
 /**
  * Action creators
@@ -43,10 +46,14 @@ export const FETCH_ROOMS = 'messenger/dialogs/FETCH_ROOMS';
 
 export const showSearchInput = createAction<void>(SHOW_SEARCH_INPUT);
 export const hideSearchInput = createAction<void>(HIDE_SEARCH_INPUT);
-export const showSearchResults = createAction<void>(SHOW_SEARCH_RESULTS);
-export const hideSearchResults = createAction<void>(HIDE_SEARCH_RESULTS);
+export const changeSearchQuery = createAction<string>(CHANGE_SEARCH_QUERY);
+export const resetSearchQuery = createAction<void>(RESET_SEARCH_QUERY);
 
-export const fetchRooms = createAsyncAction<void, void>(FETCH_ROOMS);
+export const fetchRooms = createAsyncAction<void, Room[]>(FETCH_ROOMS);
+
+export const openRoom = createAsyncAction<any, any>(OPEN_ROOM);
+export const createRoom = createAsyncAction<any, any>(CREATE_ROOM);
+export const selectRoom = createAsyncAction<any, any>(SELECT_ROOM);
 
 /**
  * Reducer
@@ -54,9 +61,8 @@ export const fetchRooms = createAsyncAction<void, void>(FETCH_ROOMS);
 
 const initialState: State = from<StateObj>({
   searchable: false,
-  resultsVisible: false,
-  list: [],
-  searchResults: []
+  search: '',
+  list: []
 });
 
 // Потом здесь нужно отчистить resultsVisible.
@@ -65,22 +71,22 @@ const initialState: State = from<StateObj>({
 
 export default createReducer<State>({
   [SHOW_SEARCH_INPUT]: (state: State): State => (
-    state.merge({ searchable: true, resultsVisible: true })
+    state.merge({ searchable: true })
   ),
 
   [HIDE_SEARCH_INPUT]: (state: State): State => (
-    state.merge({ searchable: false, resultsVisible: false })
+    state.merge({ searchable: false })
   ),
 
-  [SHOW_SEARCH_RESULTS]: (state: State): State => (
-    state.merge({ resultsVisible: true })
+  [CHANGE_SEARCH_QUERY]: (state: State, { payload }: Action<string>): State => (
+    state.merge({ search: payload })
   ),
 
-  [HIDE_SEARCH_RESULTS]: (state: State): State => (
-    state.merge({ resultsVisible: false })
+  [RESET_SEARCH_QUERY]: (state: State): State => (
+    state.merge({ search: '', searchable: false })
   ),
 
-  [fetchRooms.SUCCESS]: (state: State, { payload }: Action<string>): State => (
+  [fetchRooms.SUCCESS]: (state: State, { payload }: Action<Room[]>): State => (
     state.merge({ list: payload })
   )
 }, initialState);

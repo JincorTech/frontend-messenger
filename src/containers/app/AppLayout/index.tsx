@@ -18,7 +18,8 @@ import UserAvatar from '../../../components/app/UserAvatar';
 import Sidebar from '../../../components/app/Sidebar';
 import PageName from '../../../components/app/PageName';
 import ProfileCard from '../ProfileCard';
-
+import ContactsPopup from '../../contacts/ContactsPopup';
+import NewContactPopup from '../../contacts/NewContactPopup';
 import Messenger from '../../messenger/Messenger';
 
 /**
@@ -53,8 +54,12 @@ class AppLayout extends Component<Props, StateProps> {
 
   render() {
     const { sidebarOpen, user, isAuth } = this.props;
-    const { openSidebar, closeSidebar, openProfileCard } = this.props;
     const { id, profile } = user;
+    const {
+      openSidebar,
+      closeSidebar,
+      openProfileCard
+    } = this.props;
 
     return (
       <div styleName="app-layout">
@@ -91,6 +96,8 @@ class AppLayout extends Component<Props, StateProps> {
         </section>
 
         <ProfileCard user={user}/>
+        <ContactsPopup/>
+        <NewContactPopup/>
       </div>
     );
   }

@@ -3,45 +3,31 @@
 import { SagaIterator } from 'redux-saga';
 import { all, takeLatest, call, fork } from 'redux-saga/effects';
 
-import { START_MATRIX } from '../../redux/modules/messenger/messenger';
-// import matrix from '../../utils/matrix';
+// import { Action } from '../../utils/actions';
+
+import { SEND_TEST_MESSAGE } from '../../redux/modules/messenger/messenger';
+import matrix from '../../utils/matrix';
 
 /**
- * Start matrix saga
+ * Send test message
  */
 
-function* startMatrixIterator() {
+function* sendMessageIterator(): SagaIterator {
   try {
-    // yield call([matrixClient, matrixClient.store.startup]);
+    // yield call([matrix, matrix.sendTextMessage], '!yJBNZGcnZjzVkJoveo:jincor.com', 'JS - сила, PHP - могила');
+    const test = yield call([matrix, matrix.getRoom], '!yJBNZGcnZjzVkJoveo');
+    yield call(console.log, test);
   } catch (e) {
-    yield call(console.log, e);
-  } finally {
-    // yield call(matrixClient.startClient, opts);
+    yield call(console.error, e);
   }
 }
 
-function* startMatrixSaga() {
+function* sendMessageSaga(): SagaIterator {
   yield takeLatest(
-    START_MATRIX,
-    startMatrixIterator
+    SEND_TEST_MESSAGE,
+    sendMessageIterator
   );
 }
-
-/**
- * Test
- */
-
-// export const subscribe = matrix => eventChannel((emit) => {
-//   matrix.on('sync', () => matrix.getRooms());
-// });
-
-// function* flow(): SagaIterator {
-//   try {
-//     yield call(console.log, 'success');
-//   } catch (e) {
-//     yield call(console.log, e);
-//   }
-// }
 
 /**
  * Export
@@ -49,6 +35,6 @@ function* startMatrixSaga() {
 
 export default function*(): SagaIterator {
   yield all([
-    fork(startMatrixSaga)
+    fork(sendMessageSaga)
   ]);
 }

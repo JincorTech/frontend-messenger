@@ -1,17 +1,19 @@
 import * as React from 'react';
 import { SFC } from 'react';
 
+import { Room as RoomProps } from '../../../redux/modules/messenger/rooms';
+
 import Room from '../Room';
+
+import { filterContacts } from '../../../helpers/contacts/filter';
 
 /**
  * Types
  */
 
 export type Props = {
-  searchable: boolean
-  resultsVisible: boolean
-  list: any[]
-  searchResults: any[]
+  list: RoomProps[]
+  search: string
 };
 
 /**
@@ -20,12 +22,15 @@ export type Props = {
 
 const RoomsList: SFC<Props> = (props) => {
   const {
-    list
+    list,
+    search
   } = props;
+
+  const filteredList = filterContacts(list, search, ['title', 'preview']);
 
   return (
     <div>
-      {list.map((room) => <Room key={room.id} {...room}/>)}
+      {filteredList.map((room) => <Room key={room.id} {...room}/>)}
     </div>
   );
 };

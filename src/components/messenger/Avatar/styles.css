@@ -2,12 +2,16 @@
 @use postcss-inline-svg;
 
 .avatar {
-  size: 60px;
   border-radius: 4px;
   display: block;
   cursor: default;
   font: 600 20px/60px Open Sans;
   letter-spacing: -0.3px;
+
+  & img {
+    size: 100%;
+    border-radius: 4px;
+  }
 }
 
 .empty-dialog {

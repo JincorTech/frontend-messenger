@@ -9,10 +9,11 @@ import './styles.css';
  */
 
 export type Props = HTMLProps<HTMLDivElement> & {
-  type: 'dialog' | 'group' | 'channel' | 'inquiry'
+  type: string
   src: string
   fullName?: string
   id: string
+  size?: number
 };
 
 /**
@@ -25,7 +26,7 @@ const RoomAvatar: SFC<Props> = (props) => {
     src,
     fullName,
     id,
-    className
+    size
   } = props;
 
   const empty = () => {
@@ -48,8 +49,14 @@ const RoomAvatar: SFC<Props> = (props) => {
     }
   };
 
+  const avatarStyle = Object.assign({
+    width: `${size}px`,
+    height: `${size}px`,
+    lineHeight: `${size}px`
+  }, getBackgroundColor(id));
+
   return (
-    <div styleName="avatar" style={getBackgroundColor(id)} className={className}>
+    <div styleName="avatar" style={avatarStyle}>
       {src
         ? <img src={src}/>
         : empty()}
@@ -59,7 +66,8 @@ const RoomAvatar: SFC<Props> = (props) => {
 
 RoomAvatar.defaultProps = {
   type: 'dialog',
-  fullName: ''
+  fullName: '',
+  size: 60
 };
 
 /**
