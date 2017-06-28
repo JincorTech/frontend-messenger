@@ -1,0 +1,44 @@
+@use postcss-short;
+@use postcss-inline-svg;
+
+.wrapper {
+  height: 90px;
+  background-color: #fff;
+  padding: 5px 0 40px 58px;
+}
+
+.icon {
+  display: inline-block;
+  size: 40px;
+  padding: 9px;
+}
+
+.input {
+  display: inline-block;
+  size: 550px 40px;
+}
+
+.textarea {
+  width: 100%;
+  border: 2px solid #dbdfe4;
+  border-radius: 6px;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 8px 10px;
+  font: normal 14px Open Sans;
+  outline: none;
+}
+
+.add {
+  background-color: transparent;
+  size: 22px;
+  cursor: pointer;
+  background-image: svg-load('./svg/add.svg');
+}
+
+.smile {
+  background-color: transparent;
+  size: 22px;
+  cursor: pointer;
+  background-image: svg-load('./svg/smile.svg');
+}
