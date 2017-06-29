@@ -7,7 +7,9 @@ import './styles.css';
  * Types
  */
 
-export type Props = {};
+export type Props = {
+  sendMessage: () => void
+};
 
 /**
  * Constants
@@ -20,7 +22,7 @@ export const HEIGHT = 90;
  */
 
 const Textarea = (props) => {
-  const { ...inputProps } = props;
+  const { sendMessage, ...inputProps } = props;
 
   return (
     <div styleName="wrapper">
@@ -29,7 +31,9 @@ const Textarea = (props) => {
       </div>
 
       <div styleName="input">
-        <input styleName="textarea" type="text" {...inputProps}/>
+        <form onSubmit={(e) => sendMessage(e)}>
+          <input styleName="textarea" type="text" {...inputProps}/>
+        </form>
       </div>
 
       <div styleName="icon">
