@@ -12,7 +12,11 @@ import Avatar from '../Avatar';
  * Types
  */
 
-export type Props = HTMLProps<HTMLDivElement> & RoomProps;
+export type Props = HTMLProps<HTMLDivElement> & RoomProps & DispatchProps;
+
+export type DispatchProps = {
+  openRoom: (roomId: string) => void
+};
 
 /**
  * Component
@@ -31,11 +35,12 @@ const Room: SFC<Props> = (props) => {
     unreadIn,
     unreadOut,
     last,
-    preview
+    preview,
+    openRoom
   } = props;
 
   return (
-    <div styleName="dialog">
+    <div styleName="dialog" onClick={() => openRoom(id)}>
       <div styleName="avatar">
         <Avatar type={type} src={src} fullName={title} id={id}/>
       </div>

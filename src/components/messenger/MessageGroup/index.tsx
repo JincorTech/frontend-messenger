@@ -1,10 +1,11 @@
 import * as React from 'react';
 import { SFC } from 'react';
+import { format } from 'date-fns';
 
 import './styles.css';
 
 import Avatar from '../Avatar';
-import Message, { Props as MessageProps } from '../Message';
+import { Props as MessageProps } from '../Message';
 
 /**
  * Types
@@ -15,7 +16,7 @@ export type Props = {
   avatar: string
   fullName: string
   firstName: string
-  messages: MessageProps[]
+  message: MessageProps
 };
 
 /**
@@ -28,11 +29,12 @@ const MessageGroup: SFC<Props> = (props) => {
     avatar,
     fullName,
     firstName,
-    messages
+    message
   } = props;
 
-  const [firstMsg, ...msgs] = messages;
-  const { timestamp, content } = firstMsg;
+  // const [firstMsg, ...msgs] = messages;
+  // const { timestamp, content } = firstMsg;
+  const { timestamp, content } = message;
 
   return (
     <div styleName="message-group">
@@ -45,7 +47,7 @@ const MessageGroup: SFC<Props> = (props) => {
             fullName={fullName}/>
         </div>
 
-        <div styleName="head" data-timestamp={timestamp}>
+        <div styleName="head" data-timestamp={format(timestamp, 'HH:mm')}>
           <b styleName="name">{firstName}</b>
         </div>
 
@@ -54,9 +56,9 @@ const MessageGroup: SFC<Props> = (props) => {
         </div>
       </div>
 
-      {msgs.map((msg, i) => (
+      {/*{msgs.map((msg, i) => (
         <Message key={i} {...msg}/>
-      ))}
+      ))}*/}
     </div>
   );
 };
