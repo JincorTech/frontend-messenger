@@ -1,0 +1,40 @@
+@use postcss-short;
+@use postcss-clearfix;
+@use postcss-center;
+
+.header {
+  height: 65px;
+  clear: fix;
+  position: relative;
+}
+
+.pull-left {
+  width: 600px;
+  padding-left: 40px;
+  top: center;
+}
+
+.name {
+  size: 159px 17px;
+  background-color: #fbfbfb;
+  margin-bottom: 5px;
+}
+
+.position {
+  size: 205px 17px;
+  background-color: #fbfbfb;
+}
+
+.pull-right {
+  width: 80px;
+  float: right;
+  top: center;
+  right: 0;
+}
+
+.button-mock {
+  display: inline-block;
+  size: 25px;
+  margin: 0 7px;
+  background-color: #fbfbfb;
+}
