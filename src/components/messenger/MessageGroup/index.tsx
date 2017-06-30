@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { SFC } from 'react';
-import { format } from 'date-fns';
+
+import { ts } from '../../../utils/timestamp';
 
 import './styles.css';
 
@@ -47,7 +48,7 @@ const MessageGroup: SFC<Props> = (props) => {
             fullName={fullName}/>
         </div>
 
-        <div styleName="head" data-timestamp={format(timestamp, 'HH:mm')}>
+        <div styleName="head" data-timestamp={ts(timestamp)}>
           <b styleName="name">{firstName}</b>
         </div>
 

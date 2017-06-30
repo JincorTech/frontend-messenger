@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { SFC, HTMLProps } from 'react';
-import { format } from 'date-fns';
+
+import { ts } from '../../../utils/timestamp';
 
 import './styles.css';
 
@@ -21,9 +22,6 @@ export type DispatchProps = {
 /**
  * Component
  */
-
-// console.log preview overflow
-// maxchars - preview.len + last.len + 2;
 
 const Room: SFC<Props> = (props) => {
   const {
@@ -64,7 +62,7 @@ const Room: SFC<Props> = (props) => {
 
       <span styleName="date">
         {unreadOut && <div styleName="unread"/>}
-        {format(timestamp, 'HH:mm')}
+        {ts(timestamp)}
       </span>
     </div>
   );
