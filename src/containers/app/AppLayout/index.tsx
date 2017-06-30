@@ -83,7 +83,7 @@ class AppLayout extends Component<Props, StateProps> {
 
               <PageName
                 styleName="module-name"
-                pathname="Messanger"/>
+                pathname="Messenger"/>
             </div>
 
             <UserAvatar
