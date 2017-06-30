@@ -39,6 +39,10 @@ const Room: SFC<Props> = (props) => {
     openRoom
   } = props;
 
+  const maxchars = 70;
+  const previewlen = maxchars - last.length;
+  const previewSubstring = preview.length < previewlen ? preview : `${preview.substring(0, previewlen)}...`;
+
   return (
     <div styleName="dialog" onClick={() => openRoom(id)}>
       <div styleName="avatar">
@@ -51,7 +55,7 @@ const Room: SFC<Props> = (props) => {
         <div styleName="preview">
           <p styleName="message">
             {last && <span styleName="you">{last}:</span>}
-            {preview}
+            {previewSubstring}
           </p>
         </div>
       </div>
