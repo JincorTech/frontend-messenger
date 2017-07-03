@@ -32,7 +32,7 @@ const render = (Component: any) => {
 // render preloader until matrix load
 render(AppPreloader);
 
-matrix.on('sync', function(state, prevState, data) {
+matrix.on('sync', (state, prevState, data) => {
   // render error component
   if (state === 'ERROR') {
     console.error(`SYNC ERROR ${state}`);

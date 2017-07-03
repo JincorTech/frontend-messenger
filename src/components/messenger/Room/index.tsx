@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { SFC, HTMLProps } from 'react';
-import { format } from 'date-fns';
+
+import { ts } from '../../../utils/timestamp';
 
 import './styles.css';
 
@@ -22,9 +23,6 @@ export type DispatchProps = {
  * Component
  */
 
-// console.log preview overflow
-// maxchars - preview.len + last.len + 2;
-
 const Room: SFC<Props> = (props) => {
   const {
     id,
@@ -39,6 +37,10 @@ const Room: SFC<Props> = (props) => {
     openRoom
   } = props;
 
+  const maxchars = 70;
+  const previewlen = maxchars - last.length;
+  const previewSubstring = preview.length < previewlen ? preview : `${preview.substring(0, previewlen)}...`;
+
   return (
     <div styleName="dialog" onClick={() => openRoom(id)}>
       <div styleName="avatar">
@@ -51,7 +53,7 @@ const Room: SFC<Props> = (props) => {
         <div styleName="preview">
           <p styleName="message">
             {last && <span styleName="you">{last}:</span>}
-            {preview}
+            {previewSubstring}
           </p>
         </div>
       </div>
@@ -60,7 +62,7 @@ const Room: SFC<Props> = (props) => {
 
       <span styleName="date">
         {unreadOut && <div styleName="unread"/>}
-        {format(timestamp, 'HH:mm')}
+        {ts(timestamp)}
       </span>
     </div>
   );

@@ -3,8 +3,6 @@
 
 .logo {
   display: inline-block;
-  size: 60px 16px;
-  background: svg-load('./svg/jincor.svg');
-  background-size: contain;
-  background-repeat: no-repeat;
+  size: 89px 38px;
+  background: svg-load('./svg/logo.svg') center 1px no-repeat;
 }
