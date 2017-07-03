@@ -17,9 +17,7 @@ import {
 
 import Scrollbars from 'react-custom-scrollbars';
 import Rooms from '../Rooms';
-import MessagesHeader, { HEIGHT as MESSAGES_HEADER_HEIGHT } from '../../../components/messenger/MessagesHeader';
-import Textarea, { HEIGHT as TEXTAREA_HEIGHT } from '../../../components/messenger/Textarea';
-import MessageGroup from '../../../components/messenger/MessageGroup';
+import MessagesArea from '../../../components/messenger/MessagesArea';
 import { HEIGHT as LAYOUT_HEADER_HEIGHT } from '../../app/AppLayout';
 
 /**
@@ -40,14 +38,10 @@ export type DispatchProps = {
  */
 
 class Messenger extends Component<Props, StateProps> {
-  private scrollbars: Scrollbars;
-
   constructor(props) {
     super(props);
 
     this.updateDimensions = this.updateDimensions.bind(this);
-    this.sendMessage = this.sendMessage.bind(this);
-    this.scrollDown = this.scrollDown.bind(this);
   }
 
   public componentWillMount(): void {
@@ -56,7 +50,6 @@ class Messenger extends Component<Props, StateProps> {
 
   public componentDidMount(): void {
     window.addEventListener('resize', this.updateDimensions);
-    this.scrollbars.scrollToBottom();
 
     matrix.on('event', (event) => {
       if (event.getType() === 'm.room.message') {
@@ -69,37 +62,12 @@ class Messenger extends Component<Props, StateProps> {
     window.removeEventListener('resize', this.updateDimensions);
   }
 
-  public componentDidUpdate(prevProps): void {
-    if (!equal(prevProps.messages, this.props.messages)) {
-      this.scrollbars.scrollToBottom();
-      console.log('updated');
-    }
-  }
-
   private updateDimensions(): void {
     this.props.updateDemensions(window.innerHeight - LAYOUT_HEADER_HEIGHT);
   }
 
-  private sendMessage(e): void {
-    e.preventDefault();
-    this.props.sendMessage();
-  }
-
-  private scrollDown(): void {
-    this.scrollbars.scrollToBottom();
-  }
-
   public render(): JSX.Element {
-    const {
-      height,
-      members,
-      messages,
-      openedRoom,
-      changeTextarea,
-      textarea
-     } = this.props;
-
-    const messagesAreaHeight = height - MESSAGES_HEADER_HEIGHT - TEXTAREA_HEIGHT;
+    const { height } = this.props;
 
     return (
       <div styleName="messenger">
@@ -108,25 +76,7 @@ class Messenger extends Component<Props, StateProps> {
         </div>
 
         <div styleName="messages-wrapper">
-          <MessagesHeader {...openedRoom}/>
-
-          <Scrollbars autoHide ref={(scrollbars) => { this.scrollbars = scrollbars; }} style={{height: messagesAreaHeight}}>
-            {messages.map(({ sender, timestamp, content }, i) => (
-              <MessageGroup
-                key={timestamp}
-                id={members[sender].id}
-                avatar={members[sender].avatar}
-                firstName={members[sender].firstName}
-                fullName={members[sender].name}
-                message={{ timestamp, content }}/>
-            ))}
-          </Scrollbars>
-
-          <Textarea
-            placeholder="Написать сообщение..."
-            sendMessage={this.sendMessage}
-            onChange={(e) => changeTextarea(e.target.value)}
-            value={textarea}/>
+          <MessagesArea height={height} {...this.props}/>
         </div>
       </div>
     );
