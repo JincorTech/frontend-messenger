@@ -1,0 +1,17 @@
+@use postcss-short;
+@use postcss-center;
+
+.mock-wrap {
+  size: 100%;
+  position: relative;
+}
+
+.mock {
+  top: center;
+  left: center;
+  font: normal 18px Open Sans;
+  text-align: center;
+  color: #333;
+  user-select: none;
+  cursor: default;
+}
