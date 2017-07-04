@@ -6,5 +6,13 @@ services:
       context: .
       dockerfile: Dockerfile
     volumes: 
-      - ./dist:/usr/src/app/dist  
+      - ./:/usr/src/messenger
     command: npm run build
+
+  nginx:
+     image: registry.jincor.com/frontend/nginx:latest
+     volumes:
+       - ./dist:/var/apps/msg
+     ports:
+        - 80:80
+        - 443:443
