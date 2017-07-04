@@ -26,6 +26,7 @@ export type Props = {
   onChangeSearchQuery: (query: string) => void
   onAddToContacts: (request: AddContactReqProps) => void
   onRemoveFromContacts: (userId: string) => void
+  onOpenRoom: (matrixId: string) => void
 };
 
 /**
@@ -41,7 +42,8 @@ const NewContact: SFC<Props> = (props) => {
     onBackFromFirstStep,
     onChangeSearchQuery,
     onAddToContacts,
-    onRemoveFromContacts
+    onRemoveFromContacts,
+    onOpenRoom
   } = props;
 
   const renderComponent = (step) => {
@@ -78,7 +80,8 @@ const NewContact: SFC<Props> = (props) => {
               key={c.id}
               {...c}
               onAddToContacts={onAddToContacts}
-              onRemoveFromContacts={onRemoveFromContacts}/>)}
+              onRemoveFromContacts={onRemoveFromContacts}
+              onOpenRoom={onOpenRoom}/>)}
           </div>
         );
 

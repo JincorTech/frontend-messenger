@@ -9,10 +9,10 @@ import {
   closeContacts,
   closeAndOpenNewContact,
   changeSearchQuery,
-  resetSearchQuery
+  resetSearchQuery,
+  selectRoomAndCloseContacts
 } from '../../../redux/modules/contacts/contacts';
 import { removeContact } from '../../../redux/modules/contacts/newContact';
-import { openRoom } from '../../../redux/modules/messenger/rooms';
 
 import FullscreenPopup from '../../../components/common/FullscreenPopup';
 import Contacts from '../../../components/contacts/Contacts';
@@ -30,7 +30,7 @@ export type DispatchProps = {
   removeContact: (userId: string) => void
   changeSearchQuery: (value: string) => void
   resetSearchQuery: () => void
-  openRoom: (matrixId: string) => void
+  selectRoomAndCloseContacts: (matrixId: string) => void
 };
 
 /**
@@ -63,7 +63,7 @@ class ContactsPopup extends Component<Props, {}> {
       closeAndOpenNewContact,
       changeSearchQuery,
       resetSearchQuery,
-      openRoom
+      selectRoomAndCloseContacts
      } = this.props;
 
     return (
@@ -78,7 +78,7 @@ class ContactsPopup extends Component<Props, {}> {
           search={search}
           onClickNewContact={closeAndOpenNewContact}
           removeContact={this.onRemoveContact}
-          onContactClick={openRoom}
+          onContactClick={selectRoomAndCloseContacts}
           onChangeSearchQuery={changeSearchQuery}
           onResetSearchQuery={resetSearchQuery}/>
 
@@ -100,6 +100,6 @@ export default connect<StateProps, DispatchProps, {}>(
     removeContact,
     changeSearchQuery,
     resetSearchQuery,
-    openRoom
+    selectRoomAndCloseContacts
   }
 )(ContactsPopup);

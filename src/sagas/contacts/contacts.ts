@@ -1,18 +1,21 @@
 import { SagaIterator } from 'redux-saga';
 import { all, takeLatest, takeEvery, call, put, fork } from 'redux-saga/effects';
+import { Action } from '../../utils/actions';
 
 import { get } from '../../utils/api';
 
 import {
   fetchContacts,
   closeContacts,
-  CLOSE_AND_OPEN_NEW_CONTACT
+  CLOSE_AND_OPEN_NEW_CONTACT,
+  SELECT_ROOM_AND_CLOSE_CONTACTS
 } from '../../redux/modules/contacts/contacts';
 import {
   openNewContact,
   addContact,
   removeContact
 } from '../../redux/modules/contacts/newContact';
+import { selectRoom } from '../../redux/modules/messenger/rooms';
 
 /**
  * Fetch contacts
@@ -65,12 +68,33 @@ function* closeAndOpenNewContactSaga(): SagaIterator {
 }
 
 /**
+ * Select room and close contacts saga
+ */
+
+function* selectRoomAndCloseContactsIterator({ payload }: Action<string>): SagaIterator {
+  try {
+    yield put(selectRoom(payload));
+    yield put(closeContacts());
+  } catch (e) {
+    yield call(console.error, e);
+  }
+}
+
+function* selectRoomAndCloseContactsSaga(): SagaIterator {
+  yield takeLatest(
+    SELECT_ROOM_AND_CLOSE_CONTACTS,
+    selectRoomAndCloseContactsIterator
+  );
+}
+
+/**
  * Export
  */
 
 export default function*(): SagaIterator {
   yield all([
     fork(fetchContactsSaga),
-    fork(closeAndOpenNewContactSaga)
+    fork(closeAndOpenNewContactSaga),
+    fork(selectRoomAndCloseContactsSaga)
   ]);
 }

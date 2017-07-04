@@ -19,6 +19,7 @@ export type Props = UserProps & DispatchProps;
 export type DispatchProps = {
   onAddToContacts: (user: AddContactReqProps) => void
   onRemoveFromContacts: (userId: string) => void
+  onOpenRoom: (matrixId: string) => void
 };
 
 /**
@@ -29,6 +30,7 @@ const SearchContact: SFC<Props> = (props) => {
   const {
     avatar,
     id,
+    matrixId,
     name,
     firstName,
     lastName,
@@ -39,7 +41,8 @@ const SearchContact: SFC<Props> = (props) => {
     companyId,
     added,
     onAddToContacts,
-    onRemoveFromContacts
+    onRemoveFromContacts,
+    onOpenRoom
   } = props;
 
   return (
@@ -55,7 +58,7 @@ const SearchContact: SFC<Props> = (props) => {
         companyName={companyName}
         companyLogo={companyLogo}>
         <div styleName="buttons">
-          <button type="button">Сообщение</button>
+          <button type="button" onClick={() => onOpenRoom(matrixId)}>Сообщение</button>
           {added
             ? <button type="button" onClick={() => onRemoveFromContacts(id)}>Удалить из контактов</button>
             : <button type="button" onClick={() => onAddToContacts({ email, companyId })}>Добавить в контакты</button>}

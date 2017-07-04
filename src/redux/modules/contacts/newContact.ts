@@ -68,6 +68,8 @@ export const SEARCH_NEW_CONTACT = 'contacts/newContact/SEARCH_NEW_CONTACT';
 export const ADD_CONTACT = 'contacts/newContact/ADD_CONTACT';
 export const REMOVE_CONTACT = 'contacts/newContact/REMOVE_CONTACT';
 
+export const SELECT_ROOM_AND_CLOSE_NEW_CONTACT = 'contacts/newContact/SELECT_ROOM_AND_CLOSE_NEW_CONTACT';
+
 /**
  * Action creators
  */
@@ -80,6 +82,8 @@ export const changeSearchQuery = createAction<string>(CHANGE_SEARCH_QUERY);
 export const searchNewContact = createAsyncAction<string, Response>(SEARCH_NEW_CONTACT);
 export const addContact = createAsyncAction<AddContactReq, string>(ADD_CONTACT);
 export const removeContact = createAsyncAction<string, string>(REMOVE_CONTACT);
+
+export const selectRoomAndCloseNewContact = createAction<void>(SELECT_ROOM_AND_CLOSE_NEW_CONTACT);
 
 /**
  * Reducer
