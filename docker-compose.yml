@@ -1,7 +1,8 @@
 version: '3'
 services:
 
-  frontend:
+  messenger:
+    image: registry.jincor.com/frontend/messenger:latest
     build:
       context: .
       dockerfile: Dockerfile
