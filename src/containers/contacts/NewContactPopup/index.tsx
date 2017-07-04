@@ -12,7 +12,8 @@ import {
   closeNewContact,
   changeSearchQuery,
   addContact,
-  removeContact
+  removeContact,
+  selectRoomAndCloseNewContact
 } from '../../../redux/modules/contacts/newContact';
 
 import FullscreenPopup from '../../../components/common/FullscreenPopup';
@@ -32,6 +33,7 @@ export type DispatchProps = {
   changeSearchQuery: (query: string) => void
   addContact: (user: AddContactReqProps) => void
   removeContact: (userId: string) => void
+  selectRoomAndCloseNewContact: (matrixId: string) => void
 };
 
 /**
@@ -50,7 +52,8 @@ class NewContactPopup extends Component<Props, {}> {
       closeAndOpenContacts,
       changeSearchQuery,
       addContact,
-      removeContact
+      removeContact,
+      selectRoomAndCloseNewContact
     } = this.props;
 
     return (
@@ -67,7 +70,8 @@ class NewContactPopup extends Component<Props, {}> {
           onBackFromFirstStep={closeAndOpenContacts}
           onChangeSearchQuery={changeSearchQuery}
           onAddToContacts={addContact}
-          onRemoveFromContacts={removeContact}/>
+          onRemoveFromContacts={removeContact}
+          onOpenRoom={selectRoomAndCloseNewContact}/>
 
       </FullscreenPopup>
     );
@@ -88,6 +92,7 @@ export default connect<StateProps, DispatchProps, {}>(
     closeAndOpenContacts,
     changeSearchQuery,
     addContact,
-    removeContact
+    removeContact,
+    selectRoomAndCloseNewContact
   }
 )(NewContactPopup);

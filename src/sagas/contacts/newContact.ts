@@ -16,8 +16,10 @@ import {
   CHANGE_SEARCH_QUERY,
   changeStep,
   addContact,
-  removeContact
+  removeContact,
+  SELECT_ROOM_AND_CLOSE_NEW_CONTACT
 } from '../../redux/modules/contacts/newContact';
+import { selectRoom } from '../../redux/modules/messenger/rooms';
 import { showLoading, hideLoading, resetLoading } from 'react-redux-loading-bar';
 
 /**
@@ -123,6 +125,26 @@ function* removeContactSaga(): SagaIterator {
 }
 
 /**
+ * Select room and close new contact popup saga
+ */
+
+function* selectRoomAndCloseNewContactIterator({ payload }: Action<string>): SagaIterator {
+  try {
+    yield put(selectRoom(payload));
+    yield put(closeNewContact());
+  } catch (e) {
+    yield call(console.error, e);
+  }
+}
+
+function* selectRoomAndCloseNewContactSaga(): SagaIterator {
+  yield takeLatest(
+    SELECT_ROOM_AND_CLOSE_NEW_CONTACT,
+    selectRoomAndCloseNewContactIterator
+  );
+}
+
+/**
  * Export
  */
 
@@ -131,6 +153,7 @@ export default function*(): SagaIterator {
     fork(backSaga),
     fork(searchNewContactSaga),
     fork(addContactSaga),
-    fork(removeContactSaga)
+    fork(removeContactSaga),
+    fork(selectRoomAndCloseNewContactSaga)
   ]);
 }

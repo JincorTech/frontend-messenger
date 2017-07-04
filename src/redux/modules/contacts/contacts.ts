@@ -58,6 +58,8 @@ export const REMOVE_CONTACT = 'contacts/contacts/REMOVE_CONTACT';
 export const CHANGE_SEARCH_QUERY = 'contacts/contacts/CHANGE_SEARCH_QUERY';
 export const RESET_SEARCH_QUERY = 'contacts/contacts/RESET_SEARCH_QUERY';
 
+export const SELECT_ROOM_AND_CLOSE_CONTACTS = 'contacts/contacts/SELECT_ROOM_AND_CLOSE_CONTACTS';
+
 /**
  * Action creators
  */
@@ -69,6 +71,8 @@ export const fetchContacts = createAsyncAction<void, Response>(FETCH_CONTACTS);
 export const removeContact = createAsyncAction<string, void>(REMOVE_CONTACT);
 export const changeSearchQuery = createAction<string>(CHANGE_SEARCH_QUERY);
 export const resetSearchQuery = createAction<void>(RESET_SEARCH_QUERY);
+
+export const selectRoomAndCloseContacts = createAction<void>(SELECT_ROOM_AND_CLOSE_CONTACTS);
 
 /**
  * Reducer

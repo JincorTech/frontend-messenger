@@ -8,11 +8,10 @@ import { Action } from '../../utils/actions';
 import {
   fetchRooms,
   createRoom,
-  openRoom
-  // selectRoom
+  selectRoom
 } from '../../redux/modules/messenger/rooms';
+import { openRoom } from '../../redux/modules/messenger/messenger';
 
-// import { createRooms } from '../../helpers/matrix';
 import { getAnotherGuyId, createRooms, addDomain } from '../../helpers/matrix';
 
 /**
@@ -44,27 +43,27 @@ function* fetchRoomsSaga(): SagaIterator {
 }
 
 /**
- * Open room saga
+ * Select room saga
  */
 
-function* openRoomIterator({ payload }: Action<string>): SagaIterator {
+function* selectRoomIterator({ payload }: Action<string>): SagaIterator {
   const userId = matrix.credentials.userId;
   const domain = yield call([matrix, matrix.getDomain]);
   const alias = yield call(createAlias, userId, payload, domain);
 
   try {
-    yield call([matrix, matrix.getRoomIdForAlias], alias);
-    yield call(console.log, 'room exist...');
+    const room = yield call([matrix, matrix.getRoomIdForAlias], alias);
+    yield put(openRoom(room.room_id));
   } catch (e) {
     yield call(console.log, 'creating room...');
     yield put(createRoom(payload));
   }
 }
 
-function* openRoomSaga(): SagaIterator {
+function* selectRoomSaga(): SagaIterator {
   yield takeLatest(
-    openRoom.REQUEST,
-    openRoomIterator
+    selectRoom.REQUEST,
+    selectRoomIterator
   );
 }
 
@@ -114,17 +113,13 @@ function* createRoomSaga(): SagaIterator {
 }
 
 /**
- * Select room saga
- */
-
-/**
  * Export
  */
 
 export default function*(): SagaIterator {
   yield all([
     fork(fetchRoomsSaga),
-    fork(openRoomSaga),
+    fork(selectRoomSaga),
     fork(createRoomSaga)
   ]);
 }
