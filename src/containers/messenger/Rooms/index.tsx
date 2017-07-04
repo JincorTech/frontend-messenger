@@ -15,9 +15,10 @@ import {
   fetchRooms
 } from '../../../redux/modules/messenger/rooms';
 import { openContacts } from '../../../redux/modules/contacts/contacts';
+import { openRoom } from '../../../redux/modules/messenger/messenger';
 
 import Scrollbars from 'react-custom-scrollbars';
-import RoomsHeader from '../../../components/messenger/RoomsHeader';
+import RoomsHeader, { HEIGHT as ROOM_HEADER_HEIGHT } from '../../../components/messenger/RoomsHeader';
 import RoomsList from '../../../components/messenger/RoomsList';
 
 /**
@@ -37,6 +38,7 @@ export type DispatchProps = {
   resetSearchQuery: () => void
   openContacts: () => void
   fetchRooms: () => void
+  openRoom: (roomId: string) => void
 };
 
 /**
@@ -48,7 +50,11 @@ class Rooms extends Component<Props, StateProps> {
     this.props.fetchRooms();
     matrix.on('Room', () => this.props.fetchRooms());
     matrix.on('RoomState.events', () => this.props.fetchRooms());
-    matrix.on('Room.timeline', () => this.props.fetchRooms());
+    matrix.on('event', (event) => {
+      if (event.getType() === 'm.room.message') {
+        this.props.fetchRooms();
+      }
+    });
 
     // auto join room
     matrix.on('RoomMember.membership', (event, member) => {
@@ -68,10 +74,11 @@ class Rooms extends Component<Props, StateProps> {
       hideSearchInput,
       changeSearchQuery,
       resetSearchQuery,
-      openContacts
+      openContacts,
+      openRoom
     } = this.props;
 
-    const contentHeight = height - 65;
+    const contentHeight = height - ROOM_HEADER_HEIGHT;
 
     return (
       <div>
@@ -91,7 +98,8 @@ class Rooms extends Component<Props, StateProps> {
           <div styleName="dialog-list">
             <RoomsList
               list={list}
-              search={search}/>
+              search={search}
+              openRoom={openRoom}/>
           </div>
         </Scrollbars>
       </div>
@@ -111,6 +119,7 @@ export default connect<StateProps, DispatchProps, ComponentProps>(
     changeSearchQuery,
     resetSearchQuery,
     openContacts,
-    fetchRooms
+    fetchRooms,
+    openRoom
   }
 )(Rooms);

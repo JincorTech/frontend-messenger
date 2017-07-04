@@ -5883,6 +5883,11 @@
       "resolved": "https://registry.npmjs.org/sha.js/-/sha.js-2.4.8.tgz",
       "dev": true
     },
+    "shallowequal": {
+      "version": "1.0.1",
+      "from": "shallowequal@latest",
+      "resolved": "https://registry.npmjs.org/shallowequal/-/shallowequal-1.0.1.tgz"
+    },
     "signal-exit": {
       "version": "3.0.2",
       "from": "signal-exit@>=3.0.0 <4.0.0",

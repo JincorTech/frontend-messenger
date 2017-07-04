@@ -1,0 +1,49 @@
+@use postcss-short;
+@use postcss-clearfix;
+@use postcss-center;
+
+.dialog {
+  position: relative;
+  clear: fix;
+  padding: 7px 30px 8px 7px;
+  transition: background ease-out 0.2s;
+  cursor: default;
+}
+
+.avatar {
+  size: 60px;
+  background-color: #fbfbfb;
+}
+
+.body {
+  width: 269px;
+  padding-left: 10px;
+}
+
+.avatar,
+.body {
+  float: left;
+}
+
+.fullname {
+  size: 103px 17px;
+  background-color: #fbfbfb;
+  margin-bottom: 4px;
+}
+
+.preview {
+  position: relative;
+  height: 36px;
+}
+
+.message {
+  size: 100% 16px;
+  background-color: #fbfbfb;
+  margin: 4px 0;
+}
+
+.date {
+  position: absolute 5px 32px * *;
+  size: 55px 17px;
+  background-color: #fbfbfb;
+}

@@ -1,18 +1,20 @@
 .messenger {
-  height: calc(100vh - 60px);
+  height: calc(100vh - 50px);
+  width: 1059px;
+  margin: 0 auto;
 }
 
-.dialogs,
-.messages {
+.rooms-wrapper,
+.messages-wrapper {
   float: left;
   height: inherit;
 }
 
-.dialogs {
-  width: 360px;
+.rooms-wrapper {
+  width: 367px;
   border-right: 1px solid #dbdfe4;
 }
 
-.messages {
-  width: 750px;
+.messages-wrapper {
+  width: 692px;
 }

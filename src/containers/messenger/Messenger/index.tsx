@@ -1,27 +1,36 @@
 import * as React from 'react';
 import { Component } from 'react';
 import { connect } from 'react-redux';
+import * as equal from 'shallowequal';
+import matrix from '../../../utils/matrix';
+
 import './styles.css';
 
 import { StateObj as StateProps } from '../../../redux/modules/messenger/messenger';
 
-// import { sendTestMessage } from '../../../redux/modules/messenger/messenger';
+import {
+  updateDemensions,
+  sendMessage,
+  changeTextarea,
+  fetchMessages
+} from '../../../redux/modules/messenger/messenger';
 
+import Scrollbars from 'react-custom-scrollbars';
 import Rooms from '../Rooms';
-import Messages from '../Messages';
+import MessagesArea from '../../../components/messenger/MessagesArea';
+import { HEIGHT as LAYOUT_HEADER_HEIGHT } from '../../app/AppLayout';
 
 /**
  * Types
  */
 
-export type Props = ComponentProps & DispatchProps & StateProps;
-
-export type ComponentProps = {
-  height?: number
-};
+export type Props = DispatchProps & StateProps;
 
 export type DispatchProps = {
-  // sendTestMessage: () => void
+  updateDemensions: (height: number) => void
+  sendMessage: () => void
+  changeTextarea: (text: string) => void
+  fetchMessages: () => void
 };
 
 /**
@@ -29,10 +38,6 @@ export type DispatchProps = {
  */
 
 class Messenger extends Component<Props, StateProps> {
-  public state = {
-    height: 0
-  };
-
   constructor(props) {
     super(props);
 
@@ -45,6 +50,12 @@ class Messenger extends Component<Props, StateProps> {
 
   public componentDidMount(): void {
     window.addEventListener('resize', this.updateDimensions);
+
+    matrix.on('event', (event) => {
+      if (event.getType() === 'm.room.message') {
+        this.props.fetchMessages();
+      }
+    });
   }
 
   public componentWillUnmount(): void {
@@ -52,28 +63,20 @@ class Messenger extends Component<Props, StateProps> {
   }
 
   private updateDimensions(): void {
-    this.setState({
-      height: window.innerHeight - 65 // Header height
-    });
+    this.props.updateDemensions(window.innerHeight - LAYOUT_HEADER_HEIGHT);
   }
 
   public render(): JSX.Element {
-    const { height } = this.state;
-    // const { sendTestMessage } = this.props;
+    const { height } = this.props;
 
     return (
       <div styleName="messenger">
-        <div styleName="dialogs">
-          {/*<button type="button" onClick={() => sendTestMessage()}>clickme</button>*/}
+        <div styleName="rooms-wrapper">
           <Rooms height={height}/>
         </div>
 
-        <div styleName="messages">
-          <Messages
-            search={false}
-            height={height}
-            name="Александр Пушкин"
-            company="Альфа-Банк"/>
+        <div styleName="messages-wrapper">
+          <MessagesArea height={height} {...this.props}/>
         </div>
       </div>
     );
@@ -87,6 +90,9 @@ class Messenger extends Component<Props, StateProps> {
 export default connect<StateProps, DispatchProps, {}>(
   state => state.messenger.messenger,
   {
-    // sendTestMessage
+    updateDemensions,
+    sendMessage,
+    changeTextarea,
+    fetchMessages
   }
 )(Messenger);

@@ -1,0 +1,49 @@
+@use postcss-short;
+@use postcss-clearfix;
+@use postcss-center;
+@use postcss-inline-svg;
+
+.header {
+  height: 65px;
+  clear: fix;
+  position: relative;
+}
+
+.pull-left {
+  width: 600px;
+  padding-left: 40px;
+  top: center;
+}
+
+.name,
+.position {
+  font: normal 16px Open Sans;
+  color: #333;
+}
+
+.position {
+  color: #9da0a4;
+}
+
+.pull-right {
+  width: 80px;
+  float: right;
+  top: center;
+  right: 0;
+}
+
+.cog {
+  size: 19px;
+  background-color: transparent;
+  cursor: pointer;
+  margin: 0 10px;
+  background-image: svg-load('./svg/cog.svg');
+}
+
+.loupe {
+  size: 19px;
+  background-color: transparent;
+  cursor: pointer;
+  margin: 0 10px;
+  background-image: svg-load('./svg/loupe.svg');
+}

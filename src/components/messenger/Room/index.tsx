@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { SFC, HTMLProps } from 'react';
-import { format } from 'date-fns';
+
+import { ts } from '../../../utils/timestamp';
 
 import './styles.css';
 
@@ -12,14 +13,15 @@ import Avatar from '../Avatar';
  * Types
  */
 
-export type Props = HTMLProps<HTMLDivElement> & RoomProps;
+export type Props = HTMLProps<HTMLDivElement> & RoomProps & DispatchProps;
+
+export type DispatchProps = {
+  openRoom: (roomId: string) => void
+};
 
 /**
  * Component
  */
-
-// console.log preview overflow
-// maxchars - preview.len + last.len + 2;
 
 const Room: SFC<Props> = (props) => {
   const {
@@ -31,11 +33,16 @@ const Room: SFC<Props> = (props) => {
     unreadIn,
     unreadOut,
     last,
-    preview
+    preview,
+    openRoom
   } = props;
 
+  const maxchars = 70;
+  const previewlen = maxchars - last.length;
+  const previewSubstring = preview.length < previewlen ? preview : `${preview.substring(0, previewlen)}...`;
+
   return (
-    <div styleName="dialog">
+    <div styleName="dialog" onClick={() => openRoom(id)}>
       <div styleName="avatar">
         <Avatar type={type} src={src} fullName={title} id={id}/>
       </div>
@@ -46,7 +53,7 @@ const Room: SFC<Props> = (props) => {
         <div styleName="preview">
           <p styleName="message">
             {last && <span styleName="you">{last}:</span>}
-            {preview}
+            {previewSubstring}
           </p>
         </div>
       </div>
@@ -55,7 +62,7 @@ const Room: SFC<Props> = (props) => {
 
       <span styleName="date">
         {unreadOut && <div styleName="unread"/>}
-        {format(timestamp, 'HH:mm')}
+        {ts(timestamp)}
       </span>
     </div>
   );

@@ -1,0 +1,52 @@
+@use postcss-short;
+
+.message-group {
+  padding-top: 10px;
+}
+
+.message {
+  min-height: 55px;
+  position: relative;
+  padding: 5px 40px 5px 100px;
+}
+
+.avatar {
+  position: absolute 5px * * 40px;
+  size: 44px;
+  background-color: #fbfbfb;
+}
+
+.content {
+  font-size: 14px/20px;
+  color: #222;
+}
+
+.head {
+  position: relative;
+  margin-bottom: 5px;
+  display: inline-block;
+}
+
+.name {
+  display: inline-block;
+  size: 103px 17px;
+  background-color: #fbfbfb;
+}
+
+.date {
+  display: inline-block;
+  size: 55px 17px;
+  background-color: #fbfbfb;
+  margin-left: 15px;
+}
+
+.mock1 {
+  size: 539px 17px;
+  background-color: #fbfbfb;
+  margin-bottom: 2px;
+}
+
+.mock2 {
+  size: 453px 17px;
+  background-color: #fbfbfb;
+}

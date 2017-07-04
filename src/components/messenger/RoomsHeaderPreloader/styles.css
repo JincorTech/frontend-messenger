@@ -1,0 +1,19 @@
+@use postcss-short;
+
+.header {
+  size: 345px 59px;
+}
+
+.menu {
+  padding: 18px * 6px 11px;
+  text-align: center;
+}
+
+.button-mock {
+  display: inline-block;
+  size: 35px;
+  padding: 0;
+  background-color: #fbfbfb;
+  border-radius: 2px;
+  margin: 0 30px;
+}

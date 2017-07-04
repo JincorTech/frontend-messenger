@@ -8,7 +8,7 @@
 }
 
 .container {
-  width: 1128px;
+  width: 1059px;
   margin: 0 auto;
   clear: fix;
 }
@@ -27,10 +27,6 @@
   display: inline-block;
 }
 
-.pull-right {
-  float: right;
-}
-
 .pull-left {
   float: left;
 }
@@ -42,4 +38,30 @@
 .logo,
 .module-name {
   vertical-align: middle;
+}
+
+.avatar-mock {
+  size: 36px;
+  border-radius: 4px;
+  background-color: #fbfbfb;
+  float: right;
+}
+
+.messenger {
+  height: calc(100vh - 50px);
+  width: 1059px;
+  margin: 0 auto;
+}
+
+.rooms-wrapper {
+  width: 367px;
+  float: left;
+  height: inherit;
+  border-right: 1px solid #dbdfe4;
+}
+
+.messages-wrapper {
+  float: left;
+  height: inherit;
+  width: 692px;
 }
