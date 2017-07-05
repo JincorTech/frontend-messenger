@@ -6,6 +6,7 @@ import { Provider } from 'react-redux';
 import { AppContainer } from 'react-hot-loader';
 
 import matrix from './utils/matrix';
+import { isAuth } from './utils/auth';
 
 import configureStore from './redux/configureStore';
 
@@ -17,6 +18,8 @@ import './assets/fonts/OpenSans/stylesheet.css';
 import './assets/main.css';
 
 export const store = configureStore({});
+
+if (!isAuth()) window.location.replace('/cmp/auth/signin');
 
 const render = (Component: any) => {
   ReactDOM.render(
