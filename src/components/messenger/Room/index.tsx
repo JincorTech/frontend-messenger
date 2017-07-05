@@ -37,7 +37,7 @@ const Room: SFC<Props> = (props) => {
     openRoom
   } = props;
 
-  const maxchars = 70;
+  const maxchars = 45;
   const previewlen = maxchars - last.length;
   const previewSubstring = preview.length < previewlen ? preview : `${preview.substring(0, previewlen)}...`;
 

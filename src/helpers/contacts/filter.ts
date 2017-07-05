@@ -16,7 +16,7 @@ export const filterContacts = (contacts: any[], query: string, keys: string[]): 
     return keys.reduce((acc, key) => {
       if (acc) return acc;
 
-      if (contact[key].toLowerCase().indexOf(query) === 0) {
+      if (contact[key].toLowerCase().indexOf(query.toLowerCase()) === 0) {
         return true;
       }
 

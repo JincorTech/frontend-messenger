@@ -40,6 +40,7 @@
 .preview {
   position: relative;
   height: 36px;
+  word-break: break-word;
 }
 
 .message {

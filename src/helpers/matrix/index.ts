@@ -1,4 +1,4 @@
-import Matrix from 'matrix-js-sdk';
+// import Matrix from 'matrix-js-sdk';
 import matrix from '../../utils/matrix';
 import { Base64 } from 'js-base64';
 
