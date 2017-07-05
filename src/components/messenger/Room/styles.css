@@ -34,7 +34,7 @@
   font: 600 14px/19px Open Sans;
   margin: 2px * 1px;
   letter-spacing: -0.2px;
-  color: #222;
+  color: #333;
 }
 
 .preview {
@@ -51,7 +51,7 @@
   margin: 0;
 
   & .you {
-    color: #222;
+    color: #333;
     margin-right: 5px;
   }
 }
