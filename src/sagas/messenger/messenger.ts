@@ -120,9 +120,12 @@ const getTextareValue = (state) => state.messenger.messenger.textarea;
 function* sendMessageIterator(): SagaIterator {
   try {
     const value = yield select(getTextareValue);
-    yield put(resetTextarea());
-    const roomId = yield select(getOpenedRoomId);
-    yield call([matrix, matrix.sendTextMessage], roomId, value);
+
+    if (value) {
+      yield put(resetTextarea());
+      const roomId = yield select(getOpenedRoomId);
+      yield call([matrix, matrix.sendTextMessage], roomId, value);
+    }
   } catch (e) {
     yield call(console.error, e);
   }

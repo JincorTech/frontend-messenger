@@ -25,6 +25,7 @@
 .content {
   font-size: 14px/20px;
   color: #222;
+  word-break: break-word;
 }
 
 .favorite {
