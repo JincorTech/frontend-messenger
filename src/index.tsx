@@ -12,7 +12,7 @@ import configureStore from './redux/configureStore';
 import App from './containers/app/App';
 import AppPreloader from './components/app/AppPreloader';
 
-import 'normalize.css';
+import './assets/normalize.css';
 import './assets/fonts/OpenSans/stylesheet.css';
 import './assets/main.css';
 
