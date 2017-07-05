@@ -32,10 +32,11 @@
 
 .wrapper {
   position: relative;
-  top: center;
+  height: 100%;
 }
 
 .fullname {
+  position: absolute;
   display: block;
   font: normal 16px/24px Open Sans;
   margin-bottom: 1px;
@@ -50,7 +51,7 @@
 }
 
 .info {
-  position: relative;
+  position: absolute 25px * * *;
   font: normal 16px/24px Open Sans;
   height: 24px;
   color: #333;
