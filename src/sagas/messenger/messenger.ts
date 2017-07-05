@@ -121,7 +121,7 @@ function* sendMessageIterator(): SagaIterator {
   try {
     const value = yield select(getTextareValue);
 
-    if (value) {
+    if (value.trim()) {
       yield put(resetTextarea());
       const roomId = yield select(getOpenedRoomId);
       yield call([matrix, matrix.sendTextMessage], roomId, value);
