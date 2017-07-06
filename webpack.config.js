@@ -1,6 +1,7 @@
 const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const FaviconsWebpackPlugin = require('favicons-webpack-plugin');
 const { TsConfigPathsPlugin } = require('awesome-typescript-loader');
 
 module.exports = {
@@ -24,7 +25,7 @@ module.exports = {
     ]
   },
   plugins: [
-    new webpack.DefinePlugin({ 
+    new webpack.DefinePlugin({
       'process.env': {
         NODE_ENV: JSON.stringify('development'),
         API_PREFIX: JSON.stringify(process.env.API_PREFIX || ''),
@@ -43,6 +44,7 @@ module.exports = {
       },
       inject: true
     }),
+    new FaviconsWebpackPlugin('./src/assets/favicon.png')
   ],
   module: {
     rules: [
@@ -50,7 +52,7 @@ module.exports = {
         test: /\.tsx?$/,
         enforce: 'pre',
         loader: 'tslint-loader',
-        options: { 
+        options: {
           emitErrors: false,
           failOnHint: false,
           typeCheck: true
@@ -72,7 +74,7 @@ module.exports = {
         exclude: /src\/assets/,
         use: [
           { loader: 'style-loader' },
-          { 
+          {
             loader: 'css-loader',
             options: {
               modules: true,

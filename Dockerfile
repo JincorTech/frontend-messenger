@@ -1,4 +1,4 @@
-FROM node:6.10.3-alpine
+FROM node:8.0.0-alpine
 
 VOLUME /usr/src/messenger
 WORKDIR /usr/src/messenger

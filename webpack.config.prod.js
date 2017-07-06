@@ -1,6 +1,7 @@
 const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const FaviconsWebpackPlugin = require('favicons-webpack-plugin');
 const WebpackMd5Hash = require('webpack-md5-hash');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 const { TsConfigPathsPlugin } = require('awesome-typescript-loader');
@@ -25,7 +26,7 @@ module.exports = {
   },
   plugins: [
     new WebpackMd5Hash(),
-    new webpack.DefinePlugin({ 
+    new webpack.DefinePlugin({
       'process.env': {
         NODE_ENV: JSON.stringify('production'),
         API_PREFIX: JSON.stringify(process.env.API_PREFIX || ''),
@@ -52,6 +53,7 @@ module.exports = {
       },
       inject: true
     }),
+    new FaviconsWebpackPlugin('./src/assets/favicon.png'),
     new webpack.optimize.UglifyJsPlugin({
       sourceMap: true
     }),
@@ -63,7 +65,7 @@ module.exports = {
         test: /\.tsx?$/,
         enforce: 'pre',
         loader: 'tslint-loader',
-        options: { 
+        options: {
           emitErrors: false,
           failOnHint: false,
           typeCheck: true
@@ -86,7 +88,7 @@ module.exports = {
         use: ExtractTextPlugin.extract({
           fallback: 'style-loader',
           use: [
-            { 
+            {
               loader: 'css-loader',
               options: {
                 modules: true,
