@@ -19,7 +19,7 @@ import './assets/main.css';
 
 export const store = configureStore({});
 
-if (!isAuth()) window.location.replace('/cmp/auth/signin');
+// if (!isAuth()) window.location.replace('/cmp/auth/signin');
 
 const render = (Component: any) => {
   ReactDOM.render(

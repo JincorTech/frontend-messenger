@@ -2,112 +2,55 @@ import { SagaIterator } from 'redux-saga';
 import { all, takeLatest, call, fork, put, select } from 'redux-saga/effects';
 import { post } from '../../utils/api';
 import {
-  getMembersIdsFromRoom,
   getMessages,
   membersTransformer,
-  removeDomain
+  getMembersIds,
+  getAnotherGuyId
 } from '../../helpers/matrix';
 
 import { Action } from '../../utils/actions';
 
 import {
-  openRoom,
-  fetchMessages,
-  fetchMembers,
-  fetchRoomData,
+  fetchRoom,
   resetTextarea,
-  SEND_MESSAGE,
-  Member as MemberProps
+  SEND_MESSAGE
 } from '../../redux/modules/messenger/messenger';
 import matrix from '../../utils/matrix';
 
 /**
- * Open room saga
- * Fetch members and request roomdata and messages
+ * Fetch Room saga
+ * @param {string} payload matrix room id
  */
 
-function* openRoomIterator({ payload: roomId }: Action<string>): SagaIterator {
+function* fetchRoomIterator({ payload }: Action<string>): SagaIterator {
   try {
-    const room = yield call([matrix, matrix.getRoom], roomId);
-    const matrixIds = yield call(getMembersIdsFromRoom, room);
-    const { data: members } = yield call(post, '/employee/matrix', { matrixIds });
-    const storeMembers = yield call(membersTransformer, members);
-    yield put(openRoom.success(storeMembers));
-    yield put(fetchRoomData({ members, roomId }));
-    yield put(fetchMessages());
-  } catch (e) {
-    yield put(openRoom.failure(e));
-  }
-}
-
-function* openRoomSaga(): SagaIterator {
-  yield takeLatest(
-    openRoom.REQUEST,
-    openRoomIterator
-  );
-}
-
-/**
- * Fetch messages saga
- */
-
-const getOpenedRoomId = (state) => state.messenger.messenger.openedRoom.roomId;
-
-function* fetchMessagesIterator(): SagaIterator {
-  try {
-    const roomId = yield select(getOpenedRoomId);
-    const room = yield call([matrix, matrix.getRoom], roomId);
+    const room = yield call([matrix, matrix.getRoom], payload);
+    const members = yield call([room.currentState, room.currentState.getMembers]);
     const messages = yield call(getMessages, room);
-    yield put(fetchMessages.success(messages));
+    const matrixIds = yield call(getMembersIds, members);
+    const { data } = yield call(post, '/employee/matrix', { matrixIds });
+    const storeMembers = yield call(membersTransformer, data);
+    const anotherGuyId = yield call(getAnotherGuyId, storeMembers);
+
+    const result = {
+      roomId: payload,
+      name: storeMembers[anotherGuyId].name,
+      position: storeMembers[anotherGuyId].position,
+      companyName: storeMembers[anotherGuyId].companyName,
+      members: storeMembers,
+      messages
+    };
+
+    yield put(fetchRoom.success(result));
   } catch (e) {
-    yield put(fetchMessages.failure(e));
+    yield put(fetchRoom.failure(e));
   }
 }
 
-function* fetchMessagesSaga(): SagaIterator {
-  yield [
-    takeLatest(
-      fetchMessages.REQUEST,
-      fetchMessagesIterator
-    ),
-    takeLatest(
-      SEND_MESSAGE,
-      fetchMessagesIterator
-    )
-  ];
-}
-
-/**
- * Fetch room data saga
- */
-
-function* fetchRoomDataIterator({ payload }: Action<any>): SagaIterator {
-  try {
-    const { members, roomId } = payload;
-
-    const anoterGuy = yield call(
-      [members, members.reduce],
-      (acc, member) => member.matrixId !== removeDomain(matrix.credentials.userId)
-        ? Object.assign(acc, member)
-        : acc,
-      {}
-    );
-
-    yield put(fetchRoomData.success({
-      roomId,
-      name: anoterGuy.name,
-      position: anoterGuy.position,
-      companyName: anoterGuy.companyName
-    }));
-  } catch (e) {
-    yield put(fetchRoomData.failure(e));
-  }
-}
-
-function* fetchRoomDataSaga(): SagaIterator {
+function* fetchRoomSaga(): SagaIterator {
   yield takeLatest(
-    fetchRoomData.REQUEST,
-    fetchRoomDataIterator
+    fetchRoom.REQUEST,
+    fetchRoomIterator
   );
 }
 
@@ -115,6 +58,7 @@ function* fetchRoomDataSaga(): SagaIterator {
  * Send message saga
  */
 
+const getOpenedRoomId = (state) => state.messenger.messenger.openedRoom.roomId;
 const getTextareValue = (state) => state.messenger.messenger.textarea;
 
 function* sendMessageIterator(): SagaIterator {
@@ -144,9 +88,7 @@ function* sendMessageSaga(): SagaIterator {
 
 export default function*(): SagaIterator {
   yield all([
-    fork(openRoomSaga),
-    fork(sendMessageSaga),
-    fork(fetchMessagesSaga),
-    fork(fetchRoomDataSaga)
+    fork(fetchRoomSaga),
+    fork(sendMessageSaga)
   ]);
 }

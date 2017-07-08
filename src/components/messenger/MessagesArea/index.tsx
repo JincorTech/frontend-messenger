@@ -36,9 +36,8 @@ class MessagesArea extends Component<Props, {}> {
   }
 
   public componentDidUpdate(prevProps): void {
-    if (!equal(prevProps.messages, this.props.messages)) {
+    if (!equal(prevProps.openedRoom.messages, this.props.openedRoom.messages)) {
       this.scrollbars.scrollToBottom();
-      console.log('updated');
     }
   }
 
@@ -50,12 +49,12 @@ class MessagesArea extends Component<Props, {}> {
   private renderMessagesArea(): JSX.Element {
     const {
       height,
-      messages,
-      members,
       openedRoom,
       textarea,
       changeTextarea
     } = this.props;
+
+    const { members, messages } = openedRoom;
 
     const messagesAreaHeight = height - MESSAGES_HEADER_HEIGHT - TEXTAREA_HEIGHT;
 

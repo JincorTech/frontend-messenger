@@ -49,11 +49,15 @@ const RoomAvatar: SFC<Props> = (props) => {
     }
   };
 
-  const avatarStyle = Object.assign({
+  const sizeStyles = {
     width: `${size}px`,
     height: `${size}px`,
     lineHeight: `${size}px`
-  }, getBackgroundColor(id));
+  };
+
+  const avatarStyle = src
+    ? sizeStyles
+    : Object.assign(sizeStyles, getBackgroundColor(id));
 
   return (
     <div styleName="avatar" style={avatarStyle}>

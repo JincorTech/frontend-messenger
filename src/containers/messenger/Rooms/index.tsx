@@ -12,10 +12,11 @@ import {
   hideSearchInput,
   changeSearchQuery,
   resetSearchQuery,
-  fetchRooms
+  fetchRooms,
+  openRoom
 } from '../../../redux/modules/messenger/rooms';
 import { openContacts } from '../../../redux/modules/contacts/contacts';
-import { openRoom } from '../../../redux/modules/messenger/messenger';
+// import { openRoom } from '../../../redux/modules/messenger/messenger';
 
 import Scrollbars from 'react-custom-scrollbars';
 import RoomsHeader, { HEIGHT as ROOM_HEADER_HEIGHT } from '../../../components/messenger/RoomsHeader';
@@ -48,8 +49,13 @@ export type DispatchProps = {
 class Rooms extends Component<Props, StateProps> {
   public componentDidMount(): void {
     this.props.fetchRooms();
-    matrix.on('Room', () => this.props.fetchRooms());
-    matrix.on('RoomState.events', () => this.props.fetchRooms());
+
+    matrix.on('RoomState.events', (event) => {
+      if (event.getType() === 'm.room.create') {
+        this.props.fetchRooms();
+      }
+    });
+    // matrix.on('RoomState.events', () => this.props.fetchRooms());
     matrix.on('event', (event) => {
       if (event.getType() === 'm.room.message') {
         this.props.fetchRooms();

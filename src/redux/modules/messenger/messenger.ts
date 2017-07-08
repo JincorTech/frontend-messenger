@@ -10,10 +10,6 @@ export type State = StateObj & ImmutableObject<StateObj>;
 export type StateObj = {
   height: number
   openedRoom: OpenedRoom
-  members: {
-    [matrixId: string]: Member
-  }
-  messages: MessageGroup[]
   textarea: string
 };
 
@@ -22,6 +18,10 @@ export type OpenedRoom = {
   name: string
   position: string
   companyName: string
+  members: {
+    [matrixId: string]: Member
+  },
+  messages: MessageGroup[]
 };
 
 export type Member = {
@@ -56,11 +56,7 @@ export type OpenRoomRes = {
 export const UPDATE_DEMENSIONS = 'messenger/messenger/UPDATE_DEMENSIONS';
 export const OPEN_ROOM = 'messenger/messenger/OPEN_ROOM';
 export const SEND_MESSAGE = 'messenger/messenger/SEND_MESSAGE';
-
-export const FETCH_MESSAGES = 'messenger/messenger/FETCH_MESSAGES';
-export const FETCH_MEMBERS = 'messenger/messenger/FETCH_MEMBERS';
-export const FETCH_ROOM_DATA = 'messenger/messenger/FETCH_ROOM_DATA';
-
+export const FETCH_ROOM = 'messenger/messenger/FETCH_ROOM';
 export const CHANGE_TEXTAREA = 'messenger/messenger/CHANGE_TEXTAREA';
 export const RESET_TEXTAREA = 'messenger/messenger/RESET_TEXTAREA';
 
@@ -69,13 +65,9 @@ export const RESET_TEXTAREA = 'messenger/messenger/RESET_TEXTAREA';
  */
 
 export const updateDemensions = createAction<number>(UPDATE_DEMENSIONS);
-export const openRoom = createAsyncAction<string, any>(OPEN_ROOM);
+export const openRoom = createAction<string>(OPEN_ROOM);
 export const sendMessage = createAction<void>(SEND_MESSAGE);
-
-export const fetchMessages = createAsyncAction<string, MessageGroup[]>(FETCH_MESSAGES);
-export const fetchMembers = createAsyncAction<string, any>(FETCH_MEMBERS);
-export const fetchRoomData = createAsyncAction<any, OpenedRoom>(FETCH_ROOM_DATA);
-
+export const fetchRoom = createAsyncAction<string, OpenedRoom>(FETCH_ROOM);
 export const changeTextarea = createAction<string>(CHANGE_TEXTAREA);
 export const resetTextarea = createAction<void>(RESET_TEXTAREA);
 
@@ -89,10 +81,10 @@ const initialState = from<StateObj>({
     roomId: '',
     name: '',
     position: '',
-    companyName: ''
+    companyName: '',
+    members: {},
+    messages: []
   },
-  members: {},
-  messages: [],
   textarea: ''
 });
 
@@ -101,15 +93,7 @@ export default createReducer<State>({
     state.merge({ height: payload })
   ),
 
-  [openRoom.SUCCESS]: (state: State, { payload }: Action<any>): State => (
-    state.merge({ members: payload })
-  ),
-
-  [fetchMessages.SUCCESS]: (state: State, { payload }: Action<MessageGroup[]>): State => (
-    state.merge({ messages: payload })
-  ),
-
-  [fetchRoomData.SUCCESS]: (state: State, { payload }: Action<OpenedRoom>): State => (
+  [fetchRoom.SUCCESS]: (state: State, { payload }: Action<any>): State => (
     state.merge({ openedRoom: payload })
   ),
 
