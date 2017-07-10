@@ -1,6 +1,6 @@
 // import Matrix from 'matrix-js-sdk';
 import matrix from '../../utils/matrix';
-import { Base64 } from 'js-base64';
+import md5 from 'js-md5';
 
 import { Room } from '../../redux/modules/messenger/rooms';
 import { User } from '../../redux/modules/contacts/newContact';
@@ -29,20 +29,9 @@ export const removeDomain = (id: string): string => id.split(':')[0];
  */
 
 export const createAlias = (id1: string, id2: string, domain: string): string => {
-  return `#${Base64.encode(`${id1}:${id2}`)}:${domain}`;
-};
-
-/**
- * compare 1-1 room alias
- * @param id1 user id
- * @param id2 another guy id
- * @param domain matrix domain
- * @param alias comparable alias
- */
-
-export const compareAlias = (id1: string, id2: string, domain: string, alias: string): boolean => {
-  const alias2 = createAlias(id1, id2, domain);
-  return alias === alias2;
+  const ids = [id1, id2].sort();
+  const hash = md5(`${ids[0]}:${ids[1]}`);
+  return `#${hash}:${domain}`;
 };
 
 /**
@@ -51,7 +40,7 @@ export const compareAlias = (id1: string, id2: string, domain: string, alias: st
  * @return matrixId string
  */
 
-export const getAnotherGuyId = (rooms): string => {
+export const getIdsFromRooms = (rooms): string => {
   const result = rooms.reduce((acc, room) => {
     const membersIds = Object.keys(room.currentState.members);
     const matrixId = membersIds.filter((id) => id !== matrix.credentials.userId)[0];
@@ -126,7 +115,7 @@ export const createRooms = (matrixRooms, users: User[]): Room[] => {
     return acc;
   }, []);
 
-  return data;
+  return data.sort((a, b) => b.timestamp - a.timestamp);
 };
 
 export const getMessages = (room) => {
@@ -171,3 +160,12 @@ export const membersTransformer = (members) => {
     return Object.assign(acc, { [member.matrixId]: member });
   }, {});
 };
+
+export const getMembersIds = (members) =>
+  members.map((member) => removeDomain(member.userId));
+
+export const getAnotherGuyId = (members) =>
+  Object.keys(members).reduce((acc, id) =>
+    id !== removeDomain(matrix.credentials.userId)
+      ? id
+      : acc, '');

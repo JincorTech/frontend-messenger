@@ -1,34 +1,45 @@
 import { SagaIterator } from 'redux-saga';
 import { all, takeLatest, call, put, fork } from 'redux-saga/effects';
 import matrix from '../../utils/matrix';
-import { createAlias } from '../../helpers/matrix';
 import { post } from '../../utils/api';
 
 import { Action } from '../../utils/actions';
 import {
   fetchRooms,
   createRoom,
-  selectRoom
+  openRoom,
+  SELECT_ROOM,
+  CREATE_ROOM,
+  OPEN_ROOM
 } from '../../redux/modules/messenger/rooms';
-import { openRoom } from '../../redux/modules/messenger/messenger';
+import { fetchRoom } from '../../redux/modules/messenger/messenger';
 
-import { getAnotherGuyId, createRooms, addDomain } from '../../helpers/matrix';
+import {
+  createAlias,
+  getIdsFromRooms,
+  createRooms,
+  addDomain
+} from '../../helpers/matrix';
+
+/**
+ * SELECT_ROOM (id)
+ * if room exist
+ * OPEN_ROOM (id)
+ * else
+ * CREATE_ROOM
+ */
 
 /**
  * Fetch rooms saga
  */
 
-function* fetchRoomsIterator({ payload }: Action<string>): SagaIterator {
+function* fetchRoomsIterator(): SagaIterator {
   try {
     const matrixRooms = yield call([matrix, matrix.getRooms]);
-    yield call(console.log, matrixRooms);
-    const matrixIds = yield call(getAnotherGuyId, matrixRooms);
+    const matrixIds = yield call(getIdsFromRooms, matrixRooms);
     if (matrixIds.length > 0) {
       const { data } = yield call(post, '/employee/matrix', { matrixIds });
-      yield call(console.log, data);
       yield put(fetchRooms.success(createRooms(matrixRooms, data)));
-    } else {
-      yield call(console.log, 'no rooms');
     }
   } catch (e) {
     yield put(fetchRooms.failure(e));
@@ -44,71 +55,91 @@ function* fetchRoomsSaga(): SagaIterator {
 
 /**
  * Select room saga
+ * @param {string} payload another guy matrixId
+ * 1. Create alias
+ * 2. If alias exist we get room.id and put openRoom action
  */
 
 function* selectRoomIterator({ payload }: Action<string>): SagaIterator {
-  const userId = matrix.credentials.userId;
-  const domain = yield call([matrix, matrix.getDomain]);
-  const alias = yield call(createAlias, userId, payload, domain);
-
   try {
+    const userId = matrix.credentials.userId;
+    const domain = yield call([matrix, matrix.getDomain]);
+    const alias = yield call(createAlias, userId, payload, domain);
     const room = yield call([matrix, matrix.getRoomIdForAlias], alias);
     yield put(openRoom(room.room_id));
   } catch (e) {
-    yield call(console.log, 'creating room...');
     yield put(createRoom(payload));
   }
 }
 
 function* selectRoomSaga(): SagaIterator {
   yield takeLatest(
-    selectRoom.REQUEST,
+    SELECT_ROOM,
     selectRoomIterator
   );
 }
 
 /**
  * Create room saga
+ * @param {string} payload another guy matrixId
+ * 1. Create alias
+ * 2. Create room with that alias
  */
 
 function* createRoomIterator({ payload }: Action<string>): SagaIterator {
-  const userId = matrix.credentials.userId;
-  const domain = yield call([matrix, matrix.getDomain]);
-  const alias = yield call(createAlias, userId, payload, domain);
-
-  const options = {
-    visibility: 'private',
-    invite: [addDomain(payload)],
-    name: 'set room name :)',
-    topic: ''
-  };
-
-  const privateRoomPower = {
-    ban: 100,
-    kick: 100,
-    invite: 100,
-    redact: 100
-  };
-
   try {
+    const userId = matrix.credentials.userId;
+    const domain = yield call([matrix, matrix.getDomain]);
+    const alias = yield call(createAlias, userId, payload, domain);
+
+    const options = {
+      visibility: 'private',
+      invite: [addDomain(payload)],
+      name: '',
+      topic: ''
+    };
+
     const room = yield call([matrix, matrix.createRoom], options);
     yield call([matrix, matrix.createAlias], alias, room.room_id);
     yield call([matrix, matrix.sendStateEvent], room.room_id, 'm.room.join_rules', { join_rules: 'private' });
     yield call([matrix, matrix.sendStateEvent], room.room_id, 'm.room.guest_access', { guest_access: 'forbidden' });
     yield call([matrix, matrix.sendStateEvent], room.room_id, 'm.room.may_join', { may_join: [userId, addDomain(payload)] });
     yield call([matrix, matrix.sendStateEvent], room.room_id, 'm.room.public_history', { public_history: false });
-    yield call([matrix, matrix.sendStateEvent], room.room_id, 'm.room.power_levels', { power_levels: privateRoomPower });
-    yield call(console.log, `room ${room.room_id} created`);
-    yield put(createRoom.success());
+    // yield call([matrix, matrix.sendStateEvent], room.room_id, 'm.room.power_levels', {});
+    yield put(openRoom(room.room_id));
   } catch (e) {
-    yield put(createRoom.failure(e));
+    yield call(console.error, e);
   }
 }
 
 function* createRoomSaga(): SagaIterator {
   yield takeLatest(
-    createRoom.REQUEST,
+    CREATE_ROOM,
     createRoomIterator
+  );
+}
+
+/**
+ * Open room saga
+ * @param {string} payload roomId
+ * 1. Store opened room id
+ * 2. Put fetchRoom action
+ */
+
+function* openRoomIterator({ payload: roomId }: Action<string>): SagaIterator {
+  try {
+    // try to get room. If room doesnt exist catch the error
+    const room = yield call([matrix, matrix.getRoom], roomId);
+    yield put(fetchRoom(room.roomId));
+  } catch (e) {
+    yield call(console.error, e);
+  }
+}
+
+function* openRoomSaga(): SagaIterator {
+  yield takeLatest(
+    OPEN_ROOM,
+    openRoomIterator
   );
 }
 
@@ -120,6 +151,7 @@ export default function*(): SagaIterator {
   yield all([
     fork(fetchRoomsSaga),
     fork(selectRoomSaga),
-    fork(createRoomSaga)
+    fork(createRoomSaga),
+    fork(openRoomSaga)
   ]);
 }

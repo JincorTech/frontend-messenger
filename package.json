@@ -11,7 +11,7 @@
     "babel-runtime": "^6.23.0",
     "classnames": "^2.2.5",
     "date-fns": "^1.28.4",
-    "js-base64": "https://registry.npmjs.org/js-base64/-/js-base64-2.1.9.tgz",
+    "js-md5": "0.4.2",
     "jwt-decode": "^2.2.0",
     "matrix-js-sdk": "0.7.12",
     "normalize.css": "7.0.0",

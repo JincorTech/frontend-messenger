@@ -35,9 +35,9 @@ export const CHANGE_SEARCH_QUERY = 'messenger/dialogs/CHANGE_SEARCH_QUERY';
 export const RESET_SEARCH_QUERY = 'messenger/dialogs/RESET_SEARCH_QUERY';
 
 export const FETCH_ROOMS = 'messenger/dialogs/FETCH_ROOMS';
-
 export const SELECT_ROOM = 'messenger/dialogs/SELECT_ROOM';
 export const CREATE_ROOM = 'messenger/dialogs/CREATE_ROOM';
+export const OPEN_ROOM = 'messenger/dialogs/OPEN_ROOM';
 
 /**
  * Action creators
@@ -49,9 +49,9 @@ export const changeSearchQuery = createAction<string>(CHANGE_SEARCH_QUERY);
 export const resetSearchQuery = createAction<void>(RESET_SEARCH_QUERY);
 
 export const fetchRooms = createAsyncAction<void, Room[]>(FETCH_ROOMS);
-
-export const selectRoom = createAsyncAction<any, any>(SELECT_ROOM);
-export const createRoom = createAsyncAction<any, any>(CREATE_ROOM);
+export const selectRoom = createAction<string>(SELECT_ROOM);
+export const createRoom = createAction<string>(CREATE_ROOM);
+export const openRoom = createAction<string>(OPEN_ROOM);
 
 /**
  * Reducer

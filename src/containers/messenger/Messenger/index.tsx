@@ -12,7 +12,7 @@ import {
   updateDemensions,
   sendMessage,
   changeTextarea,
-  fetchMessages
+  fetchRoom
 } from '../../../redux/modules/messenger/messenger';
 
 import Scrollbars from 'react-custom-scrollbars';
@@ -30,7 +30,7 @@ export type DispatchProps = {
   updateDemensions: (height: number) => void
   sendMessage: () => void
   changeTextarea: (text: string) => void
-  fetchMessages: () => void
+  fetchRoom: (roomId: string) => void
 };
 
 /**
@@ -53,7 +53,7 @@ class Messenger extends Component<Props, StateProps> {
 
     matrix.on('event', (event) => {
       if (event.getType() === 'm.room.message') {
-        this.props.fetchMessages();
+        this.props.fetchRoom(this.props.openedRoom.roomId);
       }
     });
   }
@@ -93,6 +93,6 @@ export default connect<StateProps, DispatchProps, {}>(
     updateDemensions,
     sendMessage,
     changeTextarea,
-    fetchMessages
+    fetchRoom
   }
 )(Messenger);
