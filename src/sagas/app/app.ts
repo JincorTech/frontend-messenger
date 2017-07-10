@@ -4,6 +4,8 @@ import { all, takeLatest, call, put, fork } from 'redux-saga/effects';
 import { removeToken, setToken, getToken, isAuth, getUserId } from '../../utils/auth';
 import { Action } from '../../utils/actions';
 
+import matrix from '../../utils/matrix';
+
 import {
   login,
   setAuthState
@@ -42,6 +44,8 @@ function* checkAuthSaga(): SagaIterator {
 function* logoutIterator(): SagaIterator {
   yield call(removeToken);
   yield put(setAuthState({ authorized: false, token: '', login: '' }));
+  yield call([matrix.store, matrix.store.deleteAllData]);
+  yield call([window.location, window.location.replace], '/cmp/auth/signin');
 }
 
 function* logoutSaga(): SagaIterator {

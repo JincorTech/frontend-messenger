@@ -22,9 +22,6 @@ const createMatrixClient = (opts) => {
   }
 
   if (window.indexedDB && localStorage) {
-    // FIXME: bodge to remove old database. Remove this after a few weeks.
-    window.indexedDB.deleteDatabase('matrix-js-sdk:default');
-
     storeOpts.store = new Matrix.IndexedDBStore({
       indexedDB: window.indexedDB,
       dbName: 'jincor-web-sync',
