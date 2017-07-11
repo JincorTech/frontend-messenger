@@ -29,7 +29,7 @@ export const removeDomain = (id: string): string => id.split(':')[0];
  */
 
 export const createAlias = (id1: string, id2: string, domain: string): string => {
-  const ids = [id1, id2].sort();
+  const ids = [removeDomain(id1), removeDomain(id2)].sort();
   const hash = md5(`${ids[0]}:${ids[1]}`);
   return `#${hash}:${domain}`;
 };
