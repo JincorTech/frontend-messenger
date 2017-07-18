@@ -98,6 +98,7 @@ export const createRooms = (matrixRooms, users: User[]): Room[] => {
       const room = {
         type: 'dialog',
         id: matrixRoom.roomId,
+        userId: user.id,
         title: user.name,
         src: user.avatar,
         timestamp: lastMessage[lastMessage.length - 1].timestamp,

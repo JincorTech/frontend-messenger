@@ -16,6 +16,7 @@ export type StateObj = {
 export type Room = {
   type: string
   id: string
+  userId: string
   src?: string
   title: string
   timestamp: string

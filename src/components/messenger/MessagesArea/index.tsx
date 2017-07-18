@@ -114,7 +114,7 @@ class MessagesArea extends Component<Props, ComponentProps> {
       events.push(...this.state.timelineSet.getPendingEvents());
     }
 
-    return events.reduce((acc, event) => {
+    const messages = events.reduce((acc, event) => {
       if (event.getType() === 'm.room.message') {
         return acc.concat([{
           sender: removeDomain(event.getSender()),
@@ -125,6 +125,45 @@ class MessagesArea extends Component<Props, ComponentProps> {
         return acc;
       }
     }, []);
+
+    const result = messages.reduce((acc, d) => {
+      if (acc.length === 0) {
+        return new Array({
+          sender: d.sender,
+          messages: [{
+            timestamp: d.timestamp,
+            content: d.content
+          }]
+        });
+      }
+
+      if (acc[0].sender === d.sender && d.timestamp - acc[0].messages[acc[0].messages.length - 1].timestamp < 60000) {
+        const item = {
+          ...acc[0],
+          messages: acc[0].messages.concat([{
+            timestamp: d.timestamp,
+            content: d.content
+          }])
+        };
+
+        const [first, ...restAcc] = acc;
+        return Array.from([item, ...restAcc]);
+      }
+
+      const item = {
+        sender: d.sender,
+        messages: [{
+          timestamp: d.timestamp,
+          content: d.content
+        }]
+      };
+
+      return [item, ...acc];
+    }, []);
+
+    const res = result.reverse();
+
+    return res;
   }
 
   // /test
@@ -160,14 +199,14 @@ class MessagesArea extends Component<Props, ComponentProps> {
 
         <Scrollbars autoHide ref={(scrollbars) => { this.scrollbars = scrollbars; }} style={{height: messagesAreaHeight}}>
           {this.renderWaypoint()}
-          {messages.map(({ sender, timestamp, content }, i) => (
+          {messages.map(({ sender, messages }, i) => (
             <MessageGroup
-              key={timestamp}
+              key={messages[0].timestamp}
               id={members[sender].id}
               avatar={members[sender].avatar}
               firstName={members[sender].firstName}
               fullName={members[sender].name}
-              message={{ timestamp, content }}/>
+              messages={messages}/>
           ))}
         </Scrollbars>
 

@@ -1,5 +1,10 @@
 import { format, compareAsc } from 'date-fns';
 
+/**
+ * @param timestamp ts
+ * @return HH:mm | 'Yesterday' | DD/MM/YYY
+ */
+
 export const ts = (timestamp) => {
   // create date objects
   const now = new Date(Date.now());
@@ -24,3 +29,10 @@ export const ts = (timestamp) => {
   // finally return DD/MM/YYY
   return format(timestamp, 'DD/MM/YYYY');
 };
+
+/**
+ * @param timestamp ts
+ * @return HH:mm
+ */
+
+export const getTime = (timestamp) => format(timestamp, 'HH:mm');

@@ -6,7 +6,7 @@ import { ts } from '../../../utils/timestamp';
 import './styles.css';
 
 import Avatar from '../Avatar';
-import { Props as MessageProps } from '../Message';
+import Message, { Props as MessageProps } from '../Message';
 
 /**
  * Types
@@ -17,7 +17,7 @@ export type Props = {
   avatar: string
   fullName: string
   firstName: string
-  message: MessageProps
+  messages: MessageProps[]
 };
 
 /**
@@ -30,12 +30,11 @@ const MessageGroup: SFC<Props> = (props) => {
     avatar,
     fullName,
     firstName,
-    message
+    messages
   } = props;
 
-  // const [firstMsg, ...msgs] = messages;
-  // const { timestamp, content } = firstMsg;
-  const { timestamp, content } = message;
+  const [firstMsg, ...msgs] = messages;
+  const { timestamp, content } = firstMsg;
 
   return (
     <div styleName="message-group">
@@ -57,9 +56,9 @@ const MessageGroup: SFC<Props> = (props) => {
         </div>
       </div>
 
-      {/*{msgs.map((msg, i) => (
+       {msgs.map((msg, i) => (
         <Message key={i} {...msg}/>
-      ))}*/}
+      ))}
     </div>
   );
 };

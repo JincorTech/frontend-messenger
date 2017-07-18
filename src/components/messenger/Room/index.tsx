@@ -26,6 +26,7 @@ export type DispatchProps = {
 const Room: SFC<Props> = (props) => {
   const {
     id,
+    userId,
     type,
     src,
     title,
@@ -44,7 +45,7 @@ const Room: SFC<Props> = (props) => {
   return (
     <div styleName="dialog" onClick={() => openRoom(id)}>
       <div styleName="avatar">
-        <Avatar type={type} src={src} fullName={title} id={id}/>
+        <Avatar type={type} src={src} fullName={title} id={userId}/>
       </div>
 
       <div styleName="body">
