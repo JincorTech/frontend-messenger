@@ -1,6 +1,9 @@
 import * as React from 'react';
 import { Component } from 'react';
 import * as equal from 'shallowequal';
+import Matrix from 'matrix-js-sdk';
+import matrix from '../../../utils/matrix';
+import { removeDomain } from '../../../helpers/matrix';
 
 import './styles.css';
 
@@ -10,40 +13,132 @@ import Scrollbars from 'react-custom-scrollbars';
 import MessagesHeader, { HEIGHT as MESSAGES_HEADER_HEIGHT } from '../MessagesHeader';
 import MessageGroup from '../MessageGroup';
 import Textarea, { HEIGHT as TEXTAREA_HEIGHT } from '../Textarea';
+import * as Waypoint from 'react-waypoint';
 
 /**
  * Types
  */
 
-export type Props = StateProps & DispatchProps;
+export type Props = StateProps & DispatchProps & ComponentProps;
 
 export type DispatchProps = {
   changeTextarea: (text: string) => void
   sendMessage: () => void
 };
 
+type ComponentProps = {
+  loading?: boolean
+  timelineSet?: any
+  messages?: any[]
+};
+
 /**
  * Component
  */
 
-class MessagesArea extends Component<Props, {}> {
+class MessagesArea extends Component<Props, ComponentProps> {
   private scrollbars: Scrollbars;
+  private timelineWindow: any;
+  private unmounted: boolean = true;
 
   constructor(props) {
     super(props);
 
     this.sendMessage = this.sendMessage.bind(this);
+    this.loadMsgs = this.loadMsgs.bind(this);
+    this.onRoomTimeline = this.onRoomTimeline.bind(this);
+    this.loadTimeline = this.loadTimeline.bind(this);
+    this.scrollToBottom = this.scrollToBottom.bind(this);
+
+    this.state = {
+      loading: false,
+      timelineSet: {},
+      messages: []
+    };
   }
 
-  public componentDidUpdate(prevProps): void {
-    if (!equal(prevProps.openedRoom.messages, this.props.openedRoom.messages)) {
-      this.scrollbars.scrollToBottom();
+  public componentWillMount(): void {
+    matrix.on('Room.timeline', this.onRoomTimeline);
+    this.unmounted = false;
+  }
+
+  public componentWillReceiveProps(nextProps): void {
+    if (!equal(this.props.openedRoom, nextProps.openedRoom)) {
+      this.loadTimeline(nextProps.openedRoom.roomId);
     }
   }
+
+  private scrollToBottom(): void {
+    this.scrollbars.scrollToBottom();
+  }
+
+  private loadTimeline(roomId): void {
+    if (!roomId) return;
+
+    const room = matrix.getRoom(roomId);
+    const timelineSet = room.getUnfilteredTimelineSet();
+    this.timelineWindow = new Matrix.TimelineWindow(matrix, timelineSet);
+
+    this.timelineWindow.load(undefined, 30);
+    this.setState({ messages: this.getMessages() }, () => {
+      this.scrollToBottom();
+    });
+  }
+
+  private loadMsgs(): void {
+    this.setState({ loading: true });
+
+    const prevHeight = this.scrollbars.getScrollHeight();
+    this.timelineWindow.paginate(Matrix.EventTimeline.BACKWARDS, 30).then(() => {
+      this.setState({ messages: this.getMessages() }, () => {
+        const currHeight = this.scrollbars.getScrollHeight();
+        this.scrollbars.scrollTop(currHeight - prevHeight);
+        this.setState({ loading: false });
+      });
+    });
+  }
+
+  private onRoomTimeline(ev, room, toStartOfTimeline, removed, data): any {
+    if (data.timeline.getTimelineSet() !== this.state.timelineSet) return;
+
+    this.timelineWindow.paginate(Matrix.EventTimeline.FORWARDS, 1, false).done(() => {
+      if (this.unmounted) return;
+      this.setState({ messages: this.getMessages() });
+    });
+  }
+
+  private getMessages(): any {
+    const events = this.timelineWindow.getEvents();
+
+    if (this.timelineWindow.canPaginate(Matrix.EventTimeline.FORWARDS)) {
+      events.push(...this.state.timelineSet.getPendingEvents());
+    }
+
+    return events.reduce((acc, event) => {
+      if (event.getType() === 'm.room.message') {
+        return acc.concat([{
+          sender: removeDomain(event.getSender()),
+          timestamp: event.getTs(),
+          content: event.getContent().body
+        }]);
+      } else {
+        return acc;
+      }
+    }, []);
+  }
+
+  // /test
 
   private sendMessage(e): void {
     e.preventDefault();
     this.props.sendMessage();
+    this.scrollToBottom();
+  }
+
+  private renderWaypoint(): JSX.Element {
+    if (!this.state.loading && this.timelineWindow.canPaginate(Matrix.EventTimeline.BACKWARDS)) {
+      return <Waypoint onEnter={() => this.loadMsgs()}/>;
+    }
   }
 
   private renderMessagesArea(): JSX.Element {
@@ -54,7 +149,8 @@ class MessagesArea extends Component<Props, {}> {
       changeTextarea
     } = this.props;
 
-    const { members, messages } = openedRoom;
+    const { members } = openedRoom;
+    const { messages } = this.state;
 
     const messagesAreaHeight = height - MESSAGES_HEADER_HEIGHT - TEXTAREA_HEIGHT;
 
@@ -63,6 +159,7 @@ class MessagesArea extends Component<Props, {}> {
         <MessagesHeader {...openedRoom}/>
 
         <Scrollbars autoHide ref={(scrollbars) => { this.scrollbars = scrollbars; }} style={{height: messagesAreaHeight}}>
+          {this.renderWaypoint()}
           {messages.map(({ sender, timestamp, content }, i) => (
             <MessageGroup
               key={timestamp}
