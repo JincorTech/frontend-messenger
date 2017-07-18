@@ -2,7 +2,6 @@ import { SagaIterator } from 'redux-saga';
 import { all, takeLatest, call, fork, put, select } from 'redux-saga/effects';
 import { post } from '../../utils/api';
 import {
-  getMessages,
   membersTransformer,
   getMembersIds,
   getAnotherGuyId
@@ -26,7 +25,6 @@ function* fetchRoomIterator({ payload }: Action<string>): SagaIterator {
   try {
     const room = yield call([matrix, matrix.getRoom], payload);
     const members = yield call([room.currentState, room.currentState.getMembers]);
-    const messages = yield call(getMessages, room);
     const matrixIds = yield call(getMembersIds, members);
     const { data } = yield call(post, '/employee/matrix', { matrixIds });
     const storeMembers = yield call(membersTransformer, data);
@@ -37,8 +35,7 @@ function* fetchRoomIterator({ payload }: Action<string>): SagaIterator {
       name: storeMembers[anotherGuyId].name,
       position: storeMembers[anotherGuyId].position,
       companyName: storeMembers[anotherGuyId].companyName,
-      members: storeMembers,
-      messages
+      members: storeMembers
     };
 
     yield put(fetchRoom.success(result));

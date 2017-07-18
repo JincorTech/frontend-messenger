@@ -1,4 +1,3 @@
-// import Matrix from 'matrix-js-sdk';
 import matrix from '../../utils/matrix';
 import md5 from 'js-md5';
 
@@ -117,43 +116,6 @@ export const createRooms = (matrixRooms, users: User[]): Room[] => {
 
   return data.sort((a, b) => b.timestamp - a.timestamp);
 };
-
-export const getMessages = (room) => {
-  const events = room.getLiveTimeline().getEvents();
-  const messages = events.filter((event) => event.getType() === 'm.room.message');
-
-  return messages.reduce((acc, message) => {
-    return acc.concat([{
-      sender: removeDomain(message.getSender()),
-      timestamp: message.getTs(),
-      content: message.getContent().body
-    }]);
-  }, []);
-};
-
-// export const getMessages = (room) => {
-//   const timelineSet = new Matrix.EventTimelineSet(room, { timelineSupport: true });
-//   console.log(timelineSet);
-//   const timelineWindow = new Matrix.TimelineWindow(matrix, timelineSet, { windowLimit: 1000 });
-//   console.log(timelineWindow);
-
-//   return timelineWindow.load().finally(() => {
-//     timelineWindow.paginate(Matrix.EventTimeline.FORWARDS, 10, false).done(() => {
-//       const events = timelineWindow.getEvents();
-//       console.log(events);
-//       const messages = events.filter((event) => event.getType() === 'm.room.message');
-//       console.log(messages);
-
-//       return messages.reduce((acc, message) => {
-//         return acc.concat([{
-//           sender: removeDomain(message.getSender()),
-//           timestamp: message.getTs(),
-//           content: message.getContent().body
-//         }]);
-//       }, []);
-//     });
-//   });
-// };
 
 export const membersTransformer = (members) => {
   return members.reduce((acc, member) => {

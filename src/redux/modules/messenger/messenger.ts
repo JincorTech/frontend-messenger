@@ -20,8 +20,7 @@ export type OpenedRoom = {
   companyName: string
   members: {
     [matrixId: string]: Member
-  },
-  messages: MessageGroup[]
+  }
 };
 
 export type Member = {
@@ -46,7 +45,6 @@ export type MessageGroup = {
 export type OpenRoomRes = {
   openedRoom: OpenedRoom
   members: Member[]
-  messages: MessageGroup[]
 };
 
 /**
@@ -82,8 +80,7 @@ const initialState = from<StateObj>({
     name: '',
     position: '',
     companyName: '',
-    members: {},
-    messages: []
+    members: {}
   },
   textarea: ''
 });
