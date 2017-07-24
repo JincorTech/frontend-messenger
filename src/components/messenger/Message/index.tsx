@@ -2,6 +2,8 @@ import * as React from 'react';
 import { SFC, HTMLProps } from 'react';
 import './styles.css';
 
+import { getTime } from '../../../utils/timestamp';
+
 import Icon from '../../common/Icon';
 
 /**
@@ -24,7 +26,7 @@ const Message: SFC<Props> = (props) => {
   } = props;
 
   return (
-    <div styleName="message" data-timestamp={timestamp}>
+    <div styleName="message" data-timestamp={getTime(timestamp)}>
       <div styleName="content">
         {content}
       </div>
