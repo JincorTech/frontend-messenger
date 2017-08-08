@@ -6,7 +6,7 @@ import matrix from '../../../utils/matrix';
 
 import './styles.css';
 
-import { StateObj as StateProps } from '../../../redux/modules/messenger/messenger';
+import { StateObj as StateProps, Member as EmployeeProps } from '../../../redux/modules/messenger/messenger';
 
 import {
   updateDemensions,
@@ -14,6 +14,7 @@ import {
   changeTextarea,
   fetchRoom
 } from '../../../redux/modules/messenger/messenger';
+import { openEmployeeCard } from '../../../redux/modules/app/employeeCard';
 
 import Scrollbars from 'react-custom-scrollbars';
 import Rooms from '../Rooms';
@@ -31,6 +32,7 @@ export type DispatchProps = {
   sendMessage: () => void
   changeTextarea: (text: string) => void
   fetchRoom: (roomId: string) => void
+  openEmployeeCard: (employee: EmployeeProps) => void
 };
 
 /**
@@ -93,6 +95,7 @@ export default connect<StateProps, DispatchProps, {}>(
     updateDemensions,
     sendMessage,
     changeTextarea,
-    fetchRoom
+    fetchRoom,
+    openEmployeeCard
   }
 )(Messenger);

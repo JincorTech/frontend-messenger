@@ -1,6 +1,8 @@
 import { createStore, applyMiddleware, Store } from 'redux';
 import createSagaMiddleware from 'redux-saga';
 import { createLogger } from 'redux-logger';
+import { browserHistory } from 'react-router';
+import { routerMiddleware } from 'react-router-redux';
 // import { composeWithDevTools } from 'redux-devtools-extension';
 import { stateTransformer } from 'redux-seamless-immutable';
 
@@ -19,6 +21,7 @@ const loggerMiddleware = createLogger({
  */
 function configureStoreProd(initialState: State): Store<State> {
   const middlewares = [
+    routerMiddleware(browserHistory),
     sagaMiddleware
   ];
 
@@ -39,6 +42,7 @@ function configureStoreProd(initialState: State): Store<State> {
  */
 function configureStoreDev(initialState: State): Store<State> {
   const middlewares = [
+    routerMiddleware(browserHistory),
     sagaMiddleware,
     loggerMiddleware
   ];

@@ -5,6 +5,8 @@ import { ts } from '../../../utils/timestamp';
 
 import './styles.css';
 
+import { Member as EmployeeProps } from '../../../redux/modules/messenger/messenger';
+
 import Avatar from '../Avatar';
 import Message, { Props as MessageProps } from '../Message';
 
@@ -13,11 +15,9 @@ import Message, { Props as MessageProps } from '../Message';
  */
 
 export type Props = {
-  id: string
-  avatar: string
-  fullName: string
-  firstName: string
+  author: EmployeeProps
   messages: MessageProps[]
+  openEmployeeCard: (employee: EmployeeProps) => void
 };
 
 /**
@@ -26,12 +26,16 @@ export type Props = {
 
 const MessageGroup: SFC<Props> = (props) => {
   const {
+    author,
+    messages,
+    openEmployeeCard
+  } = props;
+
+  const {
     id,
     avatar,
-    fullName,
-    firstName,
-    messages
-  } = props;
+    name
+  } = author;
 
   const [firstMsg, ...msgs] = messages;
   const { timestamp, content } = firstMsg;
@@ -39,16 +43,16 @@ const MessageGroup: SFC<Props> = (props) => {
   return (
     <div styleName="message-group">
       <div styleName="message">
-        <div styleName="avatar">
+        <div styleName="avatar" onClick={() => openEmployeeCard(author)}>
           <Avatar
             id={id}
             size={44}
             src={avatar}
-            fullName={fullName}/>
+            fullName={name}/>
         </div>
 
         <div styleName="head" data-timestamp={ts(timestamp)}>
-          <b styleName="name">{firstName}</b>
+          <b styleName="name" onClick={() => openEmployeeCard(author)}>{name}</b>
         </div>
 
         <div styleName="content">

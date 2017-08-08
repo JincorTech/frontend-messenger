@@ -1,27 +1,47 @@
 import * as React from 'react';
 import { Component } from 'react';
+import { RouteComponentProps } from 'react-router';
 import { connect } from 'react-redux';
 import './styles.css';
 
 import { checkAuth, StateMap as StateProps } from '../../../redux/modules/app/app';
+
+import { outsideSelectRoom } from '../../../redux/modules/messenger/rooms';
 
 import AppLayout from '../AppLayout';
 
 /**
  * Types
  */
-export type Props = StateProps & DispatchProps;
+
+export type Props = StateProps & DispatchProps & ComponentProps & RouteComponentProps<ComponentProps, {}>;
+
+export type ComponentProps = {
+  matrixId: string
+};
 
 export type DispatchProps = {
   checkAuth: () => void
+  outsideSelectRoom: (cMatrixId: string) => void
 };
 
 /**
  * Component
  */
+
 class App extends Component<Props, StateProps> {
   public componentWillMount(): void {
-    this.props.checkAuth();
+    const {
+      checkAuth,
+      outsideSelectRoom,
+      params
+    } = this.props;
+
+    checkAuth();
+
+    if (params.matrixId) {
+      outsideSelectRoom(params.matrixId);
+    }
   }
 
   render() {
@@ -35,5 +55,8 @@ class App extends Component<Props, StateProps> {
 
 export default connect<StateProps, DispatchProps, {}>(
   state => state.app.app,
-  { checkAuth }
+  {
+    checkAuth,
+    outsideSelectRoom
+  }
 )(App);

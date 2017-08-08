@@ -18,6 +18,7 @@ import UserAvatar from '../../../components/app/UserAvatar';
 import Sidebar from '../../../components/app/Sidebar';
 import PageName from '../../../components/app/PageName';
 import ProfileCard from '../ProfileCard';
+import EmployeeCard from '../EmployeeCard';
 import ContactsPopup from '../../contacts/ContactsPopup';
 import NewContactPopup from '../../contacts/NewContactPopup';
 import Messenger from '../../messenger/Messenger';
@@ -105,6 +106,7 @@ class AppLayout extends Component<Props, StateProps> {
         <ProfileCard user={user}/>
         <ContactsPopup/>
         <NewContactPopup/>
+        <EmployeeCard/>
       </div>
     );
   }
