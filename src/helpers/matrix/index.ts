@@ -34,6 +34,26 @@ export const createAlias = (id1: string, id2: string, domain: string): string =>
 };
 
 /**
+ * Clearing matrixId
+ * @param matrixId matrix id
+ * @return clear matrix id
+ */
+
+export const clearMatrixId = (matrixId: string): string => {
+  return matrixId.split('.').join('+');
+};
+
+/**
+ * Restoring matrixId
+ * @param cMatrixId clear matrix id
+ * @return matrix id
+ */
+
+export const restoreMatrixId = (cMatrixId: string): string => {
+  return cMatrixId.split('+').join('.');
+};
+
+/**
  * Get matrixIds from Rooms
  * @param rooms MatrixRooms[]
  * @return matrixId string

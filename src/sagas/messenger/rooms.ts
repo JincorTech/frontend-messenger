@@ -6,8 +6,10 @@ import { post } from '../../utils/api';
 import { Action } from '../../utils/actions';
 import {
   fetchRooms,
+  selectRoom,
   createRoom,
   openRoom,
+  OUTSIDE_SELECT_ROOM,
   SELECT_ROOM,
   CREATE_ROOM,
   OPEN_ROOM
@@ -18,7 +20,8 @@ import {
   createAlias,
   getIdsFromRooms,
   createRooms,
-  addDomain
+  addDomain,
+  restoreMatrixId
 } from '../../helpers/matrix';
 
 /**
@@ -50,6 +53,30 @@ function* fetchRoomsSaga(): SagaIterator {
   yield takeLatest(
     fetchRooms.REQUEST,
     fetchRoomsIterator
+  );
+}
+
+/**
+ * Try to open room outside app
+ * @param {string} payload clear matrix id (without dot symbols)
+ * 1. Validation matrix id (onfail - show error)
+ * 2. Restore id
+ * 3. Select room
+ */
+
+function* outsideSelectRoomIterator({ payload }: Action<string>): SagaIterator {
+  try {
+    const matrixId = yield call(restoreMatrixId, payload);
+    yield put(selectRoom(matrixId));
+  } catch (e) {
+    yield call(console.error, e);
+  }
+}
+
+function* outsideSelectRoomSaga(): SagaIterator {
+  yield takeLatest(
+    OUTSIDE_SELECT_ROOM,
+    outsideSelectRoomIterator
   );
 }
 
@@ -150,6 +177,7 @@ function* openRoomSaga(): SagaIterator {
 export default function*(): SagaIterator {
   yield all([
     fork(fetchRoomsSaga),
+    fork(outsideSelectRoomSaga),
     fork(selectRoomSaga),
     fork(createRoomSaga),
     fork(openRoomSaga)

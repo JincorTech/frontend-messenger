@@ -5,6 +5,7 @@ import { loadingBarReducer } from 'react-redux-loading-bar';
 import app from './modules/app/app';
 import appLayout from './modules/app/appLayout';
 import profileCard from './modules/app/profileCard';
+import employeeCard from './modules/app/employeeCard';
 
 import contacts from './modules/contacts/contacts';
 import newContact from './modules/contacts/newContact';
@@ -31,7 +32,8 @@ export default combineReducers({
   app: combineReducers({
     app,
     appLayout,
-    profileCard
+    profileCard,
+    employeeCard
   }),
 
   contacts: combineReducers({

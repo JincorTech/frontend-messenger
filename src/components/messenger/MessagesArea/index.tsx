@@ -7,7 +7,7 @@ import { removeDomain } from '../../../helpers/matrix';
 
 import './styles.css';
 
-import { StateObj as StateProps } from '../../../redux/modules/messenger/messenger';
+import { StateObj as StateProps, Member as EmployeeProps } from '../../../redux/modules/messenger/messenger';
 
 import Scrollbars from 'react-custom-scrollbars';
 import MessagesHeader, { HEIGHT as MESSAGES_HEADER_HEIGHT } from '../MessagesHeader';
@@ -24,6 +24,7 @@ export type Props = StateProps & DispatchProps & ComponentProps;
 export type DispatchProps = {
   changeTextarea: (text: string) => void
   sendMessage: () => void
+  openEmployeeCard: (employee: EmployeeProps) => void
 };
 
 type ComponentProps = {
@@ -146,8 +147,8 @@ class MessagesArea extends Component<Props, ComponentProps> {
           }])
         };
 
-        const [first, ...restAcc] = acc;
-        return Array.from([item, ...restAcc]);
+        const newArr = acc.slice(1);
+        return Array.from([item, ...newArr]);
       }
 
       const item = {
@@ -185,7 +186,8 @@ class MessagesArea extends Component<Props, ComponentProps> {
       height,
       openedRoom,
       textarea,
-      changeTextarea
+      changeTextarea,
+      openEmployeeCard
     } = this.props;
 
     const { members } = openedRoom;
@@ -202,11 +204,9 @@ class MessagesArea extends Component<Props, ComponentProps> {
           {messages.map(({ sender, messages }, i) => (
             <MessageGroup
               key={messages[0].timestamp}
-              id={members[sender].id}
-              avatar={members[sender].avatar}
-              firstName={members[sender].firstName}
-              fullName={members[sender].name}
-              messages={messages}/>
+              author={members[sender]}
+              messages={messages}
+              openEmployeeCard={openEmployeeCard}/>
           ))}
         </Scrollbars>
 
