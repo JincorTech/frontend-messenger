@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { SFC } from 'react';
+import { translate } from 'react-i18next';
 
 import './styles.css';
 
@@ -26,7 +27,8 @@ export type Props = {
   onChangeSearchQuery: (query: string) => void
   onAddToContacts: (request: AddContactReqProps) => void
   onRemoveFromContacts: (userId: string) => void
-  onOpenRoom: (matrixId: string) => void
+  onOpenRoom: (matrixId: string) => void,
+  t: Function
 };
 
 /**
@@ -35,6 +37,7 @@ export type Props = {
 
 const NewContact: SFC<Props> = (props) => {
   const {
+    t,
     step,
     search,
     loadingBar,
@@ -51,9 +54,9 @@ const NewContact: SFC<Props> = (props) => {
       case 'not-found':
         return (
           <div styleName="message">
-            <div styleName="not-found">Пользователь с данным Email не зарегистрирован на Jincor</div>
+            <div styleName="not-found">{t('userNotFound')}</div>
             <div styleName="button">
-              <button type="button" styleName="invite">Пригласить <span styleName="invite-icon"/></button>
+              <button type="button" styleName="invite">{t('invite')} <span styleName="invite-icon"/></button>
             </div>
           </div>
         );
@@ -61,7 +64,7 @@ const NewContact: SFC<Props> = (props) => {
       case 'spinner':
         return (
           <div styleName="message">
-            <div styleName="not-found">Пользователь с данным Email не зарегистрирован на Jincor</div>
+            <div styleName="not-found">{t('userNotFound')}</div>
             <div styleName="spinner"><Spinner color="#333"/></div>
           </div>
         );
@@ -69,7 +72,7 @@ const NewContact: SFC<Props> = (props) => {
       case 'invite-success':
         return (
           <div styleName="message">
-            <div>Приглашение отправлено!<br/>Когда пользователь зарегистрируется на Jincor, он будет автоматически добавлен в Ваш раздел Контакты.</div>
+            <div>{t('invitationSent')}<br/>{t('inviteHint')}</div>
           </div>
         );
 
@@ -95,7 +98,7 @@ const NewContact: SFC<Props> = (props) => {
       <button type="button" styleName="back-button" onClick={() => onBackFromFirstStep()}/>
 
       <div>
-        <div styleName="title">Добавить новый контакт</div>
+        <div styleName="title">{t('addNewContact')}</div>
 
         <div styleName="search">
           <SearchInput
@@ -114,4 +117,6 @@ const NewContact: SFC<Props> = (props) => {
  * Export
  */
 
-export default NewContact;
+const TranslatedComponent = translate('contacts')(NewContact);
+
+export default TranslatedComponent;

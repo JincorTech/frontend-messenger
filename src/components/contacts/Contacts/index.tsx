@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { SFC, MouseEvent } from 'react';
+import { translate } from 'react-i18next';
 
 import './styles.css';
 
@@ -26,7 +27,8 @@ export type Props = {
   removeContact: (e: MouseEvent<HTMLSpanElement>, userId: string) => void
   onContactClick: (matrixId: string) => void
   onChangeSearchQuery: (value: string) => void
-  onResetSearchQuery: () => void
+  onResetSearchQuery: () => void,
+  t: Function
 };
 
 /**
@@ -35,6 +37,7 @@ export type Props = {
 
 const Contacts: SFC<Props> = (props) => {
   const {
+    t,
     contacts,
     search,
     onClickNewContact,
@@ -49,11 +52,11 @@ const Contacts: SFC<Props> = (props) => {
   return (
     <div styleName="contacts">
       <div styleName="wrapper">
-        <div styleName="title">Контакты</div>
+        <div styleName="title">{t('contacts')}</div>
 
         <div styleName="add">
           <a onClick={() => onClickNewContact()}>
-            <span styleName="plus-icon"/> Новый контакт
+            <span styleName="plus-icon"/> {t('newContact')}
           </a>
         </div>
 
@@ -85,4 +88,6 @@ const Contacts: SFC<Props> = (props) => {
  * Export
  */
 
-export default Contacts;
+const TranslatedComponent = translate('contacts')(Contacts);
+
+export default TranslatedComponent;

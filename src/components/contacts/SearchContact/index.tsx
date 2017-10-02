@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { SFC } from 'react';
+import { translate } from 'react-i18next';
 
 import './styles.css';
 
@@ -14,7 +15,9 @@ import CardAvatar from '../../app/CardAvatar';
  * Types
  */
 
-export type Props = UserProps & DispatchProps;
+export type Props = UserProps & DispatchProps & {
+  t: Function
+};
 
 export type DispatchProps = {
   onAddToContacts: (user: AddContactReqProps) => void
@@ -28,6 +31,7 @@ export type DispatchProps = {
 
 const SearchContact: SFC<Props> = (props) => {
   const {
+    t,
     avatar,
     id,
     matrixId,
@@ -58,11 +62,11 @@ const SearchContact: SFC<Props> = (props) => {
         companyName={companyName}
         companyLogo={companyLogo}>
         <div styleName="buttons">
-          <button type="button" onClick={() => onOpenRoom(matrixId)}>Сообщение</button>
+          <button type="button" onClick={() => onOpenRoom(matrixId)}>{t('message')}</button>
           {added
-            ? <button type="button" onClick={() => onRemoveFromContacts(id)}>Удалить из контактов</button>
-            : <button type="button" onClick={() => onAddToContacts({ email, companyId })}>Добавить в контакты</button>}
-          <button type="button">Заблокировать</button>
+            ? <button type="button" onClick={() => onRemoveFromContacts(id)}>{t('removeFromContacts')}</button>
+            : <button type="button" onClick={() => onAddToContacts({ email, companyId })}>{t('addToContacts')}</button>}
+          <button type="button">{t('block')}</button>
         </div>
       </CardAvatar>
     </div>
@@ -73,4 +77,6 @@ const SearchContact: SFC<Props> = (props) => {
  * Export
  */
 
-export default SearchContact;
+const TranslatedComponent = translate('contacts')(SearchContact);
+
+export default TranslatedComponent;

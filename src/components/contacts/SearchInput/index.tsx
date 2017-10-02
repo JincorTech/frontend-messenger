@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { SFC } from 'react';
+import { translate } from 'react-i18next';
 
 import './styles.css';
 
@@ -12,7 +13,8 @@ import ProgressBar from 'react-redux-loading-bar';
 export type Props = {
   search: string
   loadingBar: number
-  onChangeSearchQuery: (query: string) => void
+  onChangeSearchQuery: (query: string) => void,
+  t: Function
 };
 
 /**
@@ -21,6 +23,7 @@ export type Props = {
 
 const SearchInput: SFC<Props> = (props) => {
   const {
+    t,
     search,
     loadingBar,
     onChangeSearchQuery
@@ -32,7 +35,7 @@ const SearchInput: SFC<Props> = (props) => {
       <input
         styleName="input"
         type="text"
-        placeholder="Введите email пользователя"
+        placeholder={t('enterEmail')}
         value={search}
         onChange={(e) => onChangeSearchQuery(e.target.value)}/>
 
@@ -55,4 +58,6 @@ const SearchInput: SFC<Props> = (props) => {
  * Export
  */
 
-export default SearchInput;
+const TranslatedComponents = translate('contacts')(SearchInput);
+
+export default TranslatedComponents;

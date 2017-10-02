@@ -25,8 +25,8 @@ export const config = {
       app: ru.app
     }
   },
-  ns: ['common'],
-  defaultNS: 'common',
+  ns: ['app'],
+  defaultNS: 'app',
   detection: {
     order: ['querystring', 'localStorage'],
     lookupQuerystring: 'lang',
