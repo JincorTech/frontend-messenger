@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { SFC } from 'react';
+import { translate } from 'react-i18next';
 
 import SearchGroup from '../SearchGroup';
 // import Room from '../Room';
@@ -13,7 +14,8 @@ export type Props = {
   searchable: boolean
   resultsVisible: boolean
   rooms: any[]
-  searchResults: any[]
+  searchResults: any[],
+  t: Function
 };
 
 /**
@@ -21,9 +23,11 @@ export type Props = {
  */
 
 const SearchRooms: SFC<Props> = (props) => {
+  const { t } = props;
+
   return (
     <div>
-      <SearchGroup title="Чаты" count={4}>
+      <SearchGroup title={t('chats')} count={4}>
         {/*<Room
           type="dialog"
           id="5"
@@ -62,7 +66,7 @@ const SearchRooms: SFC<Props> = (props) => {
           unreadOut={false}/>*/}
       </SearchGroup>
 
-      <SearchGroup title="Контакты" count={3}>
+      <SearchGroup title={t('contacts')} count={3}>
         <Contact
           id="11"
           fullName="Васька Кот"
@@ -89,4 +93,6 @@ const SearchRooms: SFC<Props> = (props) => {
  * Export
  */
 
-export default SearchRooms;
+const TranslatedComponent = translate('messenger')(SearchRooms);
+
+export default TranslatedComponent;

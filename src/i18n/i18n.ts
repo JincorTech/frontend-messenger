@@ -1,11 +1,13 @@
 import * as i18n from 'i18next';
 
 const ru = {
-  app: require('../locales/ru/app.json')
+  app: require('../locales/ru/app.json'),
+  messenger: require('../locales/ru/messenger.json')
 };
 
 const en = {
-  app: require('../locales/en/app.json')
+  app: require('../locales/en/app.json'),
+  messenger: require('../locales/en/messenger.json')
 };
 
 export const config = {
@@ -19,10 +21,12 @@ export const config = {
   },
   resources: {
     en: {
-      app: en.app
+      app: en.app,
+      messenger: en.messenger
     },
     ru: {
-      app: ru.app
+      app: ru.app,
+      messenger: ru.messenger
     }
   },
   ns: ['app'],

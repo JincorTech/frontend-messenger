@@ -2,6 +2,7 @@ import * as React from 'react';
 import { Component } from 'react';
 import * as equal from 'shallowequal';
 import Matrix from 'matrix-js-sdk';
+import { Trans, translate } from 'react-i18next';
 import matrix from '../../../utils/matrix';
 import { removeDomain } from '../../../helpers/matrix';
 
@@ -19,7 +20,9 @@ import * as Waypoint from 'react-waypoint';
  * Types
  */
 
-export type Props = StateProps & DispatchProps & ComponentProps;
+export type Props = StateProps & DispatchProps & ComponentProps & {
+  t: Function
+};
 
 export type DispatchProps = {
   changeTextarea: (text: string) => void
@@ -183,6 +186,7 @@ class MessagesArea extends Component<Props, ComponentProps> {
 
   private renderMessagesArea(): JSX.Element {
     const {
+      t,
       height,
       openedRoom,
       textarea,
@@ -211,7 +215,7 @@ class MessagesArea extends Component<Props, ComponentProps> {
         </Scrollbars>
 
         <Textarea
-          placeholder="Написать сообщение..."
+          placeholder={t('writeMessage')}
           sendMessage={this.sendMessage}
           onChange={(e) => changeTextarea(e.target.value)}
           value={textarea}/>
@@ -222,7 +226,7 @@ class MessagesArea extends Component<Props, ComponentProps> {
   private renderMock(): JSX.Element {
     return (
       <div styleName="mock-wrap">
-        <div styleName="mock">Выберите диалог<br/>чтобы начать общение</div>
+        <div styleName="mock"><Trans i18nKey="selectConversation">Select dialog<br/>for start a conversation</Trans></div>
       </div>
     );
   }
@@ -238,4 +242,6 @@ class MessagesArea extends Component<Props, ComponentProps> {
  * Export
  */
 
-export default MessagesArea;
+const TranslatedComponent = translate('messenger')(MessagesArea);
+
+export default TranslatedComponent;

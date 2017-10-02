@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { SFC } from 'react';
+import { translate } from 'react-i18next';
 
 import './styles.css';
 
@@ -17,7 +18,8 @@ export type Props = {
   hideSearchInput: () => void
   changeSearchQuery: (query: string) => void
   resetSearchQuery: () => void
-  openContacts: () => void
+  openContacts: () => void,
+  t: Function
 };
 
 /**
@@ -32,6 +34,7 @@ export const HEIGHT = 59;
 
 const RoomsHeader: SFC<Props> = (props) => {
   const {
+    t,
     search,
     searchable,
     showSearchInput,
@@ -59,7 +62,7 @@ const RoomsHeader: SFC<Props> = (props) => {
       {searchable &&
         <div styleName="search">
           <SearchInput
-            placeholder="Поиск по диалогам"
+            placeholder={t('searchInConversations')}
             value={search}
             onChange={(e) => changeSearchQuery(e.target.value)}
             onRemove={resetSearchQuery}/>
@@ -68,4 +71,6 @@ const RoomsHeader: SFC<Props> = (props) => {
   );
 };
 
-export default RoomsHeader;
+const TranslatedComponent = translate('messenger')(RoomsHeader);
+
+export default TranslatedComponent;
