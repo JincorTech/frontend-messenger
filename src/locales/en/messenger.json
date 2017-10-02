@@ -1,3 +1,7 @@
 {
-  
+  "writeMessage": "Write a message...",
+  "selectConversation": "Select a conversation<1/>to start communication",
+  "searchInConversations": "Search in conversations",
+  "chats": "Chats",
+  "contacts": "Contacts"
 }

@@ -1,3 +1,19 @@
 {
-  
+  "editProfile": "Edit profile",
+  "changePassword": "Change password",
+  "signOut": "Sign out",
+  "fieldCantBeEmpty": "Field can't be empty",
+  "passwordMustBeStrong": "The password must consist of at least 6 characters, contain letters of different registers and numbers.",
+  "oldPassword": "Old password",
+  "newPassword": "New password",
+  "cancel": "cancel",
+  "save": "Save",
+  "maxSymbols": "Maximum {{count}} characters",
+  "minSymbols": "Minimum {{count}} characters",
+  "firstName": "First name",
+  "lastName": "Last name",
+  "position": "Position",
+  "search": "Search",
+  "myCompany": "My company",
+  "messenger": "Messenger"
 }
