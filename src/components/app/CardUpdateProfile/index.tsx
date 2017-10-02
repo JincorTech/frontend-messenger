@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { Component } from 'react';
 import { reduxForm, Field, FormProps, SubmitHandler } from 'redux-form';
+import { translate } from 'react-i18next';
 
 import './styles.css';
 
@@ -21,7 +22,8 @@ export type ComponentProps = {
   onSubmit: SubmitHandler<FormFields, ComponentProps, any>
   onCancel: () => void
   avatar: string
-  spinner: boolean
+  spinner: boolean,
+  t: Function
 };
 
 export type FormFields = {
@@ -52,6 +54,7 @@ class CardUpdateProfile extends Component<Props, {}> {
 
   public render(): JSX.Element {
     const {
+      t,
       invalid,
       pristine,
       handleSubmit,
@@ -59,6 +62,10 @@ class CardUpdateProfile extends Component<Props, {}> {
       avatar,
       spinner
     } = this.props;
+
+    const NameMaxLength = 36;
+    const PositionMinLength = 2;
+    const PositionMaxLength = 60;
 
     return (
       <div styleName="edit-profile">
@@ -80,37 +87,37 @@ class CardUpdateProfile extends Component<Props, {}> {
           <Field
             component={RenderInput}
             validate={[
-              required('Поле не может быть пустым'),
-              maxLength(36, 'Максимум 36 символов')
+              required(t('fieldCantBeEmpty')),
+              maxLength(NameMaxLength, t('maxSymbols', { count: NameMaxLength }))
             ]}
             name="firstName"
             type="text"
-            placeholder="Имя"/>
+            placeholder={t('firstName')}/>
 
           <Field
             component={RenderInput}
             validate={[
-              required('Поле не может быть пустым'),
-              maxLength(36, 'Максимум 36 символов')
+              required(t('fieldCantBeEmpty')),
+              maxLength(NameMaxLength, t('maxSymbols', { count: NameMaxLength }))
             ]}
             name="lastName"
             type="text"
-            placeholder="Фамилия"/>
+            placeholder={t('lastName')}/>
 
           <Field
             component={RenderInput}
             validate={[
               required(),
-              minLength(2, 'Минимум 2 символа'),
-              maxLength(60, 'Максимум 60 символов')
+              minLength(PositionMinLength, t('minSymbols', { count: PositionMinLength })),
+              maxLength(PositionMaxLength, t('maxSymbols', { count: PositionMaxLength }))
             ]}
             name="position"
             type="text"
-            placeholder="Должность"/>
+            placeholder={t('position')}/>
 
           <div styleName="form-buttons">
-            <Button type="button" styleName="form-cancel-button" onClick={onCancel}>отменить</Button>
-            <Button type="submit" styleName="form-submit-button" disabled={pristine || invalid} spinner={spinner}>Сохранить</Button>
+            <Button type="button" styleName="form-cancel-button" onClick={onCancel}>{t('cancel')}</Button>
+            <Button type="submit" styleName="form-submit-button" disabled={pristine || invalid} spinner={spinner}>{t('save')}</Button>
           </div>
         </form>
       </div>
@@ -122,6 +129,8 @@ class CardUpdateProfile extends Component<Props, {}> {
  * Export
  */
 
+const TranslatedComponent = translate('app')(CardUpdateProfile);
+
 export default reduxForm<FormFields, ComponentProps>({
   form: 'cardUpdateProfile'
-})(CardUpdateProfile);
+})(TranslatedComponent);

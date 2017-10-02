@@ -9,7 +9,7 @@ const en = {
 };
 
 export const config = {
-  lng: 'en',
+  lng: 'ru',
   fallbackLng: 'en',
   supportedLngs: ['en', 'ru'],
   debug: process.env.NODE_ENV === 'development',

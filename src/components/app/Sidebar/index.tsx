@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { PureComponent, HTMLProps } from 'react';
 import { InjectedCSSModuleProps } from 'react-css-modules';
+import { translate } from 'react-i18next';
 import './styles.css';
 
 import Icon from '../../common/Icon';
@@ -10,7 +11,8 @@ import Icon from '../../common/Icon';
  */
 export type Props = HTMLProps<HTMLDivElement> & InjectedCSSModuleProps & {
   open?: boolean
-  onClose: () => void
+  onClose: () => void,
+  t: Function
 };
 
 /**
@@ -44,8 +46,7 @@ class Sidebar extends PureComponent<Props, {}> {
   }
 
   public render(): JSX.Element {
-    const { open, onClose, styles, children, className, ...divProps } = this.props;
-    // const { link, active } = styles;
+    const { t, open, onClose, styles, children, className, ...divProps } = this.props;
 
     return (
       <aside
@@ -57,13 +58,15 @@ class Sidebar extends PureComponent<Props, {}> {
         <Icon styleName="close-icon" name="close" onClick={onClose}/>
 
         <nav>
-          <a styleName="active" href="/msg">Мессенджер</a>
-          <a styleName="link" href="/cmp/app/profile">Моя компания</a>
-          <a styleName="link" href="/cmp/app/search">Поиск</a>
+          <a styleName="active" href="/msg">{t('messenger')}</a>
+          <a styleName="link" href="/cmp/app/profile">{t('myCompany')}</a>
+          <a styleName="link" href="/cmp/app/search">{t('search')}</a>
         </nav>
       </aside>
     );
   }
 }
 
-export default Sidebar;
+const TranslatedComponent = translate('app')(Sidebar);
+
+export default TranslatedComponent;

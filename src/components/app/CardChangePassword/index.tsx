@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { Component } from 'react';
 import { reduxForm, Field, FormProps, SubmitHandler } from 'redux-form';
+import { translate } from 'react-i18next';
 
 import './styles.css';
 
@@ -18,7 +19,8 @@ export type Props = ComponentProps & FormProps<FormFields, ComponentProps, any>;
 export type ComponentProps = {
   onSubmit: SubmitHandler<FormFields, ComponentProps, any>,
   onCancel: () => void
-  spinner: boolean
+  spinner: boolean,
+  t: Function
 };
 
 export type FormFields = {
@@ -33,6 +35,7 @@ export type FormFields = {
 class CardChangePassword extends Component<Props, {}> {
   public render(): JSX.Element {
     const {
+      t,
       pristine,
       invalid,
       handleSubmit,
@@ -49,28 +52,28 @@ class CardChangePassword extends Component<Props, {}> {
           <Field
             component={RenderPassword}
             validate={[
-              required('Поле не может быть пустым'),
+              required(t('fieldCantBeEmpty')),
               password()
             ]}
-            warn={password('Пароль должен состоять как минимум из 6 символов, содержать буквы разного регистра и цифры.')}
+            warn={password(t('passwordMustBeStrong'))}
             name="oldPassword"
             type="password"
-            placeholder="Старый пароль"/>
+            placeholder={t('oldPassword')}/>
 
           <Field
             component={RenderPassword}
             validate={[
-              required('Поле не может быть пустым'),
+              required(t('fieldCantBeEmpty')),
               password()
             ]}
-            warn={password('Пароль должен состоять как минимум из 6 символов, содержать буквы разного регистра и цифры.')}
+            warn={password(t('passwordMustBeStrong'))}
             name="password"
             type="password"
-            placeholder="Новый пароль"/>
+            placeholder={t('newPassword')}/>
 
           <div styleName="form-buttons">
-            <Button type="button" styleName="form-cancel-button" onClick={onCancel}>отменить</Button>
-            <Button type="submit" styleName="form-submit-button" disabled={pristine || invalid} spinner={spinner}>Сохранить</Button>
+            <Button type="button" styleName="form-cancel-button" onClick={onCancel}>{t('cancel')}</Button>
+            <Button type="submit" styleName="form-submit-button" disabled={pristine || invalid} spinner={spinner}>{t('save')}</Button>
           </div>
         </form>
       </div>
@@ -82,10 +85,12 @@ class CardChangePassword extends Component<Props, {}> {
  * Export
  */
 
+const TranslatedComponent = translate('app')(CardChangePassword);
+
 export default reduxForm<FormFields, ComponentProps>({
   form: 'cardChangePassword',
   initialValues: {
     oldPassword: '',
     password: ''
   }
-})(CardChangePassword);
+})(TranslatedComponent);

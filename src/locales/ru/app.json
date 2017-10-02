@@ -1,3 +1,19 @@
 {
-  
+  "editProfile": "Редактировать профиль",
+  "changePassword": "Изменить пароль",
+  "signOut": "Выйти",
+  "fieldCantBeEmpty": "Поле не может быть пустым",
+  "passwordMustBeStrong": "Пароль должен состоять как минимум из 6 символов, содержать буквы разного регистра и цифры.",
+  "oldPassword": "Старый пароль",
+  "newPassword": "Новый пароль",
+  "cancel": "отменить",
+  "save": "Сохранить",
+  "maxSymbols": "Максимум {{count}} символов",
+  "minSymbols": "Минимум {{count}} символа",
+  "firstName": "Имя",
+  "lastName": "Фамилия",
+  "position": "Должность",
+  "search": "Поиск",
+  "myCompany": "Моя компания",
+  "messenger": "Мессенджер"
 }
