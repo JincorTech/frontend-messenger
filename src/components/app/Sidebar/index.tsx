@@ -12,7 +12,9 @@ import Icon from '../../common/Icon';
 export type Props = HTMLProps<HTMLDivElement> & InjectedCSSModuleProps & {
   open?: boolean
   onClose: () => void,
-  t: Function
+  t: Function,
+  i18nLoadedAt?: any,
+  i18n?: any
 };
 
 /**
@@ -46,7 +48,7 @@ class Sidebar extends PureComponent<Props, {}> {
   }
 
   public render(): JSX.Element {
-    const { t, open, onClose, styles, children, className, ...divProps } = this.props;
+    const { t, open, onClose, styles, children, className, i18nLoadedAt, i18n, ...divProps } = this.props;
 
     return (
       <aside

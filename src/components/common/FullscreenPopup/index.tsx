@@ -2,7 +2,9 @@ import * as React from 'react';
 import { Component, HTMLProps, MouseEvent } from 'react';
 import { render, unmountComponentAtNode } from 'react-dom';
 import * as classnames from 'classnames';
+import { I18nextProvider } from 'react-i18next';
 const { popup, overlay, close } = require('./styles.css');
+import i18n from '../../../i18n/i18n';
 
 // TODO don't forget about dat
 import { Provider } from 'react-redux';
@@ -93,17 +95,19 @@ class FullscreenPopup extends Component<Props, {}> {
     } = this.props;
 
     render (
-      <Provider store={store}>
-        <div className="portal">
-          {open && <div className={overlay} onClick={onClose}>
-            {!hideClose && <button type="button" className={close}/>}
+      <I18nextProvider i18n={i18n}>
+        <Provider store={store}>
+          <div className="portal">
+            {open && <div className={overlay} onClick={onClose}>
+              {!hideClose && <button type="button" className={close} />}
 
-            <div className={classnames(popup, className)} onClick={this.handleClick} {...divProps}>
-              {children}
-            </div>
-          </div>}
-        </div>
-      </Provider>,
+              <div className={classnames(popup, className)} onClick={this.handleClick} {...divProps}>
+                {children}
+              </div>
+            </div>}
+          </div>
+        </Provider>
+      </I18nextProvider>,
       document.getElementById(modalId)
     );
   }
