@@ -6,12 +6,14 @@ import { Router, browserHistory } from 'react-router';
 import { syncHistoryWithStore } from 'react-router-redux';
 import { Provider } from 'react-redux';
 import { AppContainer } from 'react-hot-loader';
+import { I18nextProvider } from 'react-i18next';
 
 import matrix from './utils/matrix';
 import { isAuth } from './utils/auth';
 
 import routes from './routes';
 import configureStore from './redux/configureStore';
+import i18n from './i18n/i18n';
 
 import App from './containers/app/App';
 import AppPreloader from './components/app/AppPreloader';
@@ -28,9 +30,11 @@ if (!isAuth()) window.location.replace('/cmp/auth/signin');
 const renderApp = (routes: any) => {
   ReactDOM.render(
     <AppContainer>
-      <Provider store={store}>
-        <Router history={history} routes={routes} />
-      </Provider>
+      <I18nextProvider i18n={i18n}>
+        <Provider store={store}>
+          <Router history={history} routes={routes} />
+        </Provider>
+      </I18nextProvider>
     </AppContainer>,
     document.getElementById('app')
   );

@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { SFC } from 'react';
+import { translate } from 'react-i18next';
 
 import './styles.css';
 
@@ -13,7 +14,8 @@ import Icon from '../../common/Icon';
 
 export type Props = {
   changeView: (view: BottomViewProps) => void
-  logout: () => void
+  logout: () => void,
+  t: Function
 };
 
 /**
@@ -21,26 +23,26 @@ export type Props = {
  */
 
 const CardButtonsView: SFC<Props> = (props) => {
-  const { changeView, logout } = props;
+  const { t, changeView, logout } = props;
 
   return (
     <div styleName="control-buttons">
       <button
         type="button"
         onClick={() => changeView('profile-form')}>
-        <Icon name="pencil" styleName="icon"/> Редактировать профиль
+        <Icon name="pencil" styleName="icon"/> {t('editProfile')}
       </button>
 
       <button
         type="button"
         onClick={() => changeView('password-form')}>
-        <Icon name="lock" styleName="icon"/> Изменить пароль
+        <Icon name="lock" styleName="icon"/> {t('changePassword')}
       </button>
 
       <button
         type="button"
         onClick={() => logout()}>
-        <Icon name="logout" styleName="icon"/> Выйти
+        <Icon name="logout" styleName="icon"/> {t('signOut')}
       </button>
     </div>
   );
@@ -50,4 +52,6 @@ const CardButtonsView: SFC<Props> = (props) => {
  * Export
  */
 
-export default CardButtonsView;
+const TranslatedComponent = translate('app')(CardButtonsView);
+
+export default TranslatedComponent;

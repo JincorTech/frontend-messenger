@@ -1,0 +1,14 @@
+{
+  "contacts": "Contacts",
+  "newContact": "New contact",
+  "userNotFound": "User with this Email is not registered on Jincor",
+  "invite": "Invite",
+  "invitationSent": "Invitation sent!",
+  "inviteHint": "When a user signs up on Jincor, he will be automatically added to your Contacts section.",
+  "addNewContact": "Add a new contact",
+  "message": "Message",
+  "removeFromContacts": "Remove from contacts",
+  "addToContacts": "Add to contacts",
+  "block": "Block",
+  "enterEmail": "Enter user email"
+}
