@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { Component } from 'react';
 import { connect } from 'react-redux';
+import Notifications from 'react-notification-system-redux';
 import './styles.css';
 
 import {
@@ -33,7 +34,8 @@ export type ComponentProps = {};
 export type StateProps = {
   user: User
   sidebarOpen: boolean
-  isAuth: boolean
+  isAuth: boolean,
+  notifications: any
 };
 
 export type DispatchProps = {
@@ -61,7 +63,7 @@ class AppLayout extends Component<Props, StateProps> {
   }
 
   render() {
-    const { sidebarOpen, user, isAuth } = this.props;
+    const { sidebarOpen, user, isAuth, notifications } = this.props;
     const { id, profile } = user;
     const {
       openSidebar,
@@ -107,6 +109,7 @@ class AppLayout extends Component<Props, StateProps> {
         <ContactsPopup/>
         <NewContactPopup/>
         <EmployeeCard/>
+        <Notifications notifications={notifications}/>
       </div>
     );
   }
@@ -115,7 +118,8 @@ class AppLayout extends Component<Props, StateProps> {
 export default connect<StateProps, DispatchProps, any>(
   (state) => ({
     ...state.app.appLayout,
-    isAuth: state.app.app.authorized
+    isAuth: state.app.app.authorized,
+    notifications: state.notifications
   }),
   {
     openSidebar,
