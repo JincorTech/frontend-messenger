@@ -2,18 +2,23 @@ import * as React from 'react';
 import { Component } from 'react';
 import { connect } from 'react-redux';
 import * as equal from 'shallowequal';
-import { success } from 'react-notification-system-redux';
 import matrix from '../../../utils/matrix';
+import { removeDomain } from '../../../helpers/matrix';
 
 import './styles.css';
 
-import { StateObj as StateProps, Member as EmployeeProps } from '../../../redux/modules/messenger/messenger';
+import {
+  StateObj as StateProps,
+  Member as EmployeeProps,
+  NewMessageNotification as NotificationProps
+} from '../../../redux/modules/messenger/messenger';
 
 import {
   updateDemensions,
   sendMessage,
   changeTextarea,
-  fetchRoom
+  fetchRoom,
+  showNotification
 } from '../../../redux/modules/messenger/messenger';
 import { openEmployeeCard } from '../../../redux/modules/app/employeeCard';
 
@@ -34,7 +39,7 @@ export type DispatchProps = {
   changeTextarea: (text: string) => void
   fetchRoom: (roomId: string) => void
   openEmployeeCard: (employee: EmployeeProps) => void
-  success: (notificationOpts: Object) => void
+  showNotification: (notification: NotificationProps) => void
 };
 
 /**
@@ -59,7 +64,7 @@ class Messenger extends Component<Props, StateProps> {
       if (event.getType() === 'm.room.message') {
         this.props.fetchRoom(this.props.openedRoom.roomId);
         if (event.sender) {
-          this.sendNotification(event.sender.name, event.event.content.body);
+          this.props.showNotification({ userId: event.sender.userId, content: event.event.content.body });
         }
       }
     });
@@ -71,18 +76,6 @@ class Messenger extends Component<Props, StateProps> {
 
   private updateDimensions(): void {
     this.props.updateDemensions(window.innerHeight - LAYOUT_HEADER_HEIGHT);
-  }
-
-  private sendNotification(sender, text): void {
-    const notificationOpts = {
-      title: `New message from ${sender}`,
-      // TODO: We need to ellipse long messages here
-      message: text,
-      position: 'tr',
-      autoDismiss: 5
-    };
-
-    this.props.success(notificationOpts);
   }
 
   public render(): JSX.Element {
@@ -114,6 +107,6 @@ export default connect<StateProps, DispatchProps, {}>(
     changeTextarea,
     fetchRoom,
     openEmployeeCard,
-    success
+    showNotification
   }
 )(Messenger);

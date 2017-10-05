@@ -10,7 +10,10 @@ export type State = StateObj & ImmutableObject<StateObj>;
 export type StateObj = {
   height: number
   openedRoom: OpenedRoom
-  textarea: string
+  textarea: string,
+  membersCache: {
+    [matrixId: string]: Member
+  }
 };
 
 export type OpenedRoom = {
@@ -47,6 +50,11 @@ export type OpenRoomRes = {
   members: Member[]
 };
 
+export type NewMessageNotification = {
+  userId: string
+  content: string
+};
+
 /**
  * Constants
  */
@@ -55,8 +63,10 @@ export const UPDATE_DEMENSIONS = 'messenger/messenger/UPDATE_DEMENSIONS';
 export const OPEN_ROOM = 'messenger/messenger/OPEN_ROOM';
 export const SEND_MESSAGE = 'messenger/messenger/SEND_MESSAGE';
 export const FETCH_ROOM = 'messenger/messenger/FETCH_ROOM';
+export const FETCH_MEMBER = 'messenger/messenger/FETCH_MEMBER';
 export const CHANGE_TEXTAREA = 'messenger/messenger/CHANGE_TEXTAREA';
 export const RESET_TEXTAREA = 'messenger/messenger/RESET_TEXTAREA';
+export const SHOW_NOTIFICATION = 'messenger/messenger/SHOW_NOTIFICATION';
 
 /**
  * Action creators
@@ -68,6 +78,7 @@ export const sendMessage = createAction<void>(SEND_MESSAGE);
 export const fetchRoom = createAsyncAction<string, OpenedRoom>(FETCH_ROOM);
 export const changeTextarea = createAction<string>(CHANGE_TEXTAREA);
 export const resetTextarea = createAction<void>(RESET_TEXTAREA);
+export const showNotification = createAction<NewMessageNotification>(SHOW_NOTIFICATION);
 
 /**
  * Reducer
@@ -82,7 +93,8 @@ const initialState = from<StateObj>({
     companyName: '',
     members: {}
   },
-  textarea: ''
+  textarea: '',
+  membersCache: {}
 });
 
 export default createReducer<State>({
@@ -93,6 +105,10 @@ export default createReducer<State>({
   [fetchRoom.SUCCESS]: (state: State, { payload }: Action<any>): State => (
     state.merge({ openedRoom: payload })
   ),
+
+  [SHOW_NOTIFICATION]: (state: State, { payload }: Action<any>): State => {
+    return state.merge({ membersCache: payload });
+  },
 
   [CHANGE_TEXTAREA]: (state: State, { payload }: Action<string>): State => (
     state.merge({ textarea: payload })

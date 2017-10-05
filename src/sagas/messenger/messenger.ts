@@ -1,9 +1,11 @@
 import { SagaIterator } from 'redux-saga';
 import { all, takeLatest, call, fork, put, select } from 'redux-saga/effects';
+import { success } from 'react-notification-system-redux';
 import { post } from '../../utils/api';
 import {
   membersTransformer,
   getMembersIds,
+  removeDomain,
   getAnotherGuyId
 } from '../../helpers/matrix';
 
@@ -12,7 +14,9 @@ import { Action } from '../../utils/actions';
 import {
   fetchRoom,
   resetTextarea,
-  SEND_MESSAGE
+  SEND_MESSAGE,
+  SHOW_NOTIFICATION,
+  NewMessageNotification
 } from '../../redux/modules/messenger/messenger';
 import matrix from '../../utils/matrix';
 
@@ -52,6 +56,44 @@ function* fetchRoomSaga(): SagaIterator {
 }
 
 /**
+ * Show notification saga
+ * @param {string} payload.userId matrix user id
+ * @param {string} payload.content notification text
+ */
+
+const getMembersCache = (state) => state.messenger.messenger.membersCache;
+
+function* showNotificationIterator({ payload }: Action<NewMessageNotification>): SagaIterator {
+  const membersCache = yield select(getMembersCache);
+  const memberId = removeDomain(payload.userId);
+  let member = membersCache[memberId];
+
+  if (!member) {
+    const matrixIds = [ memberId ];
+    const { data } = yield call(post, '/employee/matrix', { matrixIds });
+    const storeMembers = yield call(membersTransformer, data);
+    member = storeMembers[memberId];
+  }
+
+  const notificationOpts = {
+    title: `New message from ${member ? member.name : ''}`,
+    // TODO: We need to ellipse long messages here
+    message: payload.content,
+    position: 'tr',
+    autoDismiss: 5
+  };
+
+  yield put(success(notificationOpts));
+}
+
+function* showNotificationSaga(): SagaIterator {
+  yield takeLatest(
+    SHOW_NOTIFICATION,
+    showNotificationIterator
+  );
+}
+
+/**
  * Send message saga
  */
 
@@ -86,6 +128,7 @@ function* sendMessageSaga(): SagaIterator {
 export default function*(): SagaIterator {
   yield all([
     fork(fetchRoomSaga),
-    fork(sendMessageSaga)
+    fork(sendMessageSaga),
+    fork(showNotificationSaga)
   ]);
 }
