@@ -58,7 +58,9 @@ class Messenger extends Component<Props, StateProps> {
     matrix.on('event', (event) => {
       if (event.getType() === 'm.room.message') {
         this.props.fetchRoom(this.props.openedRoom.roomId);
-        // this.sendNotification();
+        if (event.sender) {
+          this.sendNotification(event.sender.name, event.event.content.body);
+        }
       }
     });
   }
@@ -71,17 +73,13 @@ class Messenger extends Component<Props, StateProps> {
     this.props.updateDemensions(window.innerHeight - LAYOUT_HEADER_HEIGHT);
   }
 
-  private sendNotification(): void {
+  private sendNotification(sender, text): void {
     const notificationOpts = {
-      // uid: 'once-please', // you can specify your own uid if required
-      title: 'Hey, it\'s good to see you!',
-      message: 'Now you can see how easy it is to use notifications in React!',
+      title: `New message from ${sender}`,
+      // TODO: We need to ellipse long messages here
+      message: text,
       position: 'tr',
-      autoDismiss: 0,
-      action: {
-        label: 'Click me!!',
-        callback: () => alert('clicked!')
-      }
+      autoDismiss: 5
     };
 
     this.props.success(notificationOpts);
