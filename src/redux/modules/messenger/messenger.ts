@@ -52,7 +52,10 @@ export type OpenRoomRes = {
 
 export type NewMessageNotification = {
   userId: string
-  content: string
+  title: string
+  message: string
+  position: string
+  autoDismiss: number
 };
 
 /**

@@ -1,6 +1,7 @@
 import { SagaIterator } from 'redux-saga';
 import { all, takeLatest, call, fork, put, select } from 'redux-saga/effects';
 import { success } from 'react-notification-system-redux';
+import _ from 'lodash';
 import { post } from '../../utils/api';
 import {
   membersTransformer,
@@ -76,14 +77,13 @@ function* showNotificationIterator({ payload }: Action<NewMessageNotification>):
       member = storeMembers[memberId];
     }
 
-    const notificationOpts = {
-      title: `New message from ${member ? member.name : ''}`,
-      message: payload.content,
-      position: 'tr',
-      autoDismiss: 5
-    };
+    yield put(success({
+      title: _.template(payload.title)({ 'name': member ? member.name : '' }),
+      message: payload.message,
+      position: payload.position,
+      autoDismiss: payload.autoDismiss
+    }));
 
-    yield put(success(notificationOpts));
     yield put(showNotification.success(member));
   } catch (e) {
     yield put(showNotification.failure(e));

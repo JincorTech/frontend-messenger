@@ -64,7 +64,13 @@ class Messenger extends Component<Props, StateProps> {
       if (event.getType() === 'm.room.message') {
         this.props.fetchRoom(this.props.openedRoom.roomId);
         if (event.sender) {
-          this.props.showNotification({ userId: event.sender.userId, content: event.event.content.body });
+          this.props.showNotification({
+            userId: event.sender.userId,
+            title: 'New message from <%= name %>',
+            message: event.event.content.body,
+            position: 'tr',
+            autoDismiss: 5
+          });
         }
       }
     });
