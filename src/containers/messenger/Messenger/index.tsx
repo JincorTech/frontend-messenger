@@ -2,6 +2,7 @@ import * as React from 'react';
 import { Component } from 'react';
 import { connect } from 'react-redux';
 import * as equal from 'shallowequal';
+import { translate } from 'react-i18next';
 import matrix from '../../../utils/matrix';
 import { removeDomain } from '../../../helpers/matrix';
 
@@ -31,7 +32,9 @@ import { HEIGHT as LAYOUT_HEADER_HEIGHT } from '../../app/AppLayout';
  * Types
  */
 
-export type Props = DispatchProps & StateProps;
+export type Props = DispatchProps & StateProps & {
+  t: Function
+};
 
 export type DispatchProps = {
   updateDemensions: (height: number) => void
@@ -58,6 +61,7 @@ class Messenger extends Component<Props, StateProps> {
   }
 
   public componentDidMount(): void {
+    const { t } = this.props;
     window.addEventListener('resize', this.updateDimensions);
 
     matrix.on('event', (event) => {
@@ -66,7 +70,7 @@ class Messenger extends Component<Props, StateProps> {
         if (event.sender) {
           this.props.showNotification({
             userId: event.sender.userId,
-            title: 'New message from <%= name %>',
+            title: t('newMessageNotificationTitle'),
             message: event.event.content.body,
             position: 'tr',
             autoDismiss: 5
@@ -105,6 +109,8 @@ class Messenger extends Component<Props, StateProps> {
  * Export
  */
 
+const TranslatedComponent = translate('messenger')(Messenger);
+
 export default connect<StateProps, DispatchProps, {}>(
   state => state.messenger.messenger,
   {
@@ -115,4 +121,4 @@ export default connect<StateProps, DispatchProps, {}>(
     openEmployeeCard,
     showNotification
   }
-)(Messenger);
+)(TranslatedComponent);
