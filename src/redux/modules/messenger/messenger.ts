@@ -78,7 +78,7 @@ export const sendMessage = createAction<void>(SEND_MESSAGE);
 export const fetchRoom = createAsyncAction<string, OpenedRoom>(FETCH_ROOM);
 export const changeTextarea = createAction<string>(CHANGE_TEXTAREA);
 export const resetTextarea = createAction<void>(RESET_TEXTAREA);
-export const showNotification = createAction<NewMessageNotification>(SHOW_NOTIFICATION);
+export const showNotification = createAsyncAction<NewMessageNotification, Member>(SHOW_NOTIFICATION);
 
 /**
  * Reducer
@@ -106,9 +106,9 @@ export default createReducer<State>({
     state.merge({ openedRoom: payload })
   ),
 
-  [SHOW_NOTIFICATION]: (state: State, { payload }: Action<any>): State => {
-    return state.merge({ membersCache: payload });
-  },
+  [showNotification.SUCCESS]: (state: State, { payload }: Action<any>): State => (
+    state.merge({ membersCache: { [payload.matrixId]: payload } })
+  ),
 
   [CHANGE_TEXTAREA]: (state: State, { payload }: Action<string>): State => (
     state.merge({ textarea: payload })

@@ -15,7 +15,7 @@ import {
   fetchRoom,
   resetTextarea,
   SEND_MESSAGE,
-  SHOW_NOTIFICATION,
+  showNotification,
   NewMessageNotification
 } from '../../redux/modules/messenger/messenger';
 import matrix from '../../utils/matrix';
@@ -64,31 +64,35 @@ function* fetchRoomSaga(): SagaIterator {
 const getMembersCache = (state) => state.messenger.messenger.membersCache;
 
 function* showNotificationIterator({ payload }: Action<NewMessageNotification>): SagaIterator {
-  const membersCache = yield select(getMembersCache);
-  const memberId = removeDomain(payload.userId);
-  let member = membersCache[memberId];
+  try {
+    const membersCache = yield select(getMembersCache);
+    const memberId = removeDomain(payload.userId);
+    let member = membersCache[memberId];
 
-  if (!member) {
-    const matrixIds = [ memberId ];
-    const { data } = yield call(post, '/employee/matrix', { matrixIds });
-    const storeMembers = yield call(membersTransformer, data);
-    member = storeMembers[memberId];
+    if (!member) {
+      const matrixIds = [memberId];
+      const { data } = yield call(post, '/employee/matrix', { matrixIds });
+      const storeMembers = yield call(membersTransformer, data);
+      member = storeMembers[memberId];
+    }
+
+    const notificationOpts = {
+      title: `New message from ${member ? member.name : ''}`,
+      message: payload.content,
+      position: 'tr',
+      autoDismiss: 5
+    };
+
+    yield put(success(notificationOpts));
+    yield put(showNotification.success(member));
+  } catch (e) {
+    yield put(showNotification.failure(e));
   }
-
-  const notificationOpts = {
-    title: `New message from ${member ? member.name : ''}`,
-    // TODO: We need to ellipse long messages here
-    message: payload.content,
-    position: 'tr',
-    autoDismiss: 5
-  };
-
-  yield put(success(notificationOpts));
 }
 
 function* showNotificationSaga(): SagaIterator {
   yield takeLatest(
-    SHOW_NOTIFICATION,
+    showNotification.REQUEST,
     showNotificationIterator
   );
 }
