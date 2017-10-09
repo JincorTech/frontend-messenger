@@ -111,6 +111,20 @@ class MessagesArea extends Component<Props, ComponentProps> {
     });
   }
 
+  private showNewMessage(sender: string, timestamp: number, content: string): void {
+    const newMessage = {
+      messages: [{
+        content: content,
+        timestamp: timestamp
+      }],
+      sender: sender
+    };
+
+    this.setState({ messages: this.state.messages.concat(newMessage) }, () => {
+      this.scrollToBottom();
+    });
+  }
+
   private getMessages(): any {
     const events = this.timelineWindow.getEvents();
 
@@ -175,7 +189,7 @@ class MessagesArea extends Component<Props, ComponentProps> {
   private sendMessage(e): void {
     e.preventDefault();
     this.props.sendMessage();
-    this.scrollToBottom();
+    this.showNewMessage(removeDomain(matrix.getUserId()), Date.now(), this.props.textarea);
   }
 
   private renderWaypoint(): JSX.Element {
