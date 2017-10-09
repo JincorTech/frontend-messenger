@@ -84,7 +84,7 @@ class MessagesArea extends Component<Props, ComponentProps> {
     this.timelineWindow = new Matrix.TimelineWindow(matrix, timelineSet);
 
     this.timelineWindow.load(undefined, 30);
-    this.setState({ messages: this.getMessages() }, () => {
+    this.setState({ messages: this.getGroupedMessages() }, () => {
       this.scrollToBottom();
     });
   }
@@ -94,7 +94,7 @@ class MessagesArea extends Component<Props, ComponentProps> {
 
     const prevHeight = this.scrollbars.getScrollHeight();
     this.timelineWindow.paginate(Matrix.EventTimeline.BACKWARDS, 30).then(() => {
-      this.setState({ messages: this.getMessages() }, () => {
+      this.setState({ messages: this.getGroupedMessages() }, () => {
         const currHeight = this.scrollbars.getScrollHeight();
         this.scrollbars.scrollTop(currHeight - prevHeight);
         this.setState({ loading: false });
@@ -107,43 +107,26 @@ class MessagesArea extends Component<Props, ComponentProps> {
 
     this.timelineWindow.paginate(Matrix.EventTimeline.FORWARDS, 1, false).done(() => {
       if (this.unmounted) return;
-      this.setState({ messages: this.getMessages() });
+      this.setState({ messages: this.getGroupedMessages() });
     });
   }
 
   private showNewMessage(sender: string, timestamp: number, content: string): void {
     const newMessage = {
-      messages: [{
-        content: content,
-        timestamp: timestamp
-      }],
+      content: content,
+      timestamp: timestamp,
       sender: sender
     };
 
-    this.setState({ messages: this.state.messages.concat(newMessage) }, () => {
+    const messages = this.getMessages();
+    const groupedMessages = this.groupMessages(messages.concat(newMessage));
+
+    this.setState({ messages: groupedMessages }, () => {
       this.scrollToBottom();
     });
   }
 
-  private getMessages(): any {
-    const events = this.timelineWindow.getEvents();
-
-    if (this.timelineWindow.canPaginate(Matrix.EventTimeline.FORWARDS)) {
-      events.push(...this.state.timelineSet.getPendingEvents());
-    }
-
-    const messages = events.reduce((acc, event) => {
-      if (event.getType() === 'm.room.message') {
-        return acc.concat([{
-          sender: removeDomain(event.getSender()),
-          timestamp: event.getTs(),
-          content: event.getContent().body
-        }]);
-      } else {
-        return acc;
-      }
-    }, []);
-
+  private groupMessages(messages): any {
     const result = messages.reduce((acc, d) => {
       if (acc.length === 0) {
         return new Array({
@@ -179,9 +162,34 @@ class MessagesArea extends Component<Props, ComponentProps> {
       return [item, ...acc];
     }, []);
 
-    const res = result.reverse();
+    return result.reverse();
+  }
 
-    return res;
+  private getMessages(): any {
+    const events = this.timelineWindow.getEvents();
+
+    if (this.timelineWindow.canPaginate(Matrix.EventTimeline.FORWARDS) && this.state.timelineSet.getPendingEvents) {
+      events.push(...this.state.timelineSet.getPendingEvents());
+    }
+
+    const messages = events.reduce((acc, event) => {
+      if (event.getType() === 'm.room.message') {
+        return acc.concat([{
+          sender: removeDomain(event.getSender()),
+          timestamp: event.getTs(),
+          content: event.getContent().body
+        }]);
+      } else {
+        return acc;
+      }
+    }, []);
+
+    return messages;
+  }
+
+  private getGroupedMessages(): any {
+    const messages = this.getMessages();
+    return this.groupMessages(messages);
   }
 
   // /test
