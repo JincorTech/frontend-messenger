@@ -8,3 +8,4 @@ RUN npm i
 RUN npm run build
 VOLUME /usr/src/messenger
 CMD npm start
+ENTRYPOINT ["/usr/sbin/nginx", "-g", "daemon off;"]
