@@ -2,6 +2,7 @@ FROM node:8.0.0-alpine
 
 RUN apk add --update nginx
 RUN rm -rf /var/cache/apk/*
+RUN mkdir -p /run/nginx
 WORKDIR /usr/src/messenger
 ADD . /usr/src/messenger
 RUN npm i
