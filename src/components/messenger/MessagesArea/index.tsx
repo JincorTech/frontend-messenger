@@ -118,7 +118,7 @@ class MessagesArea extends Component<Props, ComponentProps> {
       sender: sender
     };
 
-    const messages = this.getMessages();
+    const messages = this.getMessagesFromEvents(this.timelineWindow.getEvents());
     const groupedMessages = this.groupMessages(messages.concat(newMessage));
 
     this.setState({ messages: groupedMessages }, () => {
@@ -165,13 +165,7 @@ class MessagesArea extends Component<Props, ComponentProps> {
     return result.reverse();
   }
 
-  private getMessages(): any {
-    const events = this.timelineWindow.getEvents();
-
-    if (this.timelineWindow.canPaginate(Matrix.EventTimeline.FORWARDS) && this.state.timelineSet.getPendingEvents) {
-      events.push(...this.state.timelineSet.getPendingEvents());
-    }
-
+  private getMessagesFromEvents(events): any {
     const messages = events.reduce((acc, event) => {
       if (event.getType() === 'm.room.message') {
         return acc.concat([{
@@ -185,6 +179,16 @@ class MessagesArea extends Component<Props, ComponentProps> {
     }, []);
 
     return messages;
+  }
+
+  private getMessages(): any {
+    const events = this.timelineWindow.getEvents();
+
+    if (this.timelineWindow.canPaginate(Matrix.EventTimeline.FORWARDS)) {
+      events.push(...this.state.timelineSet.getPendingEvents());
+    }
+
+    return this.getMessagesFromEvents(events);
   }
 
   private getGroupedMessages(): any {
