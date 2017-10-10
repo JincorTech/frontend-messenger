@@ -4,4 +4,4 @@ VOLUME /usr/src/messenger
 WORKDIR /usr/src/messenger
 
 RUN npm i
-CMD /bin/true
+CMD npm start
