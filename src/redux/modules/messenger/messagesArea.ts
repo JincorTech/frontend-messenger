@@ -25,12 +25,14 @@ export type MessagesGroup = {
  */
 
 export const LOAD_PREVIOUS_PAGE = 'messenger/messagesArea/LOAD_PREVIOUS_PAGE';
+export const LOAD_NEXT_MESSAGE = 'messenger/messagesArea/LOAD_NEXT_MESSAGE'
 
 /**
  * Action creators
  */
 
 export const loadPreviousPage = createAsyncAction<string, MessagesGroup[]>(LOAD_PREVIOUS_PAGE);
+export const loadNextMessage = createAsyncAction<string, MessagesGroup[]>(LOAD_NEXT_MESSAGE);
 
 /**
  * Reducer
@@ -42,6 +44,18 @@ const initialState: State = from<StateObj>({
 });
 
 export default createReducer<State>({
+  [loadNextMessage.REQUEST]: (state: State, { payload }: Action<string>): State => (
+    state.merge({ loading: true })
+  ),
+
+  [loadNextMessage.SUCCESS]: (state: State, { payload }: Action<MessagesGroup[]>): State => (
+    state.merge({ messages: payload, loading: false })
+  ),
+
+  [loadNextMessage.FAILURE]: (state: State, { payload }: Action<any>): State => (
+    state.merge({ loading: false })
+  ),
+
   [loadPreviousPage.REQUEST]: (state: State, { payload }: Action<string>): State => (
     state.merge({ loading: true })
   ),

@@ -12,7 +12,7 @@ import './styles.css';
 
 import { StateObj as MessengerState, Member as EmployeeProps } from '../../../redux/modules/messenger/messenger';
 import { StateObj as MessagesAreaState, MessagesGroup } from '../../../redux/modules/messenger/messagesArea';
-import { loadPreviousPage } from '../../../redux/modules/messenger/messagesArea';
+import { loadPreviousPage, loadNextMessage } from '../../../redux/modules/messenger/messagesArea';
 
 import Scrollbars from 'react-custom-scrollbars';
 import MessagesHeader, { HEIGHT as MESSAGES_HEADER_HEIGHT } from '../../../components/messenger/MessagesHeader';
@@ -34,7 +34,8 @@ export type DispatchProps = {
   changeTextarea: (text: string) => void
   sendMessage: () => void
   openEmployeeCard: (employee: EmployeeProps) => void,
-  loadPreviousPage: (roomId: string) => void
+  loadPreviousPage: (roomId: string) => void,
+  loadNextMessage: (roomId: string) => void
 };
 
 export type ComponentProps = {
@@ -55,10 +56,14 @@ class MessagesArea extends Component<Props, {}> {
     this.scrollToBottom = this.scrollToBottom.bind(this);
   }
 
-  public componentWillReceiveProps(nextProps): void {
-    if (!equal(this.props.openedRoom, nextProps.openedRoom)) {
-      this.props.loadPreviousPage(nextProps.openedRoom.roomId);
-    }
+  public componentWillMount(): void {
+    matrix.on('Room.timeline', () => {
+      this.props.loadNextMessage(this.props.openedRoom.roomId);
+    });
+  }
+
+  public componentDidUpdate(): void {
+    this.scrollToBottom();
   }
 
   private scrollToBottom(): void {
@@ -160,6 +165,7 @@ export default connect<StateProps, DispatchProps, ComponentProps>(
     }
   },
   {
-    loadPreviousPage
+    loadPreviousPage,
+    loadNextMessage
   }
 )(TranslatedComponent);

@@ -9,6 +9,7 @@ import { removeDomain } from '../../helpers/matrix';
 
 import { Action } from '../../utils/actions';
 import { loadPreviousPage } from '../../redux/modules/messenger/messagesArea';
+import { loadNextMessage } from '../../redux/modules/messenger/messagesArea';
 
 /**
  * Fetch messages saga
@@ -77,12 +78,37 @@ function* loadPreviousPageSaga(): SagaIterator {
   );
 }
 
+function* loadNextMessageIterator({ payload }: Action<string>): SagaIterator {
+  try {
+    if (messagesService.getLoadedRoomId() !== payload) {
+      yield call([messagesService, messagesService.initialize], payload);
+    } else {
+      yield call([messagesService, messagesService.loadNextMessage]);
+    }
+
+    const messages = yield call([messagesService, messagesService.getMessages]);
+    const groupedMessages = groupMessages(messages);
+
+    yield put(loadPreviousPage.success(groupedMessages));
+  } catch (e) {
+    yield put(loadPreviousPage.failure(e));
+  }
+}
+
+function* fetchMessagesSaga(): SagaIterator {
+  yield takeLatest(
+    loadNextMessage.REQUEST,
+    loadNextMessageIterator
+  );
+}
+
 /**
  * Export
  */
 
 export default function*(): SagaIterator {
   yield all([
-    fork(loadPreviousPage)
+    fork(loadPreviousPageSaga),
+    fork(fetchMessagesSaga)
   ]);
 }
