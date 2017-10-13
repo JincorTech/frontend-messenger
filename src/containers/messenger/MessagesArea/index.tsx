@@ -15,9 +15,9 @@ import { StateObj as MessagesAreaState, MessagesGroup } from '../../../redux/mod
 import { loadPreviousPage } from '../../../redux/modules/messenger/messagesArea';
 
 import Scrollbars from 'react-custom-scrollbars';
-import MessagesHeader, { HEIGHT as MESSAGES_HEADER_HEIGHT } from '../MessagesHeader';
-import MessageGroup from '../MessageGroup';
-import Textarea, { HEIGHT as TEXTAREA_HEIGHT } from '../Textarea';
+import MessagesHeader, { HEIGHT as MESSAGES_HEADER_HEIGHT } from '../../../components/messenger/MessagesHeader';
+import MessageGroup from '../../../components/messenger/MessageGroup';
+import Textarea, { HEIGHT as TEXTAREA_HEIGHT } from '../../../components/messenger/Textarea';
 import * as Waypoint from 'react-waypoint';
 
 /**
@@ -34,17 +34,18 @@ export type DispatchProps = {
   changeTextarea: (text: string) => void
   sendMessage: () => void
   openEmployeeCard: (employee: EmployeeProps) => void,
-  loadPreviousPage: () => void
+  loadPreviousPage: (roomId: string) => void
 };
 
-type ComponentProps = {
+export type ComponentProps = {
+  height: any
 };
 
 /**
  * Component
  */
 
-class MessagesArea extends Component<Props, ComponentProps> {
+class MessagesArea extends Component<Props, {}> {
   private scrollbars: Scrollbars;
 
   constructor(props) {
@@ -52,6 +53,12 @@ class MessagesArea extends Component<Props, ComponentProps> {
 
     this.sendMessage = this.sendMessage.bind(this);
     this.scrollToBottom = this.scrollToBottom.bind(this);
+  }
+
+  public componentWillReceiveProps(nextProps): void {
+    if (!equal(this.props.openedRoom, nextProps.openedRoom)) {
+      this.props.loadPreviousPage(nextProps.openedRoom.roomId);
+    }
   }
 
   private scrollToBottom(): void {
@@ -80,8 +87,8 @@ class MessagesArea extends Component<Props, ComponentProps> {
   }
 
   private renderWaypoint(): JSX.Element {
-    if (!this.props.loading && messagesService.canLoadMore()) {
-      return <Waypoint onEnter={() => this.props.loadPreviousPage()}/>;
+    if (!this.props.loading && messagesService.isInitialized() && messagesService.canLoadMore()) {
+      return <Waypoint onEnter={() => this.props.loadPreviousPage(this.props.openedRoom.roomId)}/>;
     }
   }
 
@@ -145,7 +152,7 @@ class MessagesArea extends Component<Props, ComponentProps> {
 
 const TranslatedComponent = translate('messenger')(MessagesArea);
 
-export default connect<StateProps, DispatchProps, {}>(
+export default connect<StateProps, DispatchProps, ComponentProps>(
   state => {
     return {
       ...state.messenger.messenger,

@@ -2,6 +2,8 @@ import { SagaIterator } from 'redux-saga';
 import { all, takeLatest, call, put, fork } from 'redux-saga/effects';
 import Matrix from 'matrix-js-sdk';
 import matrix from '../../utils/matrix';
+import { messagesService } from '../../utils/matrix/messagesService';
+
 import { post } from '../../utils/api';
 import { removeDomain } from '../../helpers/matrix';
 
@@ -51,11 +53,18 @@ function groupMessages(messages): any {
   return result.reverse();
 }
 
-function* loadPreviousPageIterator(): SagaIterator {
+function* loadPreviousPageIterator({ payload }: Action<string>): SagaIterator {
   try {
-    
+    if (messagesService.getLoadedRoomId() !== payload) {
+      yield call([messagesService, messagesService.initialize], payload);
+    } else {
+      yield call([messagesService, messagesService.loadPreviousPage]);
+    }
 
-    yield put(loadPreviousPage.success());
+    const messages = yield call([messagesService, messagesService.getMessages]);
+    const groupedMessages = groupMessages(messages);
+
+    yield put(loadPreviousPage.success(groupedMessages));
   } catch (e) {
     yield put(loadPreviousPage.failure(e));
   }

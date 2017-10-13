@@ -30,7 +30,7 @@ export const LOAD_PREVIOUS_PAGE = 'messenger/messagesArea/LOAD_PREVIOUS_PAGE';
  * Action creators
  */
 
-export const loadPreviousPage = createAsyncAction<void, MessagesGroup[]>(LOAD_PREVIOUS_PAGE);
+export const loadPreviousPage = createAsyncAction<string, MessagesGroup[]>(LOAD_PREVIOUS_PAGE);
 
 /**
  * Reducer
@@ -42,7 +42,7 @@ const initialState: State = from<StateObj>({
 });
 
 export default createReducer<State>({
-  [loadPreviousPage.REQUEST]: (state: State, { payload }: Action<void>): State => (
+  [loadPreviousPage.REQUEST]: (state: State, { payload }: Action<string>): State => (
     state.merge({ loading: true })
   ),
 
@@ -50,7 +50,7 @@ export default createReducer<State>({
     state.merge({ messages: payload, loading: false })
   ),
 
-  [loadPreviousPage.FAILURE]: (state: State, { payload }: Action<void>): State => (
+  [loadPreviousPage.FAILURE]: (state: State, { payload }: Action<any>): State => (
     state.merge({ loading: false })
   )
 }, initialState);

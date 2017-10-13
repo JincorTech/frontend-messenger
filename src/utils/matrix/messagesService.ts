@@ -30,7 +30,7 @@ class MessagesService {
 
   // Interface
 
-  public initialize(roomId: string): void {
+  public initialize(roomId: string): Promise<any> {
     const room = matrix.getRoom(roomId);
     const timelineSet = room.getUnfilteredTimelineSet();
     this.timelineWindow = new Matrix.TimelineWindow(matrix, timelineSet);
@@ -38,6 +38,14 @@ class MessagesService {
     this.loadedRoomId = roomId;
 
     return this.timelineWindow.load(undefined, 30);
+  }
+
+  public isInitialized(): boolean {
+    return !!this.timelineWindow;
+  }
+
+  public getLoadedRoomId(): string {
+    return this.loadedRoomId;
   }
 
   public loadPreviousPage(): Promise<any> {
@@ -60,4 +68,4 @@ class MessagesService {
 
 const messagesService = new MessagesService;
 
-export {Message, messagesService};
+export { Message, messagesService };
