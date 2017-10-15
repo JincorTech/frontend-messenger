@@ -1,17 +1,14 @@
 import * as React from 'react';
 import { Component } from 'react';
 import { connect } from 'react-redux';
-import * as equal from 'shallowequal';
-import Matrix from 'matrix-js-sdk';
 import { Trans, translate } from 'react-i18next';
 import matrix from '../../../utils/matrix';
-import { removeDomain } from '../../../helpers/matrix';
 import { messagesService } from '../../../utils/matrix/messagesService';
 
 import './styles.css';
 
 import { StateObj as MessengerState, Member as EmployeeProps } from '../../../redux/modules/messenger/messenger';
-import { StateObj as MessagesAreaState, MessagesGroup } from '../../../redux/modules/messenger/messagesArea';
+import { StateObj as MessagesAreaState } from '../../../redux/modules/messenger/messagesArea';
 import { loadPreviousPage, loadNextMessage } from '../../../redux/modules/messenger/messagesArea';
 
 import Scrollbars from 'react-custom-scrollbars';
@@ -42,11 +39,15 @@ export type ComponentProps = {
   height: any
 };
 
+export type ComponentState = {
+  scrollHeight: number
+};
+
 /**
  * Component
  */
 
-class MessagesArea extends Component<Props, {}> {
+class MessagesArea extends Component<Props, ComponentState> {
   private scrollbars: Scrollbars;
 
   constructor(props) {
@@ -54,6 +55,16 @@ class MessagesArea extends Component<Props, {}> {
 
     this.sendMessage = this.sendMessage.bind(this);
     this.scrollToBottom = this.scrollToBottom.bind(this);
+
+    this.state = {
+      scrollHeight: 0
+    };
+  }
+
+  public componentWillReceiveProps(nextProps): void {
+    if (this.props.openedRoom.roomId !== nextProps.openedRoom.roomId) {
+      this.props.loadPreviousPage(nextProps.openedRoom.roomId);
+    }
   }
 
   public componentWillMount(): void {
@@ -62,38 +73,61 @@ class MessagesArea extends Component<Props, {}> {
     });
   }
 
-  public componentDidUpdate(): void {
-    this.scrollToBottom();
+  public componentDidUpdate(prevProps, prevState): void {
+    if (this.messageAdded(prevProps.messages, this.props.messages)) {
+      this.scrollToBottom();
+      return;
+    }
+
+    if (this.scrollbars && this.state.scrollHeight) {
+      const currHeight = this.scrollbars.getScrollHeight();
+      this.scrollbars.scrollTop(currHeight - prevState.scrollHeight);
+    }
+  }
+
+  private messageAdded(oldMessageGroups, newMessageGroups): boolean {
+    if (!oldMessageGroups.length && !newMessageGroups.length) {
+      return false;
+    }
+
+    if (!oldMessageGroups.length || !newMessageGroups.length) {
+      return true;
+    }
+
+    const oldLastMessageGroup = oldMessageGroups[oldMessageGroups.length - 1].messages;
+    const newLastMessageGroup = newMessageGroups[newMessageGroups.length - 1].messages;
+
+    return oldLastMessageGroup[oldLastMessageGroup.length - 1].timestamp
+      !== newLastMessageGroup[newLastMessageGroup.length - 1].timestamp;
   }
 
   private scrollToBottom(): void {
-    this.scrollbars.scrollToBottom();
+    if (this.scrollbars) {
+      this.setState({ scrollHeight: 0 });
+      this.scrollbars.scrollToBottom();
+    }
   }
-
-  // private loadMsgs(): void {
-  //   this.setState({ loading: true });
-
-  //   const prevHeight = this.scrollbars.getScrollHeight();
-  //   this.timelineWindow.paginate(Matrix.EventTimeline.BACKWARDS, 30).then(() => {
-  //     this.setState({ messages: this.getGroupedMessages() }, () => {
-  //       const currHeight = this.scrollbars.getScrollHeight();
-  //       this.scrollbars.scrollTop(currHeight - prevHeight);
-  //       this.setState({ loading: false });
-  //     });
-  //   });
-  // }
-
-  // /test
 
   private sendMessage(e): void {
     e.preventDefault();
     this.props.sendMessage();
-    // this.showNewMessage(removeDomain(matrix.getUserId()), Date.now(), this.props.textarea);
+  }
+
+  private changeTextarea(e): void {
+    this.setState({ scrollHeight: 0 });
+    this.props.changeTextarea(e.target.value);
   }
 
   private renderWaypoint(): JSX.Element {
     if (!this.props.loading && messagesService.isInitialized() && messagesService.canLoadMore()) {
-      return <Waypoint onEnter={() => this.props.loadPreviousPage(this.props.openedRoom.roomId)}/>;
+      return <Waypoint onEnter={() => {
+        if (!this.scrollbars) {
+          return;
+        }
+        this.setState({ scrollHeight: this.scrollbars.getScrollHeight() }, () => {
+          this.props.loadPreviousPage(this.props.openedRoom.roomId);
+        });
+      }}/>;
     }
   }
 
@@ -103,7 +137,6 @@ class MessagesArea extends Component<Props, {}> {
       height,
       openedRoom,
       textarea,
-      changeTextarea,
       openEmployeeCard
     } = this.props;
 
@@ -130,7 +163,7 @@ class MessagesArea extends Component<Props, {}> {
         <Textarea
           placeholder={t('writeMessage')}
           sendMessage={this.sendMessage}
-          onChange={(e) => changeTextarea(e.target.value)}
+          onChange={this.changeTextarea.bind(this)}
           value={textarea}/>
       </div>
     );
@@ -162,7 +195,7 @@ export default connect<StateProps, DispatchProps, ComponentProps>(
     return {
       ...state.messenger.messenger,
       ...state.messenger.messagesArea
-    }
+    };
   },
   {
     loadPreviousPage,

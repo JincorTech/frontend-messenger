@@ -1,12 +1,7 @@
 import { SagaIterator } from 'redux-saga';
 import { all, takeLatest, call, put, fork } from 'redux-saga/effects';
-import Matrix from 'matrix-js-sdk';
-import matrix from '../../utils/matrix';
+
 import { messagesService } from '../../utils/matrix/messagesService';
-
-import { post } from '../../utils/api';
-import { removeDomain } from '../../helpers/matrix';
-
 import { Action } from '../../utils/actions';
 import { loadPreviousPage } from '../../redux/modules/messenger/messagesArea';
 import { loadNextMessage } from '../../redux/modules/messenger/messagesArea';

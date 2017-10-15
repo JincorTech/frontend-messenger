@@ -1,4 +1,4 @@
-import { createReducer, createAsyncAction, createAction, Action } from '../../../utils/actions';
+import { createReducer, createAsyncAction, Action } from '../../../utils/actions';
 import { from, ImmutableObject } from 'seamless-immutable';
 
 /**
@@ -16,7 +16,7 @@ export type MessagesGroup = {
   sender: string,
   messages: [{
     content: string,
-    timestamp: number,
+    timestamp: number
   }]
 };
 
@@ -25,7 +25,7 @@ export type MessagesGroup = {
  */
 
 export const LOAD_PREVIOUS_PAGE = 'messenger/messagesArea/LOAD_PREVIOUS_PAGE';
-export const LOAD_NEXT_MESSAGE = 'messenger/messagesArea/LOAD_NEXT_MESSAGE'
+export const LOAD_NEXT_MESSAGE = 'messenger/messagesArea/LOAD_NEXT_MESSAGE';
 
 /**
  * Action creators

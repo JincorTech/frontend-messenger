@@ -6,7 +6,7 @@ type Message = {
   sender: string,
   timestamp: number,
   content: string
-}
+};
 
 class MessagesService {
   private loadedRoomId;
@@ -24,7 +24,7 @@ class MessagesService {
         return acc;
       }
     }, []);
-  
+
     return messages;
   }
 
@@ -66,6 +66,6 @@ class MessagesService {
   }
 }
 
-const messagesService = new MessagesService;
+const messagesService = new MessagesService();
 
 export { Message, messagesService };
