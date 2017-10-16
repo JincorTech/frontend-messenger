@@ -10,23 +10,25 @@ import { loadFirstPage, loadNextPage, loadNewMessage } from '../../redux/modules
  */
 
 function groupMessages(messages): any {
-  const result = messages.reduce((acc, d) => {
+  const oneMinute = 60000;
+
+  const result = messages.reduce((acc, message) => {
     if (acc.length === 0) {
       return new Array({
-        sender: d.sender,
+        sender: message.sender,
         messages: [{
-          timestamp: d.timestamp,
-          content: d.content
+          timestamp: message.timestamp,
+          content: message.content
         }]
       });
     }
 
-    if (acc[0].sender === d.sender && d.timestamp - acc[0].messages[acc[0].messages.length - 1].timestamp < 60000) {
+    if (acc[0].sender === message.sender && message.timestamp - acc[0].messages[acc[0].messages.length - 1].timestamp < oneMinute) {
       const item = {
         ...acc[0],
         messages: acc[0].messages.concat([{
-          timestamp: d.timestamp,
-          content: d.content
+          timestamp: message.timestamp,
+          content: message.content
         }])
       };
 
@@ -35,10 +37,10 @@ function groupMessages(messages): any {
     }
 
     const item = {
-      sender: d.sender,
+      sender: message.sender,
       messages: [{
-        timestamp: d.timestamp,
-        content: d.content
+        timestamp: message.timestamp,
+        content: message.content
       }]
     };
 
@@ -52,7 +54,7 @@ function* loadFirstPageIterator({ payload }: Action<string>): SagaIterator {
   try {
     yield call([messagesService, messagesService.initialize], payload);
     yield call([messagesService, messagesService.loadNextPage]);
-    
+
     const messages = yield call([messagesService, messagesService.getMessages]);
     const groupedMessages = groupMessages(messages);
 

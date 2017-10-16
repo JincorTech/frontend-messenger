@@ -38,7 +38,7 @@ class MessagesService {
     const timelineSet = room.getUnfilteredTimelineSet();
     this.timelineWindow = new Matrix.TimelineWindow(matrix, timelineSet);
 
-    return this.timelineWindow.load(undefined, 30)
+    return this.timelineWindow.load(undefined, 30);
   }
 
   public loadNextPage(): Promise<any> {
