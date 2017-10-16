@@ -71,7 +71,9 @@ class MessagesArea extends Component<Props, ComponentState> {
 
   public componentWillMount(): void {
     matrix.on('Room.timeline', () => {
-      this.props.loadNewMessage();
+      if (messagesService.canLoadNewMessage()) {
+        this.props.loadNewMessage();
+      }
     });
   }
 

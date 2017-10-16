@@ -65,6 +65,14 @@ class MessagesService {
     return this.timelineWindow.canPaginate(Matrix.EventTimeline.BACKWARDS);
   }
 
+  public canLoadNewMessage(): boolean {
+    if (!this.isInitialized()) {
+      return false;
+    }
+
+    return this.timelineWindow.canPaginate(Matrix.EventTimeline.FORWARDS);
+  }
+
   public getMessages(): Message[] {
     if (!this.isInitialized()) {
       return [];
