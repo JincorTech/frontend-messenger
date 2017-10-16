@@ -3,8 +3,7 @@ import { all, takeLatest, call, put, fork } from 'redux-saga/effects';
 
 import { messagesService } from '../../utils/matrix/messagesService';
 import { Action } from '../../utils/actions';
-import { loadPreviousPage } from '../../redux/modules/messenger/messagesArea';
-import { loadNextMessage } from '../../redux/modules/messenger/messagesArea';
+import { loadFirstPage, loadNextPage, loadNewMessage } from '../../redux/modules/messenger/messagesArea';
 
 /**
  * Fetch messages saga
@@ -49,51 +48,64 @@ function groupMessages(messages): any {
   return result.reverse();
 }
 
-function* loadPreviousPageIterator({ payload }: Action<string>): SagaIterator {
+function* loadFirstPageIterator({ payload }: Action<string>): SagaIterator {
   try {
-    if (messagesService.getLoadedRoomId() !== payload) {
-      yield call([messagesService, messagesService.initialize], payload);
-    } else {
-      yield call([messagesService, messagesService.loadPreviousPage]);
-    }
-
+    yield call([messagesService, messagesService.initialize], payload);
+    yield call([messagesService, messagesService.loadNextPage]);
+    
     const messages = yield call([messagesService, messagesService.getMessages]);
     const groupedMessages = groupMessages(messages);
 
-    yield put(loadPreviousPage.success(groupedMessages));
+    yield put(loadFirstPage.success(groupedMessages));
   } catch (e) {
-    yield put(loadPreviousPage.failure(e));
+    yield put(loadFirstPage.failure(e));
   }
 }
 
-function* loadPreviousPageSaga(): SagaIterator {
+function* loadFirstPageSaga(): SagaIterator {
   yield takeLatest(
-    loadPreviousPage.REQUEST,
-    loadPreviousPageIterator
+    loadFirstPage.REQUEST,
+    loadFirstPageIterator
   );
 }
 
-function* loadNextMessageIterator({ payload }: Action<string>): SagaIterator {
+function* loadNextPageIterator(): SagaIterator {
   try {
-    if (messagesService.getLoadedRoomId() !== payload) {
-      yield call([messagesService, messagesService.initialize], payload);
-    } else {
-      yield call([messagesService, messagesService.loadNextMessage]);
-    }
+    yield call([messagesService, messagesService.loadNextPage]);
 
     const messages = yield call([messagesService, messagesService.getMessages]);
     const groupedMessages = groupMessages(messages);
 
-    yield put(loadPreviousPage.success(groupedMessages));
+    yield put(loadNextPage.success(groupedMessages));
   } catch (e) {
-    yield put(loadPreviousPage.failure(e));
+    yield put(loadNextPage.failure(e));
+  }
+}
+
+function* loadNextPageSaga(): SagaIterator {
+  yield takeLatest(
+    loadNextPage.REQUEST,
+    loadNextPageIterator
+  );
+}
+
+function* loadNewMessageIterator(): SagaIterator {
+  try {
+    yield call([messagesService, messagesService.loadNewMessage]);
+
+    const messages = yield call([messagesService, messagesService.getMessages]);
+    const groupedMessages = groupMessages(messages);
+
+    yield put(loadNewMessage.success(groupedMessages));
+  } catch (e) {
+    yield put(loadNewMessage.failure(e));
   }
 }
 
 function* fetchMessagesSaga(): SagaIterator {
   yield takeLatest(
-    loadNextMessage.REQUEST,
-    loadNextMessageIterator
+    loadNewMessage.REQUEST,
+    loadNewMessageIterator
   );
 }
 
@@ -103,7 +115,8 @@ function* fetchMessagesSaga(): SagaIterator {
 
 export default function*(): SagaIterator {
   yield all([
-    fork(loadPreviousPageSaga),
+    fork(loadFirstPageSaga),
+    fork(loadNextPageSaga),
     fork(fetchMessagesSaga)
   ]);
 }

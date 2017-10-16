@@ -9,8 +9,11 @@ type Message = {
 };
 
 class MessagesService {
-  private loadedRoomId;
   private timelineWindow;
+
+  private isInitialized(): boolean {
+    return !!this.timelineWindow;
+  }
 
   private getMessagesFromEvents(events): Message[] {
     const messages = events.reduce((acc, event) => {
@@ -35,32 +38,38 @@ class MessagesService {
     const timelineSet = room.getUnfilteredTimelineSet();
     this.timelineWindow = new Matrix.TimelineWindow(matrix, timelineSet);
 
-    this.loadedRoomId = roomId;
-
-    return this.timelineWindow.load(undefined, 30);
+    return this.timelineWindow.load(undefined, 30)
   }
 
-  public isInitialized(): boolean {
-    return !!this.timelineWindow;
-  }
+  public loadNextPage(): Promise<any> {
+    if (!this.isInitialized()) {
+      return Promise.resolve();
+    }
 
-  public getLoadedRoomId(): string {
-    return this.loadedRoomId;
-  }
-
-  public loadPreviousPage(): Promise<any> {
     return this.timelineWindow.paginate(Matrix.EventTimeline.BACKWARDS, 30);
   }
 
-  public loadNextMessage(): Promise<any> {
+  public loadNewMessage(): Promise<any> {
+    if (!this.isInitialized()) {
+      return Promise.resolve();
+    }
+
     return this.timelineWindow.paginate(Matrix.EventTimeline.FORWARDS, 1, false);
   }
 
   public canLoadMore(): boolean {
+    if (!this.isInitialized()) {
+      return false;
+    }
+
     return this.timelineWindow.canPaginate(Matrix.EventTimeline.BACKWARDS);
   }
 
   public getMessages(): Message[] {
+    if (!this.isInitialized()) {
+      return [];
+    }
+
     const events = this.timelineWindow.getEvents();
     return this.getMessagesFromEvents(events);
   }

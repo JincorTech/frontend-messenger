@@ -9,7 +9,7 @@ import './styles.css';
 
 import { StateObj as MessengerState, Member as EmployeeProps } from '../../../redux/modules/messenger/messenger';
 import { StateObj as MessagesAreaState } from '../../../redux/modules/messenger/messagesArea';
-import { loadPreviousPage, loadNextMessage } from '../../../redux/modules/messenger/messagesArea';
+import { loadFirstPage, loadNextPage, loadNewMessage } from '../../../redux/modules/messenger/messagesArea';
 
 import Scrollbars from 'react-custom-scrollbars';
 import MessagesHeader, { HEIGHT as MESSAGES_HEADER_HEIGHT } from '../../../components/messenger/MessagesHeader';
@@ -31,8 +31,9 @@ export type DispatchProps = {
   changeTextarea: (text: string) => void
   sendMessage: () => void
   openEmployeeCard: (employee: EmployeeProps) => void,
-  loadPreviousPage: (roomId: string) => void,
-  loadNextMessage: (roomId: string) => void
+  loadFirstPage: (roomId: string) => void,
+  loadNextPage: () => void,
+  loadNewMessage: () => void
 };
 
 export type ComponentProps = {
@@ -55,6 +56,7 @@ class MessagesArea extends Component<Props, ComponentState> {
 
     this.sendMessage = this.sendMessage.bind(this);
     this.scrollToBottom = this.scrollToBottom.bind(this);
+    this.changeTextarea = this.changeTextarea.bind(this);
 
     this.state = {
       scrollHeight: 0
@@ -63,13 +65,13 @@ class MessagesArea extends Component<Props, ComponentState> {
 
   public componentWillReceiveProps(nextProps): void {
     if (this.props.openedRoom.roomId !== nextProps.openedRoom.roomId) {
-      this.props.loadPreviousPage(nextProps.openedRoom.roomId);
+      this.props.loadFirstPage(nextProps.openedRoom.roomId);
     }
   }
 
   public componentWillMount(): void {
     matrix.on('Room.timeline', () => {
-      this.props.loadNextMessage(this.props.openedRoom.roomId);
+      this.props.loadNewMessage();
     });
   }
 
@@ -119,13 +121,13 @@ class MessagesArea extends Component<Props, ComponentState> {
   }
 
   private renderWaypoint(): JSX.Element {
-    if (!this.props.loading && messagesService.isInitialized() && messagesService.canLoadMore()) {
+    if (!this.props.loading && messagesService.canLoadMore()) {
       return <Waypoint onEnter={() => {
         if (!this.scrollbars) {
           return;
         }
         this.setState({ scrollHeight: this.scrollbars.getScrollHeight() }, () => {
-          this.props.loadPreviousPage(this.props.openedRoom.roomId);
+          this.props.loadNextPage();
         });
       }}/>;
     }
@@ -163,7 +165,7 @@ class MessagesArea extends Component<Props, ComponentState> {
         <Textarea
           placeholder={t('writeMessage')}
           sendMessage={this.sendMessage}
-          onChange={this.changeTextarea.bind(this)}
+          onChange={this.changeTextarea}
           value={textarea}/>
       </div>
     );
@@ -198,7 +200,8 @@ export default connect<StateProps, DispatchProps, ComponentProps>(
     };
   },
   {
-    loadPreviousPage,
-    loadNextMessage
+    loadFirstPage,
+    loadNextPage,
+    loadNewMessage
   }
 )(TranslatedComponent);
