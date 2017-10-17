@@ -10,6 +10,7 @@ import contactsSaga from './contacts/contacts';
 import newContactSaga from './contacts/newContact';
 
 import messengerSaga from './messenger/messenger';
+import messagesAreaSaga from './messenger/messagesArea';
 import roomsSaga from './messenger/rooms';
 
 export default function*(): SagaIterator {
@@ -23,6 +24,7 @@ export default function*(): SagaIterator {
     fork(newContactSaga),
 
     fork(messengerSaga),
+    fork(messagesAreaSaga),
     fork(roomsSaga)
   ]);
 }
