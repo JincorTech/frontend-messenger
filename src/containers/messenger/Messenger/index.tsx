@@ -18,7 +18,7 @@ import { openEmployeeCard } from '../../../redux/modules/app/employeeCard';
 
 import Scrollbars from 'react-custom-scrollbars';
 import Rooms from '../Rooms';
-import MessagesArea from '../../../components/messenger/MessagesArea';
+import MessagesArea from '../../../containers/messenger/MessagesArea';
 import { HEIGHT as LAYOUT_HEADER_HEIGHT } from '../../app/AppLayout';
 
 /**

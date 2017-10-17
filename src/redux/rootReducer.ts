@@ -11,6 +11,7 @@ import contacts from './modules/contacts/contacts';
 import newContact from './modules/contacts/newContact';
 
 import messenger from './modules/messenger/messenger';
+import messagesArea from './modules/messenger/messagesArea';
 import rooms from './modules/messenger/rooms';
 import emojiSelect from './modules/messenger/emojiSelect';
 
@@ -43,6 +44,7 @@ export default combineReducers({
 
   messenger: combineReducers({
     messenger,
+    messagesArea,
     rooms,
     emojiSelect
   })
