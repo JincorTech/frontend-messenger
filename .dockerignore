@@ -42,4 +42,3 @@ tmp
 Dockerfile
 Dockerfile.itsumma
 docker-compose.yml
-nginx
