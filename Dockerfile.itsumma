@@ -5,7 +5,9 @@ RUN rm -rf /var/cache/apk/*
 RUN mkdir -p /run/nginx
 WORKDIR /usr/src/messenger
 ADD . /usr/src/messenger
-ADD ./default.conf /etc/nginx/conf.d/default.conf
+RUN mkdir /etc/nginx/ssl
+ADD ./nginx/ssl /etc/nginx/ssl
+ADD ./nginx/default.conf /etc/nginx/conf.d/default.conf
 RUN npm i
 RUN npm run build
 VOLUME /usr/src/messenger
