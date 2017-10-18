@@ -12,3 +12,5 @@ RUN npm i
 RUN npm run build
 VOLUME /usr/src/messenger
 ENTRYPOINT ["/usr/sbin/nginx", "-g", "daemon off;"]
+EXPOSE 80
+EXPOSE 443
