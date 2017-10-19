@@ -10,7 +10,8 @@ export type State = StateObj & ImmutableObject<StateObj>;
 export type StateObj = {
   searchable: boolean
   search: string
-  list: Room[]
+  list: Room[],
+  openedRoomId: string
 };
 
 export type Room = {
@@ -63,7 +64,8 @@ export const openRoom = createAction<string>(OPEN_ROOM);
 const initialState: State = from<StateObj>({
   searchable: false,
   search: '',
-  list: []
+  list: [],
+  openedRoomId: ''
 });
 
 export default createReducer<State>({
@@ -85,5 +87,9 @@ export default createReducer<State>({
 
   [fetchRooms.SUCCESS]: (state: State, { payload }: Action<Room[]>): State => (
     state.merge({ list: payload })
+  ),
+
+  [OPEN_ROOM]: (state: State, { payload }: Action<string>): State => (
+    state.merge({ openedRoomId: payload })
   )
 }, initialState);
