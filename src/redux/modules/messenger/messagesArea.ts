@@ -85,5 +85,5 @@ export default createReducer<State>({
 
   [CLEAR_MESSAGES]: (state: State): State => (
     state.merge({ messages: [] })
-  ),
+  )
 }, initialState);

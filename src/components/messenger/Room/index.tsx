@@ -50,7 +50,7 @@ const Room: SFC<Props> = (props) => {
     if (!isOpened) {
       props.openRoom(id);
     }
-  }
+  };
 
   return (
     <div styleName={`dialog ${isOpened ? 'selected' : ''}`} onClick={openRoom}>
