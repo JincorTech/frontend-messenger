@@ -39,7 +39,6 @@ const Room: SFC<Props> = (props) => {
     unreadOut,
     last,
     preview,
-    openRoom,
     isOpened
   } = props;
 
@@ -47,8 +46,14 @@ const Room: SFC<Props> = (props) => {
   const previewlen = maxchars - last.length;
   const previewSubstring = preview.length < previewlen ? preview : `${preview.substring(0, previewlen)}...`;
 
+  const openRoom = () => {
+    if (!isOpened) {
+      props.openRoom(id);
+    }
+  }
+
   return (
-    <div styleName={`dialog ${isOpened ? 'selected' : ''}`} onClick={() => openRoom(id)}>
+    <div styleName={`dialog ${isOpened ? 'selected' : ''}`} onClick={openRoom}>
       <div styleName="avatar">
         <Avatar type={type} src={src} fullName={title} id={userId}/>
       </div>
