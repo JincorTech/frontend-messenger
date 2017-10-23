@@ -15,6 +15,7 @@ import {
   OPEN_ROOM
 } from '../../redux/modules/messenger/rooms';
 import { fetchRoom } from '../../redux/modules/messenger/messenger';
+import { clearMessages } from '../../redux/modules/messenger/messagesArea';
 
 import {
   createAlias,
@@ -157,6 +158,7 @@ function* openRoomIterator({ payload: roomId }: Action<string>): SagaIterator {
   try {
     // try to get room. If room doesnt exist catch the error
     const room = yield call([matrix, matrix.getRoom], roomId);
+    yield put(clearMessages());
     yield put(fetchRoom(room.roomId));
   } catch (e) {
     yield call(console.error, e);

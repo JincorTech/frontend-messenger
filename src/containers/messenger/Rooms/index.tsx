@@ -105,6 +105,7 @@ class Rooms extends Component<Props, StateProps> {
             <RoomsList
               list={list}
               search={search}
+              openedRoomId={this.props.openedRoomId}
               openRoom={openRoom}/>
           </div>
         </Scrollbars>

@@ -13,10 +13,14 @@ import Avatar from '../Avatar';
  * Types
  */
 
-export type Props = HTMLProps<HTMLDivElement> & RoomProps & DispatchProps;
+export type Props = HTMLProps<HTMLDivElement> & RoomProps & DispatchProps & ComponentProps;
 
 export type DispatchProps = {
   openRoom: (roomId: string) => void
+};
+
+export type ComponentProps = {
+  isOpened: boolean
 };
 
 /**
@@ -35,15 +39,21 @@ const Room: SFC<Props> = (props) => {
     unreadOut,
     last,
     preview,
-    openRoom
+    isOpened
   } = props;
 
   const maxchars = 45;
   const previewlen = maxchars - last.length;
   const previewSubstring = preview.length < previewlen ? preview : `${preview.substring(0, previewlen)}...`;
 
+  const openRoom = () => {
+    if (!isOpened) {
+      props.openRoom(id);
+    }
+  };
+
   return (
-    <div styleName="dialog" onClick={() => openRoom(id)}>
+    <div styleName={`dialog ${isOpened ? 'selected' : ''}`} onClick={openRoom}>
       <div styleName="avatar">
         <Avatar type={type} src={src} fullName={title} id={userId}/>
       </div>

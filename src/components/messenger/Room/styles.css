@@ -9,6 +9,10 @@
   transition: background ease-out 0.2s;
   cursor: default;
 
+  &.selected {
+    background: #e0e6eb;
+  }
+
   &:hover {
     background: #f3f5f7;
     cursor: pointer;

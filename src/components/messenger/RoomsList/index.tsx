@@ -14,6 +14,7 @@ import { filterContacts } from '../../../helpers/contacts/filter';
 export type Props = {
   list: RoomProps[]
   search: string
+  openedRoomId: string
   openRoom: (roomId: string) => void
 };
 
@@ -25,14 +26,19 @@ const RoomsList: SFC<Props> = (props) => {
   const {
     list,
     search,
+    openedRoomId,
     openRoom
   } = props;
 
   const filteredList = filterContacts(list, search, ['title', 'preview']);
 
+  const isOpened = (roomId) => {
+    return openedRoomId === roomId;
+  };
+
   return (
     <div>
-      {filteredList.map((room) => <Room key={room.id} openRoom={openRoom} {...room}/>)}
+      {filteredList.map((room) => <Room key={room.id} openRoom={openRoom} isOpened={isOpened(room.id)} {...room}/>)}
     </div>
   );
 };

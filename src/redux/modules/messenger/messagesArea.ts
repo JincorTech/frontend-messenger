@@ -1,4 +1,4 @@
-import { createReducer, createAsyncAction, Action } from '../../../utils/actions';
+import { createReducer, createAction, createAsyncAction, Action } from '../../../utils/actions';
 import { from, ImmutableObject } from 'seamless-immutable';
 
 /**
@@ -26,6 +26,7 @@ export type MessagesGroup = {
 export const LOAD_FIRST_PAGE = 'messenger/messagesArea/LOAD_FIRST_PAGE';
 export const LOAD_NEXT_PAGE = 'messenger/messagesArea/LOAD_NEXT_PAGE';
 export const LOAD_NEW_MESSAGE = 'messenger/messagesArea/LOAD_NEW_MESSAGE';
+export const CLEAR_MESSAGES = 'messenger/messagesArea/CLEAR_MESSAGES';
 
 /**
  * Action creators
@@ -34,6 +35,7 @@ export const LOAD_NEW_MESSAGE = 'messenger/messagesArea/LOAD_NEW_MESSAGE';
 export const loadFirstPage = createAsyncAction<string, MessagesGroup[]>(LOAD_FIRST_PAGE);
 export const loadNextPage = createAsyncAction<string, MessagesGroup[]>(LOAD_NEXT_PAGE);
 export const loadNewMessage = createAsyncAction<string, MessagesGroup[]>(LOAD_NEW_MESSAGE);
+export const clearMessages = createAction<void>(CLEAR_MESSAGES);
 
 /**
  * Reducer
@@ -79,5 +81,9 @@ export default createReducer<State>({
 
   [loadNewMessage.FAILURE]: (state: State, { payload }: Action<any>): State => (
     state.merge({ loading: false })
+  ),
+
+  [CLEAR_MESSAGES]: (state: State): State => (
+    state.merge({ messages: [] })
   )
 }, initialState);
