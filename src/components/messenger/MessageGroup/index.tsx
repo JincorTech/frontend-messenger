@@ -6,9 +6,11 @@ import { ts } from '../../../utils/timestamp';
 import './styles.css';
 
 import { Member as EmployeeProps } from '../../../redux/modules/messenger/messenger';
+import { Message as MessageType } from '../../../redux/modules/messenger/messagesArea';
 
 import Avatar from '../Avatar';
-import Message, { Props as MessageProps } from '../Message';
+import Message from '../Message';
+import UnreadSeparator from '../UnreadSeparator';
 
 /**
  * Types
@@ -16,8 +18,9 @@ import Message, { Props as MessageProps } from '../Message';
 
 export type Props = {
   author: EmployeeProps
-  messages: MessageProps[]
+  messages: MessageType[]
   openEmployeeCard: (employee: EmployeeProps) => void
+  lastReadMessageId: string
 };
 
 /**
@@ -28,7 +31,8 @@ const MessageGroup: SFC<Props> = (props) => {
   const {
     author,
     messages,
-    openEmployeeCard
+    openEmployeeCard,
+    lastReadMessageId
   } = props;
 
   const {
@@ -60,9 +64,18 @@ const MessageGroup: SFC<Props> = (props) => {
         </div>
       </div>
 
-       {msgs.map((msg, i) => (
-        <Message key={i} {...msg}/>
-      ))}
+      {msgs.map((msg, i) => {
+        const message = <Message key={i} timestamp={msg.timestamp} content={msg.content + ' ' + msg.id}/>;
+        const isLastRead = msg.id === lastReadMessageId && i < msgs.length - 1;
+        if (isLastRead) {
+          return [
+            message,
+            <UnreadSeparator key={'unread_separator'}/>
+          ]
+        } else {
+          return message;
+        }
+      })}
     </div>
   );
 };

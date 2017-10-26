@@ -3,7 +3,7 @@ import { all, takeLatest, call, put, fork } from 'redux-saga/effects';
 
 import { messagesService } from '../../utils/matrix/messagesService';
 import { Action } from '../../utils/actions';
-import { loadFirstPage, loadNextPage, loadNewMessage } from '../../redux/modules/messenger/messagesArea';
+import { loadFirstPage, loadNextPage, loadNewMessage, updateLastReadMessage } from '../../redux/modules/messenger/messagesArea';
 
 /**
  * Fetch messages saga
@@ -17,6 +17,7 @@ function groupMessages(messages): any {
       return new Array({
         sender: message.sender,
         messages: [{
+          id: message.id,
           timestamp: message.timestamp,
           content: message.content
         }]
@@ -27,6 +28,7 @@ function groupMessages(messages): any {
       const item = {
         ...acc[0],
         messages: acc[0].messages.concat([{
+          id: message.id,
           timestamp: message.timestamp,
           content: message.content
         }])
@@ -39,6 +41,7 @@ function groupMessages(messages): any {
     const item = {
       sender: message.sender,
       messages: [{
+        id: message.id,
         timestamp: message.timestamp,
         content: message.content
       }]
@@ -58,7 +61,9 @@ function* loadFirstPageIterator({ payload }: Action<string>): SagaIterator {
     const messages = yield call([messagesService, messagesService.getMessages]);
     const groupedMessages = groupMessages(messages);
 
-    yield put(loadFirstPage.success(groupedMessages));
+    const lastReadMessageId = yield call([messagesService, messagesService.getLastReadMessageId]);
+
+    yield put(loadFirstPage.success({ messagesGroups: groupedMessages, lastReadMessageId: lastReadMessageId }));
   } catch (e) {
     yield put(loadFirstPage.failure(e));
   }
@@ -104,10 +109,22 @@ function* loadNewMessageIterator(): SagaIterator {
   }
 }
 
-function* fetchMessagesSaga(): SagaIterator {
+function* loadNewMessageSaga(): SagaIterator {
   yield takeLatest(
     loadNewMessage.REQUEST,
     loadNewMessageIterator
+  );
+}
+
+function* updateLastReadMessageIterator(): SagaIterator {
+    const lastReadMessageId = yield call([messagesService, messagesService.getLastReadMessageId]);
+    yield put(updateLastReadMessage.success(lastReadMessageId));
+}
+
+function* updateLastReadMessageSaga(): SagaIterator {
+  yield takeLatest(
+    updateLastReadMessage.REQUEST,
+    updateLastReadMessageIterator
   );
 }
 
@@ -119,6 +136,7 @@ export default function*(): SagaIterator {
   yield all([
     fork(loadFirstPageSaga),
     fork(loadNextPageSaga),
-    fork(fetchMessagesSaga)
+    fork(loadNewMessageSaga),
+    fork(updateLastReadMessageSaga)
   ]);
 }

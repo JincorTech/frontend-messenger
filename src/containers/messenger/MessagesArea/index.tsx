@@ -9,12 +9,13 @@ import './styles.css';
 
 import { StateObj as MessengerState, Member as EmployeeProps } from '../../../redux/modules/messenger/messenger';
 import { StateObj as MessagesAreaState } from '../../../redux/modules/messenger/messagesArea';
-import { loadFirstPage, loadNextPage, loadNewMessage } from '../../../redux/modules/messenger/messagesArea';
+import { loadFirstPage, loadNextPage, loadNewMessage, updateLastReadMessage } from '../../../redux/modules/messenger/messagesArea';
 
 import Scrollbars from 'react-custom-scrollbars';
 import MessagesHeader, { HEIGHT as MESSAGES_HEADER_HEIGHT } from '../../../components/messenger/MessagesHeader';
 import MessageGroup from '../../../components/messenger/MessageGroup';
 import Textarea, { HEIGHT as TEXTAREA_HEIGHT } from '../../../components/messenger/Textarea';
+import UnreadSeparator from '../../../components/messenger/UnreadSeparator';
 import * as Waypoint from 'react-waypoint';
 
 /**
@@ -33,7 +34,8 @@ export type DispatchProps = {
   openEmployeeCard: (employee: EmployeeProps) => void,
   loadFirstPage: (roomId: string) => void,
   loadNextPage: () => void,
-  loadNewMessage: () => void
+  loadNewMessage: () => void,
+  updateLastReadMessage: () => void
 };
 
 export type ComponentProps = {
@@ -74,11 +76,12 @@ class MessagesArea extends Component<Props, ComponentState> {
       if (messagesService.canLoadNewMessage()) {
         this.props.loadNewMessage();
       }
+      this.props.updateLastReadMessage();
     });
   }
 
   public componentDidUpdate(prevProps, prevState): void {
-    if (this.messageAdded(prevProps.messages, this.props.messages)) {
+    if (this.messageAdded(prevProps.messagesGroups, this.props.messagesGroups)) {
       this.scrollToBottom();
       return;
     }
@@ -145,7 +148,7 @@ class MessagesArea extends Component<Props, ComponentState> {
     } = this.props;
 
     const { members } = openedRoom;
-    const { messages } = this.props;
+    const { messagesGroups, lastReadMessageId } = this.props;
 
     const messagesAreaHeight = height - MESSAGES_HEADER_HEIGHT - TEXTAREA_HEIGHT;
 
@@ -155,13 +158,26 @@ class MessagesArea extends Component<Props, ComponentState> {
 
         <Scrollbars autoHide ref={(scrollbars) => { this.scrollbars = scrollbars; }} style={{ height: messagesAreaHeight }}>
           {this.renderWaypoint()}
-          {messages.map(({ sender, messages }, i) => (
-            <MessageGroup
+          {messagesGroups.map(({ sender, messages }, i) => {
+            const messageGroup = <MessageGroup
               key={messages[0].timestamp}
               author={members[sender]}
               messages={messages}
-              openEmployeeCard={openEmployeeCard}/>
-          ))}
+              openEmployeeCard={openEmployeeCard}
+              lastReadMessageId={lastReadMessageId} />
+
+            const lastMessage = messages[messages.length - 1];
+            const isLastRead = lastMessage.id === lastReadMessageId && i < messagesGroups.length - 1;
+
+            if (isLastRead) {
+              return [
+                messageGroup,
+                <UnreadSeparator key={'unread_separator'}/>
+              ]
+            } else {
+              return messageGroup;
+            }
+          })}
         </Scrollbars>
 
         <Textarea
@@ -204,6 +220,7 @@ export default connect<StateProps, DispatchProps, ComponentProps>(
   {
     loadFirstPage,
     loadNextPage,
-    loadNewMessage
+    loadNewMessage,
+    updateLastReadMessage
   }
 )(TranslatedComponent);
