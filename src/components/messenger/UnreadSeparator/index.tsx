@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { SFC, HTMLProps } from 'react';
-import './styles.css';
+const { container, line, caption } = require('./styles.css');
 
 /**
  * Types
@@ -16,8 +16,8 @@ const UnreadSeparator: SFC<Props> = (props) => {
   const { ...divProps } = props;
 
   return (
-    <div {...divProps}>
-      <hr/>
+    <div className={container} {...divProps}>
+      <hr className={line}/><span className={caption}>New messages</span>
     </div>
   );
 };

@@ -1,10 +1,28 @@
 @use postcss-short;
 
-hr {
-    display: block;
-    height: 1px;
-    border: 0;
-    border-top: 1px solid #ccc;
-    margin: 1em 0;
-    padding: 0;
+.container {
+  position: relative;
+  padding-left: 100px;
+  padding-right: 40px;
+}
+
+.line {
+  display: block;
+  height: 1px;
+  border: 0;
+  border-top: 1px solid #ccc;
+  margin: 1em 0;
+  padding: 0;
+  color: #dbdfe4;
+}
+
+.caption {
+  position: absolute;
+  padding-left: 5px;
+  padding-right: 40px;
+  right: 0px;
+  top: -7px;
+  background-color: white;
+  font-size: 12px;
+  color: #0070e0;
 }
