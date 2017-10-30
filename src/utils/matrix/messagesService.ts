@@ -85,6 +85,17 @@ class MessagesService {
     return this.getMessagesFromEvents(events);
   }
 
+  public markAsRead(): void {
+    if (!this.isInitialized() || !this.timelineWindow.getEvents().length) {
+      return;
+    }
+
+    const events = this.timelineWindow.getEvents();
+    const lastEvent = events[events.length - 1];
+
+    matrix.sendReadReceipt(lastEvent);
+  }
+
   public getLastReadMessageId(): string {
     if (!this.isInitialized()) {
       return '';

@@ -11,6 +11,7 @@ import { Message as MessageType } from '../../../redux/modules/messenger/message
 import Avatar from '../Avatar';
 import Message from '../Message';
 import UnreadSeparator from '../UnreadSeparator';
+import { isNewMessage } from '../../../helpers/matrix';
 
 /**
  * Types
@@ -65,9 +66,10 @@ const MessageGroup: SFC<Props> = (props) => {
       </div>
 
       {msgs.map((msg, i) => {
-        const message = <Message key={i} timestamp={msg.timestamp} content={msg.content + ' ' + msg.id}/>;
+        const message = <Message key={i} timestamp={msg.timestamp} content={msg.content}/>;
         const isLastRead = msg.id === lastReadMessageId && i < msgs.length - 1;
-        if (isLastRead) {
+        const isNewMessageExists = isNewMessage(msgs[msgs.length - 1]);
+        if (isLastRead && !isNewMessageExists) {
           return [
             message,
             <UnreadSeparator key={'unread_separator'}/>

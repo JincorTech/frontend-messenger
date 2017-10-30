@@ -17,6 +17,7 @@ import MessageGroup from '../../../components/messenger/MessageGroup';
 import Textarea, { HEIGHT as TEXTAREA_HEIGHT } from '../../../components/messenger/Textarea';
 import UnreadSeparator from '../../../components/messenger/UnreadSeparator';
 import * as Waypoint from 'react-waypoint';
+import { isNewMessage } from '../../../helpers/matrix';
 
 /**
  * Types
@@ -67,6 +68,7 @@ class MessagesArea extends Component<Props, ComponentState> {
 
   public componentWillReceiveProps(nextProps): void {
     if (this.props.openedRoom.roomId !== nextProps.openedRoom.roomId) {
+      messagesService.markAsRead();
       this.props.loadFirstPage(nextProps.openedRoom.roomId);
     }
   }
@@ -169,7 +171,10 @@ class MessagesArea extends Component<Props, ComponentState> {
             const lastMessage = messages[messages.length - 1];
             const isLastRead = lastMessage.id === lastReadMessageId && i < messagesGroups.length - 1;
 
-            if (isLastRead) {
+            const lastGroupMessages = messagesGroups[messagesGroups.length - 1].messages;
+            const isNewMessageExists = isNewMessage(lastGroupMessages[lastGroupMessages.length - 1]);
+
+            if (isLastRead && !isNewMessageExists) {
               return [
                 messageGroup,
                 <UnreadSeparator key={'unread_separator'}/>

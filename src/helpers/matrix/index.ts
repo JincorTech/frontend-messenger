@@ -3,6 +3,7 @@ import md5 from 'js-md5';
 
 import { Room } from '../../redux/modules/messenger/rooms';
 import { User } from '../../redux/modules/contacts/newContact';
+import { Message } from '../../redux/modules/messenger/messagesArea';
 
 /**
  * Add domain to matrixUserId
@@ -152,3 +153,9 @@ export const getAnotherGuyId = (members) =>
     id !== removeDomain(matrix.credentials.userId)
       ? id
       : acc, '');
+
+export const isNewMessage = (message: Message): boolean => {
+  // hack is here. New matrix messages have room id as local message id. Room id starts with special symbols.
+  // New message will have normal id only after we gets it from the server.
+  return message.id.startsWith('~!');
+}
