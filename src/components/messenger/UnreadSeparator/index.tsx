@@ -1,11 +1,14 @@
 import * as React from 'react';
 import { SFC, HTMLProps } from 'react';
+import { translate } from 'react-i18next';
+
 const { container, line, caption } = require('./styles.css');
 
 /**
  * Types
  */
 export type Props = HTMLProps<HTMLDivElement> & {
+  t: Function
 };
 
 /**
@@ -13,13 +16,15 @@ export type Props = HTMLProps<HTMLDivElement> & {
  * @param props
  */
 const UnreadSeparator: SFC<Props> = (props) => {
-  const { ...divProps } = props;
+  const { t } = props;
 
   return (
-    <div className={container} {...divProps}>
-      <hr className={line}/><span className={caption}>New messages</span>
+    <div className={container}>
+      <hr className={line}/><span className={caption}>{t('newMessages')}</span>
     </div>
   );
 };
 
-export default UnreadSeparator;
+const TranslatedComponent = translate('messenger')(UnreadSeparator);
+
+export default TranslatedComponent;
