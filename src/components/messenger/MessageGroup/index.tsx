@@ -73,7 +73,7 @@ const MessageGroup: SFC<Props> = (props) => {
           return [
             message,
             <UnreadSeparator key={'unread_separator'}/>
-          ]
+          ];
         } else {
           return message;
         }

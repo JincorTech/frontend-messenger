@@ -166,7 +166,7 @@ class MessagesArea extends Component<Props, ComponentState> {
               author={members[sender]}
               messages={messages}
               openEmployeeCard={openEmployeeCard}
-              lastReadMessageId={lastReadMessageId} />
+              lastReadMessageId={lastReadMessageId} />;
 
             const lastMessage = messages[messages.length - 1];
             const isLastRead = lastMessage.id === lastReadMessageId && i < messagesGroups.length - 1;
@@ -178,7 +178,7 @@ class MessagesArea extends Component<Props, ComponentState> {
               return [
                 messageGroup,
                 <UnreadSeparator key={'unread_separator'}/>
-              ]
+              ];
             } else {
               return messageGroup;
             }

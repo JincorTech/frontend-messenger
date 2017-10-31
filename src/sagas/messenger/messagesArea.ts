@@ -117,8 +117,8 @@ function* loadNewMessageSaga(): SagaIterator {
 }
 
 function* updateLastReadMessageIterator(): SagaIterator {
-    const lastReadMessageId = yield call([messagesService, messagesService.getLastReadMessageId]);
-    yield put(updateLastReadMessage.success(lastReadMessageId));
+  const lastReadMessageId = yield call([messagesService, messagesService.getLastReadMessageId]);
+  yield put(updateLastReadMessage.success(lastReadMessageId));
 }
 
 function* updateLastReadMessageSaga(): SagaIterator {

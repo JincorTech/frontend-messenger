@@ -17,7 +17,7 @@ export type Message = {
   id: string
   content: string,
   timestamp: number
-}
+};
 
 export type MessagesGroup = {
   sender: string,
@@ -27,7 +27,7 @@ export type MessagesGroup = {
 export type LoadFirstPagePayload = {
   lastReadMessageId: string,
   messagesGroups: MessagesGroup[]
-}
+};
 
 /**
  * Constants
