@@ -15,5 +15,8 @@
   "position": "Должность",
   "search": "Поиск",
   "myCompany": "Моя компания",
-  "messenger": "Мессенджер"
+  "messenger": "Мессенджер",
+  "message": "Сообщение",
+  "addToContacts": "Добавить в контакты",
+  "suspend": "Заблокировать"
 }
