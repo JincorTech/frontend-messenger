@@ -85,6 +85,12 @@ class MessagesArea extends Component<Props, ComponentState> {
   public componentDidUpdate(prevProps, prevState): void {
     if (this.messageAdded(prevProps.messagesGroups, this.props.messagesGroups)) {
       this.scrollToBottom();
+
+      // we need to scroll after the whole collection will be painted
+      setTimeout(() => {
+        this.scrollToBottom();
+      }, 0);
+
       return;
     }
 
