@@ -6,13 +6,12 @@ import matrix from '../../../utils/matrix';
 
 import './styles.css';
 
-import { StateObj as StateProps, Member as EmployeeProps } from '../../../redux/modules/messenger/messenger';
+import { StateObj as StateProps, User as EmployeeProps } from '../../../redux/modules/messenger/messenger';
 
 import {
   updateDemensions,
   sendMessage,
-  changeTextarea,
-  fetchRoom
+  changeTextarea
 } from '../../../redux/modules/messenger/messenger';
 import { openEmployeeCard } from '../../../redux/modules/app/employeeCard';
 
@@ -55,7 +54,7 @@ class Messenger extends Component<Props, StateProps> {
 
     matrix.on('event', (event) => {
       if (event.getType() === 'm.room.message') {
-        this.props.fetchRoom(this.props.openedRoom.roomId);
+        this.props.fetchRoom(this.props.openedRoomId);
       }
     });
   }
@@ -95,7 +94,6 @@ export default connect<StateProps, DispatchProps, {}>(
     updateDemensions,
     sendMessage,
     changeTextarea,
-    fetchRoom,
     openEmployeeCard
   }
 )(Messenger);

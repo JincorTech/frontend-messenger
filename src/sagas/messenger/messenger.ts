@@ -4,52 +4,108 @@ import { post } from '../../utils/api';
 import {
   membersTransformer,
   getMembersIds,
-  getAnotherGuyId
+  getAnotherGuyId,
+  getIdsFromRooms,
+  createRooms,
+  createUsers
 } from '../../helpers/matrix';
 
 import { Action } from '../../utils/actions';
 
 import {
-  fetchRoom,
+  fetchRooms,
   resetTextarea,
   SEND_MESSAGE
 } from '../../redux/modules/messenger/messenger';
 import matrix from '../../utils/matrix';
+import { clearMessages } from '../../redux/modules/messenger/messagesArea';
 
 /**
- * Fetch Room saga
- * @param {string} payload matrix room id
+ * Fetch rooms saga
  */
 
-function* fetchRoomIterator({ payload }: Action<string>): SagaIterator {
+function* fetchRoomsIterator(): SagaIterator {
   try {
-    const room = yield call([matrix, matrix.getRoom], payload);
-    const members = yield call([room.currentState, room.currentState.getMembers]);
-    const matrixIds = yield call(getMembersIds, members);
-    const { data } = yield call(post, '/employee/matrix', { matrixIds });
-    const storeMembers = yield call(membersTransformer, data);
-    const anotherGuyId = yield call(getAnotherGuyId, storeMembers);
-
-    const result = {
-      roomId: payload,
-      name: storeMembers[anotherGuyId].name,
-      position: storeMembers[anotherGuyId].position,
-      companyName: storeMembers[anotherGuyId].companyName,
-      members: storeMembers
-    };
-
-    yield put(fetchRoom.success(result));
+    const matrixRooms = yield call([matrix, matrix.getRooms]);
+    const matrixIds = yield call(getIdsFromRooms, matrixRooms);
+    if (matrixIds.length > 0) {
+      const { data: usersData } = yield call(post, '/employee/matrix', { matrixIds });
+      yield put(fetchRooms.success({
+        rooms: createRooms(matrixRooms, matrixIds),
+        users: createUsers(usersData)
+      }));
+    }
   } catch (e) {
-    yield put(fetchRoom.failure(e));
+    yield put(fetchRooms.failure(e));
   }
 }
 
-function* fetchRoomSaga(): SagaIterator {
+function* fetchRoomsSaga(): SagaIterator {
   yield takeLatest(
-    fetchRoom.REQUEST,
-    fetchRoomIterator
+    fetchRooms.REQUEST,
+    fetchRoomsIterator
   );
 }
+
+// /**
+//  * Fetch Room saga
+//  * @param {string} payload matrix room id
+//  */
+
+// function* fetchRoomIterator({ payload }: Action<string>): SagaIterator {
+//   try {
+//     const room = yield call([matrix, matrix.getRoom], payload);
+//     const members = yield call([room.currentState, room.currentState.getMembers]);
+//     const matrixIds = yield call(getMembersIds, members);
+//     const { data } = yield call(post, '/employee/matrix', { matrixIds });
+//     const storeMembers = yield call(membersTransformer, data);
+//     const anotherGuyId = yield call(getAnotherGuyId, storeMembers);
+
+//     const result = {
+//       id: payload,
+//       name: storeMembers[anotherGuyId].name,
+//       position: storeMembers[anotherGuyId].position,
+//       companyName: storeMembers[anotherGuyId].companyName,
+//       members: storeMembers
+//     };
+
+//     yield put(fetchRoomMembers.success(result));
+//   } catch (e) {
+//     yield put(fetchRoomMembers.failure(e));
+//   }
+// }
+
+// function* fetchRoomSaga(): SagaIterator {
+//   yield takeLatest(
+//     fetchRoomMembers.REQUEST,
+//     fetchRoomIterator
+//   );
+// }
+
+// /**
+//  * Open room saga
+//  * @param {string} payload roomId
+//  * 1. Store opened room id
+//  * 2. Put fetchRoom action
+//  */
+
+// function* openRoomIterator({ payload: roomId }: Action<string>): SagaIterator {
+//   try {
+//     // try to get room. If room doesnt exist catch the error
+//     const room = yield call([matrix, matrix.getRoom], roomId);
+//     yield put(clearMessages());
+//     yield put(fetchRoomMembers(room.roomId));
+//   } catch (e) {
+//     yield call(console.error, e);
+//   }
+// }
+
+// function* openRoomSaga(): SagaIterator {
+//   yield takeLatest(
+//     OPEN_ROOM,
+//     openRoomIterator
+//   );
+// }
 
 /**
  * Send message saga
@@ -85,7 +141,7 @@ function* sendMessageSaga(): SagaIterator {
 
 export default function*(): SagaIterator {
   yield all([
-    fork(fetchRoomSaga),
-    fork(sendMessageSaga)
+    fork(sendMessageSaga),
+    fork(fetchRoomsSaga)
   ]);
 }

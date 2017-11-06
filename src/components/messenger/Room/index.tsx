@@ -5,7 +5,7 @@ import { ts } from '../../../utils/timestamp';
 
 import './styles.css';
 
-import { Room as RoomProps } from '../../../redux/modules/messenger/rooms';
+import { Room as RoomProps } from '../../../redux/modules/messenger/messenger';
 
 import Avatar from '../Avatar';
 

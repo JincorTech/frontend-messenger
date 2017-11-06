@@ -7,7 +7,7 @@ import { messagesService } from '../../../utils/matrix/messagesService';
 
 import './styles.css';
 
-import { StateObj as MessengerState, Member as EmployeeProps } from '../../../redux/modules/messenger/messenger';
+import { StateObj as MessengerState, User as EmployeeProps } from '../../../redux/modules/messenger/messenger';
 import { StateObj as MessagesAreaState } from '../../../redux/modules/messenger/messagesArea';
 import { loadFirstPage, loadNextPage, loadNewMessage } from '../../../redux/modules/messenger/messagesArea';
 
@@ -16,6 +16,7 @@ import MessagesHeader, { HEIGHT as MESSAGES_HEADER_HEIGHT } from '../../../compo
 import MessageGroup from '../../../components/messenger/MessageGroup';
 import Textarea, { HEIGHT as TEXTAREA_HEIGHT } from '../../../components/messenger/Textarea';
 import * as Waypoint from 'react-waypoint';
+import { getAnotherGuyId } from '../../../helpers/matrix';
 
 /**
  * Types
@@ -64,8 +65,8 @@ class MessagesArea extends Component<Props, ComponentState> {
   }
 
   public componentWillReceiveProps(nextProps): void {
-    if (this.props.openedRoom.roomId !== nextProps.openedRoom.roomId) {
-      this.props.loadFirstPage(nextProps.openedRoom.roomId);
+    if (this.props.openedRoomId !== nextProps.openedRoomId) {
+      this.props.loadFirstPage(nextProps.openedRoomId);
     }
   }
 
@@ -139,26 +140,27 @@ class MessagesArea extends Component<Props, ComponentState> {
     const {
       t,
       height,
-      openedRoom,
+      openedRoomId,
       textarea,
-      openEmployeeCard
+      openEmployeeCard,
+      users,
+      rooms
     } = this.props;
 
-    const { members } = openedRoom;
     const { messages } = this.props;
 
     const messagesAreaHeight = height - MESSAGES_HEADER_HEIGHT - TEXTAREA_HEIGHT;
 
     return (
       <div>
-        <MessagesHeader {...openedRoom}/>
+        <MessagesHeader {...users[getAnotherGuyId(users)]}/>
 
         <Scrollbars autoHide ref={(scrollbars) => { this.scrollbars = scrollbars; }} style={{ height: messagesAreaHeight }}>
           {this.renderWaypoint()}
           {messages.map(({ sender, messages }, i) => (
             <MessageGroup
               key={messages[0].timestamp}
-              author={members[sender]}
+              author={users.find((user) => user.id === sender)}
               messages={messages}
               openEmployeeCard={openEmployeeCard}/>
           ))}
@@ -182,9 +184,9 @@ class MessagesArea extends Component<Props, ComponentState> {
   }
 
   public render(): JSX.Element {
-    const { openedRoom } = this.props;
+    const { openedRoomId } = this.props;
 
-    return openedRoom.roomId ? this.renderMessagesArea() : this.renderMock();
+    return openedRoomId ? this.renderMessagesArea() : this.renderMock();
   }
 }
 

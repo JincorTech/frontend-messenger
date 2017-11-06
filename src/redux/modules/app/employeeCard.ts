@@ -1,7 +1,7 @@
 import { createReducer, createAction, Action } from '../../../utils/actions';
 import { from, ImmutableObject } from 'seamless-immutable';
 
-import { Member as Employee } from '../messenger/messenger';
+import { User as Employee } from '../messenger/messenger';
 
 /**
  * Types

@@ -5,7 +5,7 @@ import { ts } from '../../../utils/timestamp';
 
 import './styles.css';
 
-import { Member as EmployeeProps } from '../../../redux/modules/messenger/messenger';
+import { User as EmployeeProps } from '../../../redux/modules/messenger/messenger';
 
 import Avatar from '../Avatar';
 import Message, { Props as MessageProps } from '../Message';

@@ -9,21 +9,26 @@ export type State = StateObj & ImmutableObject<StateObj>;
 
 export type StateObj = {
   height: number
-  openedRoom: OpenedRoom
+  rooms: Room[]
+  users: User[]
+  openedRoomId: string
   textarea: string
 };
 
-export type OpenedRoom = {
-  roomId: string
-  name: string
-  position: string
-  companyName: string
-  members: {
-    [matrixId: string]: Member
-  }
+export type Room = {
+  id: string
+  type: string
+  userId: string
+  src?: string
+  title: string
+  timestamp: string
+  unreadIn: boolean
+  unreadOut: boolean
+  last: string
+  preview: string
 };
 
-export type Member = {
+export type User = {
   id: string
   email: string
   name: string
@@ -42,11 +47,6 @@ export type MessageGroup = {
   content: string
 };
 
-export type OpenRoomRes = {
-  openedRoom: OpenedRoom
-  members: Member[]
-};
-
 /**
  * Constants
  */
@@ -54,7 +54,7 @@ export type OpenRoomRes = {
 export const UPDATE_DEMENSIONS = 'messenger/messenger/UPDATE_DEMENSIONS';
 export const OPEN_ROOM = 'messenger/messenger/OPEN_ROOM';
 export const SEND_MESSAGE = 'messenger/messenger/SEND_MESSAGE';
-export const FETCH_ROOM = 'messenger/messenger/FETCH_ROOM';
+export const FETCH_ROOMS = 'messenger/messenger/FETCH_ROOMS';
 export const CHANGE_TEXTAREA = 'messenger/messenger/CHANGE_TEXTAREA';
 export const RESET_TEXTAREA = 'messenger/messenger/RESET_TEXTAREA';
 
@@ -65,7 +65,7 @@ export const RESET_TEXTAREA = 'messenger/messenger/RESET_TEXTAREA';
 export const updateDemensions = createAction<number>(UPDATE_DEMENSIONS);
 export const openRoom = createAction<string>(OPEN_ROOM);
 export const sendMessage = createAction<void>(SEND_MESSAGE);
-export const fetchRoom = createAsyncAction<string, OpenedRoom>(FETCH_ROOM);
+export const fetchRooms = createAsyncAction<void, { rooms: Room[], users: User[] }>(FETCH_ROOMS);
 export const changeTextarea = createAction<string>(CHANGE_TEXTAREA);
 export const resetTextarea = createAction<void>(RESET_TEXTAREA);
 
@@ -75,13 +75,9 @@ export const resetTextarea = createAction<void>(RESET_TEXTAREA);
 
 const initialState = from<StateObj>({
   height: 0,
-  openedRoom: {
-    roomId: '',
-    name: '',
-    position: '',
-    companyName: '',
-    members: {}
-  },
+  rooms: [],
+  users: [],
+  openedRoomId: '',
   textarea: ''
 });
 
@@ -90,8 +86,11 @@ export default createReducer<State>({
     state.merge({ height: payload })
   ),
 
-  [fetchRoom.SUCCESS]: (state: State, { payload }: Action<any>): State => (
-    state.merge({ openedRoom: payload })
+  [fetchRooms.SUCCESS]: (state: State, { payload }: Action<{ rooms: Room[], users: User[] }>): State => (
+    state.merge({
+      rooms: payload.rooms,
+      users: payload.users
+    })
   ),
 
   [CHANGE_TEXTAREA]: (state: State, { payload }: Action<string>): State => (
@@ -100,5 +99,9 @@ export default createReducer<State>({
 
   [RESET_TEXTAREA]: (state: State): State => (
     state.merge({ textarea: '' })
+  ),
+
+  [OPEN_ROOM]: (state: State, { payload }: Action<string>): State => (
+    state.merge({ openedRoomId: payload })
   )
 }, initialState);
