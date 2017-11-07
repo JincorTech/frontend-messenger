@@ -19,7 +19,6 @@ import {
   SEND_MESSAGE
 } from '../../redux/modules/messenger/messenger';
 import matrix from '../../utils/matrix';
-import { clearMessages } from '../../redux/modules/messenger/messagesArea';
 
 /**
  * Fetch rooms saga
@@ -48,66 +47,6 @@ function* fetchRoomsSaga(): SagaIterator {
     fetchRoomsIterator
   );
 }
-
-// /**
-//  * Fetch Room saga
-//  * @param {string} payload matrix room id
-//  */
-
-// function* fetchRoomIterator({ payload }: Action<string>): SagaIterator {
-//   try {
-//     const room = yield call([matrix, matrix.getRoom], payload);
-//     const members = yield call([room.currentState, room.currentState.getMembers]);
-//     const matrixIds = yield call(getMembersIds, members);
-//     const { data } = yield call(post, '/employee/matrix', { matrixIds });
-//     const storeMembers = yield call(membersTransformer, data);
-//     const anotherGuyId = yield call(getAnotherGuyId, storeMembers);
-
-//     const result = {
-//       id: payload,
-//       name: storeMembers[anotherGuyId].name,
-//       position: storeMembers[anotherGuyId].position,
-//       companyName: storeMembers[anotherGuyId].companyName,
-//       members: storeMembers
-//     };
-
-//     yield put(fetchRoomMembers.success(result));
-//   } catch (e) {
-//     yield put(fetchRoomMembers.failure(e));
-//   }
-// }
-
-// function* fetchRoomSaga(): SagaIterator {
-//   yield takeLatest(
-//     fetchRoomMembers.REQUEST,
-//     fetchRoomIterator
-//   );
-// }
-
-// /**
-//  * Open room saga
-//  * @param {string} payload roomId
-//  * 1. Store opened room id
-//  * 2. Put fetchRoom action
-//  */
-
-// function* openRoomIterator({ payload: roomId }: Action<string>): SagaIterator {
-//   try {
-//     // try to get room. If room doesnt exist catch the error
-//     const room = yield call([matrix, matrix.getRoom], roomId);
-//     yield put(clearMessages());
-//     yield put(fetchRoomMembers(room.roomId));
-//   } catch (e) {
-//     yield call(console.error, e);
-//   }
-// }
-
-// function* openRoomSaga(): SagaIterator {
-//   yield takeLatest(
-//     OPEN_ROOM,
-//     openRoomIterator
-//   );
-// }
 
 /**
  * Send message saga

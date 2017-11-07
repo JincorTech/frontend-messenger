@@ -30,7 +30,6 @@ export type DispatchProps = {
   updateDemensions: (height: number) => void
   sendMessage: () => void
   changeTextarea: (text: string) => void
-  fetchRoom: (roomId: string) => void
   openEmployeeCard: (employee: EmployeeProps) => void
 };
 
@@ -51,12 +50,6 @@ class Messenger extends Component<Props, StateProps> {
 
   public componentDidMount(): void {
     window.addEventListener('resize', this.updateDimensions);
-
-    matrix.on('event', (event) => {
-      if (event.getType() === 'm.room.message') {
-        this.props.fetchRoom(this.props.openedRoomId);
-      }
-    });
   }
 
   public componentWillUnmount(): void {
