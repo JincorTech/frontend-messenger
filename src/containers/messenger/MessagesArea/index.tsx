@@ -16,7 +16,7 @@ import MessagesHeader, { HEIGHT as MESSAGES_HEADER_HEIGHT } from '../../../compo
 import MessageGroup from '../../../components/messenger/MessageGroup';
 import Textarea, { HEIGHT as TEXTAREA_HEIGHT } from '../../../components/messenger/Textarea';
 import * as Waypoint from 'react-waypoint';
-import { getAnotherGuyId } from '../../../helpers/matrix';
+import { getRoomById, getUserByMatrixId } from '../../../helpers/matrix';
 
 /**
  * Types
@@ -151,9 +151,12 @@ class MessagesArea extends Component<Props, ComponentState> {
 
     const messagesAreaHeight = height - MESSAGES_HEADER_HEIGHT - TEXTAREA_HEIGHT;
 
+    const openedRoom = getRoomById(rooms, openedRoomId);
+    const anotherGuy = getUserByMatrixId(users, openedRoom.userId);
+
     return (
       <div>
-        <MessagesHeader {...users[getAnotherGuyId(users)]}/>
+        <MessagesHeader {...anotherGuy}/>
 
         <Scrollbars autoHide ref={(scrollbars) => { this.scrollbars = scrollbars; }} style={{ height: messagesAreaHeight }}>
           {this.renderWaypoint()}

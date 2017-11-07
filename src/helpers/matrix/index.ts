@@ -1,7 +1,7 @@
 import matrix from '../../utils/matrix';
 import md5 from 'js-md5';
 
-import { Room } from '../../redux/modules/messenger/messenger';
+import { Room, User as RoomMember } from '../../redux/modules/messenger/messenger';
 import { User } from '../../redux/modules/contacts/newContact';
 
 /**
@@ -162,4 +162,12 @@ export const getAnotherGuyId = (members) =>
 
 export const getMyId = (): string => {
   return matrix.credentials.userId;
+}
+
+export const getRoomById = (rooms: Room[], roomId: string): Room => {
+  return rooms.find((room) => room.id === roomId);
+}
+
+export const getUserByMatrixId = (users: RoomMember[], userId: string): RoomMember => {
+  return users.find((user) => user.matrixId === userId);
 }
