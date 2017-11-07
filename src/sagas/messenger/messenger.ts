@@ -31,9 +31,10 @@ function* fetchRoomsIterator(): SagaIterator {
     const matrixIds = yield call(getIdsFromRooms, matrixRooms);
     if (matrixIds.length > 0) {
       const { data: usersData } = yield call(post, '/employee/matrix', { matrixIds: [...matrixIds, removeDomain(matrix.credentials.userId)] });
+      const users = createUsers(usersData);
       yield put(fetchRooms.success({
-        rooms: createRooms(matrixRooms, matrixIds),
-        users: createUsers(usersData)
+        rooms: createRooms(matrixRooms, users),
+        users: users
       }));
     }
   } catch (e) {
@@ -112,7 +113,7 @@ function* fetchRoomsSaga(): SagaIterator {
  * Send message saga
  */
 
-const getOpenedRoomId = (state) => state.messenger.messenger.openedRoom.roomId;
+const getOpenedRoomId = (state) => state.messenger.messenger.openedRoomId;
 const getTextareValue = (state) => state.messenger.messenger.textarea;
 
 function* sendMessageIterator(): SagaIterator {

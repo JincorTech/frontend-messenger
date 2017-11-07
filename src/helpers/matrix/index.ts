@@ -1,8 +1,7 @@
 import matrix from '../../utils/matrix';
 import md5 from 'js-md5';
 
-import { Room, User as RoomMember } from '../../redux/modules/messenger/messenger';
-import { User } from '../../redux/modules/contacts/newContact';
+import { Room, User } from '../../redux/modules/messenger/messenger';
 
 /**
  * Add domain to matrixUserId
@@ -96,7 +95,7 @@ export const createUsers = (usersData): User[] => {
  * @param users User[]
  */
 
-export const createRooms = (matrixRooms, usersIds: string[]): Room[] => {
+export const createRooms = (matrixRooms, users: User[]): Room[] => {
   const roomsWithMessages = matrixRooms.filter((room) => {
     const membersIds = Object.keys(room.currentState.members);
     const messages = room.timeline.map((e) => e.event.type === 'm.room.message');
@@ -104,8 +103,12 @@ export const createRooms = (matrixRooms, usersIds: string[]): Room[] => {
     return membersIds.length === 2 && messages.includes(true);
   });
 
-  const data = usersIds.reduce((acc, userId) => {
-    const matrixRoom = roomsWithMessages.filter((room) => room.currentState.members[addDomain(userId)])[0];
+  const data = users.reduce((acc, user) => {
+    if (addDomain(user.matrixId) === matrix.credentials.userId) {
+      return acc;
+    }
+
+    const matrixRoom = roomsWithMessages.filter((room) => room.currentState.members[addDomain(user.matrixId)])[0];
 
     // const lastSender = (id: string): string => {
     //   if (id !== matrix.credentials.userId) {
@@ -132,8 +135,8 @@ export const createRooms = (matrixRooms, usersIds: string[]): Room[] => {
         // last: lastSender(lastMessage[lastMessage.length - 1].sender),
         last: '',
         preview: lastMessage[lastMessage.length - 1].preview,
-        userId: userId,
-        title: matrixRoom.title
+        userId: user.id,
+        title: user.name
       };
 
       return acc.concat([room]);
@@ -168,6 +171,6 @@ export const getRoomById = (rooms: Room[], roomId: string): Room => {
   return rooms.find((room) => room.id === roomId);
 }
 
-export const getUserByMatrixId = (users: RoomMember[], userId: string): RoomMember => {
-  return users.find((user) => user.matrixId === userId);
+export const getUserById = (users: User[], userId: string): User => {
+  return users.find((user) => user.id === userId);
 }
