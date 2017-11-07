@@ -16,7 +16,7 @@ import { Action } from '../../utils/actions';
 import {
   fetchRooms,
   resetTextarea,
-  SEND_MESSAGE
+  sendMessage
 } from '../../redux/modules/messenger/messenger';
 import matrix from '../../utils/matrix';
 
@@ -57,21 +57,23 @@ const getTextareValue = (state) => state.messenger.messenger.textarea;
 
 function* sendMessageIterator(): SagaIterator {
   try {
-    const value = yield select(getTextareValue);
+    const value: string = yield select(getTextareValue);
+    const roomId: string = yield select(getOpenedRoomId);
 
     if (value.trim()) {
       yield put(resetTextarea());
-      const roomId = yield select(getOpenedRoomId);
       yield call([matrix, matrix.sendTextMessage], roomId, value);
     }
+
+    yield put(sendMessage.success({ roomId, text: value.trim() }));
   } catch (e) {
-    yield call(console.error, e);
+    yield put(sendMessage.failure(e));
   }
 }
 
 function* sendMessageSaga(): SagaIterator {
   yield takeLatest(
-    SEND_MESSAGE,
+    sendMessage.REQUEST,
     sendMessageIterator
   );
 }

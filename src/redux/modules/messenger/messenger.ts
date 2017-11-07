@@ -1,5 +1,6 @@
 import { createReducer, createAction, createAsyncAction, Action } from '../../../utils/actions';
-import { from, ImmutableObject } from 'seamless-immutable';
+import { from, ImmutableObject, Immutable } from 'seamless-immutable';
+import { getRoomById, getUserById } from '../../../helpers/store';
 
 /**
  * Types
@@ -65,7 +66,7 @@ export const RESET_TEXTAREA = 'messenger/messenger/RESET_TEXTAREA';
 
 export const updateDemensions = createAction<number>(UPDATE_DEMENSIONS);
 export const openRoom = createAction<string>(OPEN_ROOM);
-export const sendMessage = createAction<void>(SEND_MESSAGE);
+export const sendMessage = createAsyncAction<void, { roomId: string, text: string }>(SEND_MESSAGE);
 export const fetchRooms = createAsyncAction<void, { rooms: Room[], users: User[] }>(FETCH_ROOMS);
 export const changeTextarea = createAction<string>(CHANGE_TEXTAREA);
 export const resetTextarea = createAction<void>(RESET_TEXTAREA);
@@ -93,6 +94,18 @@ export default createReducer<State>({
       users: payload.users
     })
   ),
+
+  [sendMessage.SUCCESS]: (state: State, { payload }: Action<{ roomId: string, text: string }>): State => {
+    return state.merge({ rooms: state.rooms.map((room) => {
+      if (room.id === payload.roomId) {
+        let newRoom = { ...room };
+        newRoom.preview = payload.text;
+        return newRoom;
+      } else {
+        return room;
+      }
+    })});
+  },
 
   [CHANGE_TEXTAREA]: (state: State, { payload }: Action<string>): State => (
     state.merge({ textarea: payload })

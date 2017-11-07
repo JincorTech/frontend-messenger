@@ -16,7 +16,7 @@ import MessagesHeader, { HEIGHT as MESSAGES_HEADER_HEIGHT } from '../../../compo
 import MessageGroup from '../../../components/messenger/MessageGroup';
 import Textarea, { HEIGHT as TEXTAREA_HEIGHT } from '../../../components/messenger/Textarea';
 import * as Waypoint from 'react-waypoint';
-import { getRoomById, getUserById } from '../../../helpers/matrix';
+import { getRoomById, getUserById } from '../../../helpers/store';
 
 /**
  * Types
