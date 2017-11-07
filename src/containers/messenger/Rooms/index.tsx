@@ -127,7 +127,7 @@ export default connect<StateProps, DispatchProps, ComponentProps>(
     return {
       ...state.messenger.messenger,
       ...state.messenger.rooms
-    }
+    };
   },
   {
     showSearchInput,

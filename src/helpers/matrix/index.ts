@@ -69,25 +69,13 @@ export const getIdsFromRooms = (rooms): string => {
   return result.filter((id) => id);
 };
 
-/**
- * Get matrixIds from Room without domain
- * @param room MatrixRoom
- * @return matrixIds string[]
- */
-
-export const getMembersIdsFromRoom = (room): string[] => {
-  const keys = Object.keys(room.currentState.members);
-
-  return keys.map((key) => removeDomain(key));
-};
-
 export const createUsers = (usersData): User[] => {
   return usersData.map((userData) => {
     return {
       ...userData
-    }
-  })
-}
+    };
+  });
+};
 
 /**
  * Store rooms
@@ -147,22 +135,3 @@ export const createRooms = (matrixRooms, users: User[]): Room[] => {
 
   return data.sort((a, b) => b.timestamp - a.timestamp);
 };
-
-export const membersTransformer = (members) => {
-  return members.reduce((acc, member) => {
-    return Object.assign(acc, { [member.matrixId]: member });
-  }, {});
-};
-
-export const getMembersIds = (members) =>
-  members.map((member) => removeDomain(member.userId));
-
-export const getAnotherGuyId = (members) =>
-  Object.keys(members).reduce((acc, id) =>
-    id !== removeDomain(matrix.credentials.userId)
-      ? id
-      : acc, '');
-
-export const getMyId = (): string => {
-  return matrix.credentials.userId;
-}

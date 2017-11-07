@@ -2,9 +2,6 @@ import { SagaIterator } from 'redux-saga';
 import { all, takeLatest, call, fork, put, select } from 'redux-saga/effects';
 import { post } from '../../utils/api';
 import {
-  membersTransformer,
-  getMembersIds,
-  getAnotherGuyId,
   getIdsFromRooms,
   createRooms,
   createUsers,

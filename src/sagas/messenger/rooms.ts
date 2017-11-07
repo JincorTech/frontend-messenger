@@ -1,7 +1,6 @@
 import { SagaIterator } from 'redux-saga';
 import { all, takeLatest, call, put, fork } from 'redux-saga/effects';
 import matrix from '../../utils/matrix';
-import { post } from '../../utils/api';
 
 import { Action } from '../../utils/actions';
 import {
