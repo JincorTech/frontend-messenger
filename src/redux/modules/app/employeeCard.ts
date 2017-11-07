@@ -36,6 +36,7 @@ const initialState: State = from<StateMap>({
   open: false,
   employee: {
     id: '',
+    matrixId: '',
     email: '',
     name: '',
     firstName: '',

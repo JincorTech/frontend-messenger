@@ -7,7 +7,8 @@ import {
   getAnotherGuyId,
   getIdsFromRooms,
   createRooms,
-  createUsers
+  createUsers,
+  removeDomain
 } from '../../helpers/matrix';
 
 import { Action } from '../../utils/actions';
@@ -29,7 +30,7 @@ function* fetchRoomsIterator(): SagaIterator {
     const matrixRooms = yield call([matrix, matrix.getRooms]);
     const matrixIds = yield call(getIdsFromRooms, matrixRooms);
     if (matrixIds.length > 0) {
-      const { data: usersData } = yield call(post, '/employee/matrix', { matrixIds });
+      const { data: usersData } = yield call(post, '/employee/matrix', { matrixIds: [...matrixIds, removeDomain(matrix.credentials.userId)] });
       yield put(fetchRooms.success({
         rooms: createRooms(matrixRooms, matrixIds),
         users: createUsers(usersData)

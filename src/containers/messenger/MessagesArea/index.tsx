@@ -160,7 +160,7 @@ class MessagesArea extends Component<Props, ComponentState> {
           {messages.map(({ sender, messages }, i) => (
             <MessageGroup
               key={messages[0].timestamp}
-              author={users.find((user) => user.id === sender)}
+              author={users.find((user) => user.matrixId === sender)}
               messages={messages}
               openEmployeeCard={openEmployeeCard}/>
           ))}

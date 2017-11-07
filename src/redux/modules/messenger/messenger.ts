@@ -30,6 +30,7 @@ export type Room = {
 
 export type User = {
   id: string
+  matrixId: string
   email: string
   name: string
   firstName: string
