@@ -1,8 +1,7 @@
 @use postcss-short;
 
 .message-group {
-  padding-top: 5px;
-  padding-bottom: 5px;
+  padding: 5px 0;
 }
 
 .message {

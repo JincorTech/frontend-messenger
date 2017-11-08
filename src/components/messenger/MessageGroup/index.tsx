@@ -6,7 +6,7 @@ import { ts } from '../../../utils/timestamp';
 import './styles.css';
 
 import { Member as EmployeeProps } from '../../../redux/modules/messenger/messenger';
-import { Message as MessageType } from '../../../redux/modules/messenger/messagesArea';
+import { Message as MessageProps } from '../../../redux/modules/messenger/messagesArea';
 
 import Avatar from '../Avatar';
 import Message from '../Message';
@@ -19,7 +19,7 @@ import { isNewMessage } from '../../../helpers/matrix';
 
 export type Props = {
   author: EmployeeProps
-  messages: MessageType[]
+  messages: MessageProps[]
   openEmployeeCard: (employee: EmployeeProps) => void
   lastReadMessageId: string
 };
