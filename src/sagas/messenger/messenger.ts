@@ -15,6 +15,7 @@ import {
   SEND_MESSAGE
 } from '../../redux/modules/messenger/messenger';
 import matrix from '../../utils/matrix';
+import { messagesService } from '../../utils/matrix/messagesService';
 
 /**
  * Fetch Room saga
@@ -66,6 +67,7 @@ function* sendMessageIterator(): SagaIterator {
       yield put(resetTextarea());
       const roomId = yield select(getOpenedRoomId);
       yield call([matrix, matrix.sendTextMessage], roomId, value);
+      yield call([messagesService, messagesService.markAsRead]);
     }
   } catch (e) {
     yield call(console.error, e);

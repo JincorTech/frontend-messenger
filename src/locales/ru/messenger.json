@@ -3,5 +3,6 @@
   "selectConversation": "Выберите диалог<1/>чтобы начать общение",
   "searchInConversations": "Поиск по диалогам",
   "chats": "Чаты",
-  "contacts": "Контакты"
+  "contacts": "Контакты",
+  "newMessages": "Новые сообщения"
 }
