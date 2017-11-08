@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { SFC } from 'react';
 import { connect } from 'react-redux';
+import { translate } from 'react-i18next';
 
 import './styles.css';
 
@@ -21,7 +22,9 @@ export type Props =
   JSX.IntrinsicClassAttributes<any> &
   PopupProps &
   StateProps &
-  DispatchProps;
+  DispatchProps & {
+    t: Function
+  };
 
 export type DispatchProps = {
   closeEmployeeCard: () => void
@@ -33,6 +36,7 @@ export type DispatchProps = {
 
 const EmployeeCard: SFC<Props> = (props) => {
   const {
+    t,
     open,
     closeEmployeeCard,
     employee
@@ -66,9 +70,9 @@ const EmployeeCard: SFC<Props> = (props) => {
         companyName={companyName}
         companyLogo={companyLogo}>
         <div styleName="buttons">
-          <button type="button">Сообщение</button>
-          <button type="button">Добавить в контакты</button>
-          <button type="button">Заблокировать</button>
+          <button type="button">{t('message')}</button>
+          <button type="button">{t('addToContacts')}</button>
+          <button type="button">{t('suspend')}</button>
         </div>
       </CardAvatar>
     </Popup>
@@ -79,9 +83,11 @@ const EmployeeCard: SFC<Props> = (props) => {
  * Export
  */
 
+const TranslatedComponent = translate('app')(EmployeeCard);
+
 export default connect(
   (state) => state.app.employeeCard,
   {
     closeEmployeeCard
   }
-)(EmployeeCard);
+)(TranslatedComponent);
