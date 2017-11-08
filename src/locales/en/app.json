@@ -15,5 +15,8 @@
   "position": "Position",
   "search": "Search",
   "myCompany": "My company",
-  "messenger": "Messenger"
+  "messenger": "Messenger",
+  "message": "Message",
+  "addToContacts": "Add to contacts",
+  "suspend": "Suspend"
 }
