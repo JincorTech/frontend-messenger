@@ -95,15 +95,13 @@ export default createReducer<State>({
   ),
 
   [sendMessage.SUCCESS]: (state: State, { payload }: Action<{ roomId: string, text: string }>): State => {
-    return state.merge({ rooms: state.rooms.map((room) => {
-      if (room.id === payload.roomId) {
-        let newRoom = { ...room };
-        newRoom.preview = payload.text;
-        return newRoom;
-      } else {
-        return room;
-      }
-    })});
+    return state.merge({
+      rooms: state.rooms.map((room) =>
+        room.id === payload.roomId
+          ? Object.assign({}, room, { preview: payload.text })
+          : room
+      )
+    });
   },
 
   [CHANGE_TEXTAREA]: (state: State, { payload }: Action<string>): State => (
