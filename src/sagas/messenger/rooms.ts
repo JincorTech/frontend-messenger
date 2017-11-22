@@ -1,61 +1,22 @@
 import { SagaIterator } from 'redux-saga';
 import { all, takeLatest, call, put, fork } from 'redux-saga/effects';
 import matrix from '../../utils/matrix';
-import { post } from '../../utils/api';
 
 import { Action } from '../../utils/actions';
 import {
-  fetchRooms,
   selectRoom,
   createRoom,
-  openRoom,
   OUTSIDE_SELECT_ROOM,
   SELECT_ROOM,
-  CREATE_ROOM,
-  OPEN_ROOM
+  CREATE_ROOM
 } from '../../redux/modules/messenger/rooms';
-import { fetchRoom } from '../../redux/modules/messenger/messenger';
-import { clearMessages } from '../../redux/modules/messenger/messagesArea';
+import { openRoom } from '../../redux/modules/messenger/messenger';
 
 import {
   createAlias,
-  getIdsFromRooms,
-  createRooms,
   addDomain,
   restoreMatrixId
 } from '../../helpers/matrix';
-
-/**
- * SELECT_ROOM (id)
- * if room exist
- * OPEN_ROOM (id)
- * else
- * CREATE_ROOM
- */
-
-/**
- * Fetch rooms saga
- */
-
-function* fetchRoomsIterator(): SagaIterator {
-  try {
-    const matrixRooms = yield call([matrix, matrix.getRooms]);
-    const matrixIds = yield call(getIdsFromRooms, matrixRooms);
-    if (matrixIds.length > 0) {
-      const { data } = yield call(post, '/employee/matrix', { matrixIds });
-      yield put(fetchRooms.success(createRooms(matrixRooms, data)));
-    }
-  } catch (e) {
-    yield put(fetchRooms.failure(e));
-  }
-}
-
-function* fetchRoomsSaga(): SagaIterator {
-  yield takeLatest(
-    fetchRooms.REQUEST,
-    fetchRoomsIterator
-  );
-}
 
 /**
  * Try to open room outside app
@@ -80,6 +41,14 @@ function* outsideSelectRoomSaga(): SagaIterator {
     outsideSelectRoomIterator
   );
 }
+
+/**
+ * SELECT_ROOM (id)
+ * if room exist
+ * OPEN_ROOM (id)
+ * else
+ * CREATE_ROOM
+ */
 
 /**
  * Select room saga
@@ -148,40 +117,13 @@ function* createRoomSaga(): SagaIterator {
 }
 
 /**
- * Open room saga
- * @param {string} payload roomId
- * 1. Store opened room id
- * 2. Put fetchRoom action
- */
-
-function* openRoomIterator({ payload: roomId }: Action<string>): SagaIterator {
-  try {
-    // try to get room. If room doesnt exist catch the error
-    const room = yield call([matrix, matrix.getRoom], roomId);
-    yield put(clearMessages());
-    yield put(fetchRoom(room.roomId));
-  } catch (e) {
-    yield call(console.error, e);
-  }
-}
-
-function* openRoomSaga(): SagaIterator {
-  yield takeLatest(
-    OPEN_ROOM,
-    openRoomIterator
-  );
-}
-
-/**
  * Export
  */
 
 export default function*(): SagaIterator {
   yield all([
-    fork(fetchRoomsSaga),
     fork(outsideSelectRoomSaga),
     fork(selectRoomSaga),
-    fork(createRoomSaga),
-    fork(openRoomSaga)
+    fork(createRoomSaga)
   ]);
 }

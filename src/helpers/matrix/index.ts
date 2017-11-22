@@ -1,7 +1,7 @@
 import matrix from '../../utils/matrix';
 import md5 from 'js-md5';
 
-import { Room } from '../../redux/modules/messenger/rooms';
+import { Room } from '../../redux/modules/messenger/messenger';
 import { User } from '../../redux/modules/contacts/newContact';
 import { Message } from '../../redux/modules/messenger/messagesArea';
 
@@ -71,16 +71,12 @@ export const getIdsFromRooms = (rooms): string => {
   return result.filter((id) => id);
 };
 
-/**
- * Get matrixIds from Room without domain
- * @param room MatrixRoom
- * @return matrixIds string[]
- */
-
-export const getMembersIdsFromRoom = (room): string[] => {
-  const keys = Object.keys(room.currentState.members);
-
-  return keys.map((key) => removeDomain(key));
+export const createUsers = (usersData): User[] => {
+  return usersData.map((userData) => {
+    return {
+      ...userData
+    };
+  });
 };
 
 /**
@@ -98,6 +94,10 @@ export const createRooms = (matrixRooms, users: User[]): Room[] => {
   });
 
   const data = users.reduce((acc, user) => {
+    if (addDomain(user.matrixId) === matrix.credentials.userId) {
+      return acc;
+    }
+
     const matrixRoom = roomsWithMessages.filter((room) => room.currentState.members[addDomain(user.matrixId)])[0];
 
     // const lastSender = (id: string): string => {
@@ -119,15 +119,14 @@ export const createRooms = (matrixRooms, users: User[]): Room[] => {
       const room = {
         type: 'dialog',
         id: matrixRoom.roomId,
-        userId: user.id,
-        title: user.name,
-        src: user.avatar,
         timestamp: lastMessage[lastMessage.length - 1].timestamp,
         unreadIn: false,
         unreadOut: false,
         // last: lastSender(lastMessage[lastMessage.length - 1].sender),
         last: '',
-        preview: lastMessage[lastMessage.length - 1].preview
+        preview: lastMessage[lastMessage.length - 1].preview,
+        userId: user.id,
+        title: user.name
       };
 
       return acc.concat([room]);

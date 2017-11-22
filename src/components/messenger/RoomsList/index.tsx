@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { SFC } from 'react';
 
-import { Room as RoomProps } from '../../../redux/modules/messenger/rooms';
+import { Room as RoomProps } from '../../../redux/modules/messenger/messenger';
 
 import Room from '../Room';
 

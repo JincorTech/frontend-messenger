@@ -3,7 +3,13 @@ import { all, takeLatest, call, put, fork } from 'redux-saga/effects';
 
 import { messagesService } from '../../utils/matrix/messagesService';
 import { Action } from '../../utils/actions';
-import { loadFirstPage, loadNextPage, loadNewMessage, updateLastReadMessage } from '../../redux/modules/messenger/messagesArea';
+import {
+  loadFirstPage,
+  loadNextPage,
+  loadNewMessage,
+  clearMessages,
+  updateLastReadMessage
+} from '../../redux/modules/messenger/messagesArea';
 
 /**
  * Fetch messages saga
@@ -55,6 +61,8 @@ function groupMessages(messages): any {
 
 function* loadFirstPageIterator({ payload }: Action<string>): SagaIterator {
   try {
+    yield put(clearMessages());
+
     yield call([messagesService, messagesService.initialize], payload);
     yield call([messagesService, messagesService.loadNextPage]);
 

@@ -3,7 +3,7 @@ import { SFC } from 'react';
 
 import './styles.css';
 
-import { OpenedRoom as OpenedRoomProps } from '../../../redux/modules/messenger/messenger';
+import { User } from '../../../redux/modules/messenger/messenger';
 
 /**
  * Constants
@@ -15,7 +15,7 @@ export const HEIGHT = 65;
  * Component
  */
 
-const MessagesHeader: SFC<OpenedRoomProps> = (props) => {
+const MessagesHeader: SFC<User> = (props) => {
   const {
     name,
     position,

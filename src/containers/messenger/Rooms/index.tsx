@@ -5,18 +5,20 @@ import matrix from '../../../utils/matrix';
 
 import './styles.css';
 
-import { StateObj as StateProps } from '../../../redux/modules/messenger/rooms';
+import { StateObj as RoomsStateProps } from '../../../redux/modules/messenger/rooms';
+import { StateObj as MessengerStateProps } from '../../../redux/modules/messenger/messenger';
 
 import {
   showSearchInput,
   hideSearchInput,
   changeSearchQuery,
-  resetSearchQuery,
+  resetSearchQuery
+} from '../../../redux/modules/messenger/rooms';
+import {
   fetchRooms,
   openRoom
-} from '../../../redux/modules/messenger/rooms';
+} from '../../../redux/modules/messenger/messenger';
 import { openContacts } from '../../../redux/modules/contacts/contacts';
-// import { openRoom } from '../../../redux/modules/messenger/messenger';
 
 import Scrollbars from 'react-custom-scrollbars';
 import RoomsHeader, { HEIGHT as ROOM_HEADER_HEIGHT } from '../../../components/messenger/RoomsHeader';
@@ -25,6 +27,8 @@ import RoomsList from '../../../components/messenger/RoomsList';
 /**
  * Types
  */
+
+export type StateProps = RoomsStateProps & MessengerStateProps;
 
 export type Props = ComponentProps & DispatchProps & StateProps;
 
@@ -73,7 +77,7 @@ class Rooms extends Component<Props, StateProps> {
   public render(): JSX.Element {
     const {
       height,
-      list,
+      rooms,
       search,
       searchable,
       showSearchInput,
@@ -103,7 +107,7 @@ class Rooms extends Component<Props, StateProps> {
           style={{height: contentHeight, width: 'calc(100% + 25px)'}}>
           <div styleName="dialog-list">
             <RoomsList
-              list={list}
+              list={rooms}
               search={search}
               openedRoomId={this.props.openedRoomId}
               openRoom={openRoom}/>
@@ -119,7 +123,12 @@ class Rooms extends Component<Props, StateProps> {
  */
 
 export default connect<StateProps, DispatchProps, ComponentProps>(
-  (state) => state.messenger.rooms,
+  (state) => {
+    return {
+      ...state.messenger.messenger,
+      ...state.messenger.rooms
+    };
+  },
   {
     showSearchInput,
     hideSearchInput,

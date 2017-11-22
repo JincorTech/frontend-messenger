@@ -2,53 +2,47 @@ import { SagaIterator } from 'redux-saga';
 import { all, takeLatest, call, fork, put, select } from 'redux-saga/effects';
 import { post } from '../../utils/api';
 import {
-  membersTransformer,
-  getMembersIds,
-  getAnotherGuyId
+  getIdsFromRooms,
+  createRooms,
+  createUsers,
+  removeDomain
 } from '../../helpers/matrix';
 
 import { Action } from '../../utils/actions';
 
 import {
-  fetchRoom,
+  fetchRooms,
   resetTextarea,
-  SEND_MESSAGE
+  sendMessage
 } from '../../redux/modules/messenger/messenger';
 import matrix from '../../utils/matrix';
 import { messagesService } from '../../utils/matrix/messagesService';
 
 /**
- * Fetch Room saga
- * @param {string} payload matrix room id
+ * Fetch rooms saga
  */
 
-function* fetchRoomIterator({ payload }: Action<string>): SagaIterator {
+function* fetchRoomsIterator(): SagaIterator {
   try {
-    const room = yield call([matrix, matrix.getRoom], payload);
-    const members = yield call([room.currentState, room.currentState.getMembers]);
-    const matrixIds = yield call(getMembersIds, members);
-    const { data } = yield call(post, '/employee/matrix', { matrixIds });
-    const storeMembers = yield call(membersTransformer, data);
-    const anotherGuyId = yield call(getAnotherGuyId, storeMembers);
-
-    const result = {
-      roomId: payload,
-      name: storeMembers[anotherGuyId].name,
-      position: storeMembers[anotherGuyId].position,
-      companyName: storeMembers[anotherGuyId].companyName,
-      members: storeMembers
-    };
-
-    yield put(fetchRoom.success(result));
+    const matrixRooms = yield call([matrix, matrix.getRooms]);
+    const matrixIds = yield call(getIdsFromRooms, matrixRooms);
+    if (matrixIds.length > 0) {
+      const { data: usersData } = yield call(post, '/employee/matrix', { matrixIds: [...matrixIds, removeDomain(matrix.credentials.userId)] });
+      const users = createUsers(usersData);
+      yield put(fetchRooms.success({
+        rooms: createRooms(matrixRooms, users),
+        users: users
+      }));
+    }
   } catch (e) {
-    yield put(fetchRoom.failure(e));
+    yield put(fetchRooms.failure(e));
   }
 }
 
-function* fetchRoomSaga(): SagaIterator {
+function* fetchRoomsSaga(): SagaIterator {
   yield takeLatest(
-    fetchRoom.REQUEST,
-    fetchRoomIterator
+    fetchRooms.REQUEST,
+    fetchRoomsIterator
   );
 }
 
@@ -56,27 +50,29 @@ function* fetchRoomSaga(): SagaIterator {
  * Send message saga
  */
 
-const getOpenedRoomId = (state) => state.messenger.messenger.openedRoom.roomId;
+const getOpenedRoomId = (state) => state.messenger.messenger.openedRoomId;
 const getTextareValue = (state) => state.messenger.messenger.textarea;
 
 function* sendMessageIterator(): SagaIterator {
   try {
-    const value = yield select(getTextareValue);
+    const value: string = yield select(getTextareValue);
+    const roomId: string = yield select(getOpenedRoomId);
 
     if (value.trim()) {
       yield put(resetTextarea());
-      const roomId = yield select(getOpenedRoomId);
       yield call([matrix, matrix.sendTextMessage], roomId, value);
       yield call([messagesService, messagesService.markAsRead]);
     }
+
+    yield put(sendMessage.success({ roomId, text: value.trim() }));
   } catch (e) {
-    yield call(console.error, e);
+    yield put(sendMessage.failure(e));
   }
 }
 
 function* sendMessageSaga(): SagaIterator {
   yield takeLatest(
-    SEND_MESSAGE,
+    sendMessage.REQUEST,
     sendMessageIterator
   );
 }
@@ -87,7 +83,7 @@ function* sendMessageSaga(): SagaIterator {
 
 export default function*(): SagaIterator {
   yield all([
-    fork(fetchRoomSaga),
-    fork(sendMessageSaga)
+    fork(sendMessageSaga),
+    fork(fetchRoomsSaga)
   ]);
 }

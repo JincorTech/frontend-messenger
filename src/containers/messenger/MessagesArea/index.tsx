@@ -7,7 +7,7 @@ import { messagesService } from '../../../utils/matrix/messagesService';
 
 import './styles.css';
 
-import { StateObj as MessengerState, Member as EmployeeProps } from '../../../redux/modules/messenger/messenger';
+import { StateObj as MessengerState, User as EmployeeProps } from '../../../redux/modules/messenger/messenger';
 import { StateObj as MessagesAreaState } from '../../../redux/modules/messenger/messagesArea';
 import { loadFirstPage, loadNextPage, loadNewMessage, updateLastReadMessage } from '../../../redux/modules/messenger/messagesArea';
 
@@ -17,6 +17,7 @@ import MessageGroup from '../../../components/messenger/MessageGroup';
 import Textarea, { HEIGHT as TEXTAREA_HEIGHT } from '../../../components/messenger/Textarea';
 import UnreadSeparator from '../../../components/messenger/UnreadSeparator';
 import * as Waypoint from 'react-waypoint';
+import { getRoomById, getUserById } from '../../../helpers/store';
 import { isNewMessage } from '../../../helpers/matrix';
 
 /**
@@ -67,9 +68,9 @@ class MessagesArea extends Component<Props, ComponentState> {
   }
 
   public componentWillReceiveProps(nextProps): void {
-    if (this.props.openedRoom.roomId !== nextProps.openedRoom.roomId) {
+    if (this.props.openedRoomId !== nextProps.openedRoomId) {
       messagesService.markAsRead();
-      this.props.loadFirstPage(nextProps.openedRoom.roomId);
+      this.props.loadFirstPage(nextProps.openedRoomId);
     }
   }
 
@@ -150,26 +151,30 @@ class MessagesArea extends Component<Props, ComponentState> {
     const {
       t,
       height,
-      openedRoom,
+      openedRoomId,
       textarea,
-      openEmployeeCard
+      openEmployeeCard,
+      users,
+      rooms
     } = this.props;
 
-    const { members } = openedRoom;
     const { messagesGroups, lastReadMessageId } = this.props;
 
     const messagesAreaHeight = height - MESSAGES_HEADER_HEIGHT - TEXTAREA_HEIGHT;
 
+    const openedRoom = getRoomById(rooms, openedRoomId);
+    const anotherGuy = getUserById(users, openedRoom.userId);
+
     return (
       <div>
-        <MessagesHeader {...openedRoom}/>
+        <MessagesHeader {...anotherGuy}/>
 
         <Scrollbars autoHide ref={(scrollbars) => { this.scrollbars = scrollbars; }} style={{ height: messagesAreaHeight }}>
           {this.renderWaypoint()}
           {messagesGroups.map(({ sender, messages }, i) => {
             const messageGroup = <MessageGroup
               key={messages[0].timestamp}
-              author={members[sender]}
+              author={users.find((user) => user.matrixId === sender)}
               messages={messages}
               openEmployeeCard={openEmployeeCard}
               lastReadMessageId={lastReadMessageId} />;
@@ -209,9 +214,9 @@ class MessagesArea extends Component<Props, ComponentState> {
   }
 
   public render(): JSX.Element {
-    const { openedRoom } = this.props;
+    const { openedRoomId } = this.props;
 
-    return openedRoom.roomId ? this.renderMessagesArea() : this.renderMock();
+    return openedRoomId ? this.renderMessagesArea() : this.renderMock();
   }
 }
 
