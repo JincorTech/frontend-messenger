@@ -1,7 +1,9 @@
 import matrix from '../../utils/matrix';
 import md5 from 'js-md5';
 
-import { Room, User } from '../../redux/modules/messenger/messenger';
+import { Room } from '../../redux/modules/messenger/messenger';
+import { User } from '../../redux/modules/contacts/newContact';
+import { Message } from '../../redux/modules/messenger/messagesArea';
 
 /**
  * Add domain to matrixUserId
@@ -134,4 +136,25 @@ export const createRooms = (matrixRooms, users: User[]): Room[] => {
   }, []);
 
   return data.sort((a, b) => b.timestamp - a.timestamp);
+};
+
+export const membersTransformer = (members) => {
+  return members.reduce((acc, member) => {
+    return Object.assign(acc, { [member.matrixId]: member });
+  }, {});
+};
+
+export const getMembersIds = (members) =>
+  members.map((member) => removeDomain(member.userId));
+
+export const getAnotherGuyId = (members) =>
+  Object.keys(members).reduce((acc, id) =>
+    id !== removeDomain(matrix.credentials.userId)
+      ? id
+      : acc, '');
+
+export const isNewMessage = (message: Message): boolean => {
+  // hack is here. New matrix messages have room id as local message id. Room id starts with special symbols.
+  // New message will have normal id only after we gets it from the server.
+  return message.id.startsWith('~!');
 };

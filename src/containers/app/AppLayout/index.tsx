@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { Component } from 'react';
 import { connect } from 'react-redux';
+import { translate } from 'react-i18next';
 import './styles.css';
 
 import {
@@ -28,7 +29,9 @@ import Messenger from '../../messenger/Messenger';
  */
 export type Props = ComponentProps & StateProps & DispatchProps;
 
-export type ComponentProps = {};
+export type ComponentProps = {
+  t: Function
+};
 
 export type StateProps = {
   user: User
@@ -61,7 +64,7 @@ class AppLayout extends Component<Props, StateProps> {
   }
 
   render() {
-    const { sidebarOpen, user, isAuth } = this.props;
+    const { t, sidebarOpen, user, isAuth } = this.props;
     const { id, profile } = user;
     const {
       openSidebar,
@@ -84,7 +87,7 @@ class AppLayout extends Component<Props, StateProps> {
 
               <PageName
                 styleName="module-name"
-                pathname="Messenger"/>
+                pathname={t('messenger')}/>
             </div>
 
             <UserAvatar
@@ -112,6 +115,8 @@ class AppLayout extends Component<Props, StateProps> {
   }
 }
 
+const TranslatedComponent = translate('app')(AppLayout);
+
 export default connect<StateProps, DispatchProps, any>(
   (state) => ({
     ...state.app.appLayout,
@@ -123,4 +128,4 @@ export default connect<StateProps, DispatchProps, any>(
     openProfileCard,
     fetchUser
   }
-)(AppLayout);
+)(TranslatedComponent);

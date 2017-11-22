@@ -3,6 +3,7 @@ import matrix from '../../utils/matrix';
 import { removeDomain } from '../../helpers/matrix';
 
 type Message = {
+  id: string,
   sender: string,
   timestamp: number,
   content: string
@@ -10,6 +11,7 @@ type Message = {
 
 class MessagesService {
   private timelineWindow;
+  private room;
 
   private isInitialized(): boolean {
     return !!this.timelineWindow;
@@ -19,6 +21,7 @@ class MessagesService {
     const messages = events.reduce((acc, event) => {
       if (event.getType() === 'm.room.message') {
         return acc.concat([{
+          id: event.getId(),
           sender: removeDomain(event.getSender()),
           timestamp: event.getTs(),
           content: event.getContent().body
@@ -34,8 +37,8 @@ class MessagesService {
   // Interface
 
   public initialize(roomId: string): Promise<any> {
-    const room = matrix.getRoom(roomId);
-    const timelineSet = room.getUnfilteredTimelineSet();
+    this.room = matrix.getRoom(roomId);
+    const timelineSet = this.room.getUnfilteredTimelineSet();
     this.timelineWindow = new Matrix.TimelineWindow(matrix, timelineSet);
 
     return this.timelineWindow.load(undefined, 30);
@@ -80,6 +83,25 @@ class MessagesService {
 
     const events = this.timelineWindow.getEvents();
     return this.getMessagesFromEvents(events);
+  }
+
+  public markAsRead(): void {
+    if (!this.isInitialized() || !this.timelineWindow.getEvents().length) {
+      return;
+    }
+
+    const events = this.timelineWindow.getEvents();
+    const lastEvent = events[events.length - 1];
+
+    matrix.sendReadReceipt(lastEvent);
+  }
+
+  public getLastReadMessageId(): string {
+    if (!this.isInitialized()) {
+      return '';
+    }
+
+    return this.room.getEventReadUpTo(matrix.credentials.userId, false);
   }
 }
 
