@@ -17,8 +17,8 @@ import MessageGroup from '../../../components/messenger/MessageGroup';
 import Textarea, { HEIGHT as TEXTAREA_HEIGHT } from '../../../components/messenger/Textarea';
 import UnreadSeparator from '../../../components/messenger/UnreadSeparator';
 import * as Waypoint from 'react-waypoint';
-import { getRoomById, getUserById } from '../../../helpers/store';
-import { isNewMessage } from '../../../helpers/matrix';
+import { getUserByMatrixId } from '../../../helpers/store';
+import { isNewMessage, getAnotherMember, getRoomMembers } from '../../../helpers/matrix';
 
 /**
  * Types
@@ -154,16 +154,15 @@ class MessagesArea extends Component<Props, ComponentState> {
       openedRoomId,
       textarea,
       openEmployeeCard,
-      users,
-      rooms
+      users
     } = this.props;
 
     const { messagesGroups, lastReadMessageId } = this.props;
 
     const messagesAreaHeight = height - MESSAGES_HEADER_HEIGHT - TEXTAREA_HEIGHT;
 
-    const openedRoom = getRoomById(rooms, openedRoomId);
-    const anotherGuy = getUserById(users, openedRoom.userId);
+    const anotherMember = getAnotherMember(getRoomMembers(openedRoomId));
+    const anotherGuy = getUserByMatrixId(users, anotherMember.userId);
 
     return (
       <div>

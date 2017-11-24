@@ -144,14 +144,17 @@ export const membersTransformer = (members) => {
   }, {});
 };
 
+export const getRoomMembers = (roomId: string) => {
+  const room = matrix.getRoom(roomId);
+  return room && matrix.getRoom(roomId).currentState.getMembers();
+};
+
 export const getMembersIds = (members) =>
   members.map((member) => removeDomain(member.userId));
 
-export const getAnotherGuyId = (members) =>
-  Object.keys(members).reduce((acc, id) =>
-    id !== removeDomain(matrix.credentials.userId)
-      ? id
-      : acc, '');
+export const getAnotherMember = (members) => {
+  return members.find((member) => member.userId !== matrix.credentials.userId);
+};
 
 export const isNewMessage = (message: Message): boolean => {
   // hack is here. New matrix messages have room id as local message id. Room id starts with special symbols.
