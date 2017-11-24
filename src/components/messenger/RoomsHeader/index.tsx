@@ -50,7 +50,7 @@ const RoomsHeader: SFC<Props> = (props) => {
           <Icon name="user" onClick={() => openContacts()}/>
         </button>
 
-        <button styleName="button" type="button">
+        <button styleName="chat-button" type="button">
           <Icon name="chat"/>
         </button>
 

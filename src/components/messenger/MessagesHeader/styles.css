@@ -35,7 +35,7 @@
 .cog {
   size: 19px;
   background-color: transparent;
-  cursor: pointer;
+  cursor: not-allowed;
   margin: 0 10px;
   background-image: svg-load('./svg/cog.svg');
 }
@@ -43,7 +43,7 @@
 .loupe {
   size: 19px;
   background-color: transparent;
-  cursor: pointer;
+  cursor: not-allowed;
   margin: 0 10px;
   background-image: svg-load('./svg/loupe.svg');
 }
