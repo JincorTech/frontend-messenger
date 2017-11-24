@@ -24,6 +24,11 @@
   }
 }
 
+.chat-button {
+  composes: button;
+  cursor: not-allowed;
+}
+
 .search {
   padding: 15px 15px 0 0;
 }
