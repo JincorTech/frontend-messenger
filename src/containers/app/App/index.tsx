@@ -9,6 +9,7 @@ import { checkAuth, StateMap as StateProps } from '../../../redux/modules/app/ap
 import { outsideSelectRoom } from '../../../redux/modules/messenger/rooms';
 
 import AppLayout from '../AppLayout';
+import Notifications from '../Notifications';
 
 /**
  * Types
@@ -48,6 +49,7 @@ class App extends Component<Props, StateProps> {
     return (
       <div styleName="app">
         <AppLayout/>
+        <Notifications/>
       </div>
     );
   }

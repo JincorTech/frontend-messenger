@@ -35,3 +35,11 @@ button {
   border: 0px;
   outline: 0px;
 }
+
+.notification-dismiss {
+  display: none;
+}
+
+.notification-title {
+  color: #222 !important;
+}

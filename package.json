@@ -20,6 +20,8 @@
     "react-custom-scrollbars": "^4.0.1",
     "react-dom": "^15.5.4",
     "react-i18next": "6.0.2",
+    "react-notification-system": "0.2.16",
+    "react-notification-system-redux": "1.2.0",
     "react-redux": "^5.0.4",
     "react-redux-loading-bar": "2.9.2",
     "react-router": "3.0.5",
