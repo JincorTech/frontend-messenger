@@ -40,6 +40,7 @@ export type User = {
   companyId: string
   companyName: string
   companyLogo: string
+  added: boolean
 };
 
 export type MessageGroup = {

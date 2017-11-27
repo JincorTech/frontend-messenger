@@ -51,7 +51,7 @@ const RoomsHeader: SFC<Props> = (props) => {
         </button>
 
         <button styleName="chat-button" type="button">
-          <Icon name="chat"/>
+          <Icon name="chat" title="Group chats coming soon"/>
         </button>
 
         <button styleName="button" type="button">

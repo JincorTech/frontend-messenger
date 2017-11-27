@@ -28,10 +28,7 @@ const MessagesHeader: SFC<User> = (props) => {
         <div styleName="name">{name}</div>
         <div styleName="position">{position} @ {companyName}</div>
       </div>
-      <div styleName="pull-right">
-        <button styleName="loupe" type="button"/>
-        <button styleName="cog" type="button"/>
-      </div>
+      <div styleName="pull-right"></div>
     </div>
   );
 };

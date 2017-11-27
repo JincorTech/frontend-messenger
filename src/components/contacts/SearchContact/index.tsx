@@ -66,7 +66,6 @@ const SearchContact: SFC<Props> = (props) => {
           {added
             ? <button type="button" onClick={() => onRemoveFromContacts(id)}>{t('removeFromContacts')}</button>
             : <button type="button" onClick={() => onAddToContacts({ email, companyId })}>{t('addToContacts')}</button>}
-          <button type="button">{t('block')}</button>
         </div>
       </CardAvatar>
     </div>

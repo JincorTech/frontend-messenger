@@ -126,7 +126,8 @@ export const createRooms = (matrixRooms, users: User[]): Room[] => {
         last: '',
         preview: lastMessage[lastMessage.length - 1].preview,
         userId: user.id,
-        title: user.name
+        title: user.name,
+        src: user.avatar
       };
 
       return acc.concat([room]);

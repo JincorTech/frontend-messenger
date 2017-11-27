@@ -23,7 +23,7 @@ export const ts = (timestamp) => {
 
   // if yesterday return string 'Yesterday'
   if (compareAsc(tsYesterday, ts) === 0) {
-    return 'Вчера';
+    return 'Yesterday';
   }
 
   // finally return DD/MM/YYY

@@ -90,7 +90,6 @@ function* searchNewContactSaga(): SagaIterator {
 function* addContactIterator({ payload }: Action<AddContactReq>): SagaIterator {
   try {
     const { data } = yield call(post, '/employee/contacts', payload);
-    yield call(console.log, data);
     yield put(addContact.success(data.id));
   } catch (e) {
     yield put(addContact.failure(e));

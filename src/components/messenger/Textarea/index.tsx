@@ -26,18 +26,10 @@ const Textarea = (props) => {
 
   return (
     <div styleName="wrapper">
-      <div styleName="icon">
-        <button styleName="add" type="button"/>
-      </div>
-
       <div styleName="input">
         <form onSubmit={(e) => sendMessage(e)}>
           <input styleName="textarea" type="text" {...inputProps}/>
         </form>
-      </div>
-
-      <div styleName="icon">
-        <button styleName="smile" type="button"/>
       </div>
     </div>
   );
