@@ -1,7 +1,9 @@
 import * as React from 'react';
-import { SFC } from 'react';
+import { Component } from 'react';
 
 import './styles.css';
+
+import TextareaResizable from 'react-textarea-autosize';
 
 /**
  * Types
@@ -21,19 +23,29 @@ export const HEIGHT = 90;
  * Component
  */
 
-const Textarea = (props) => {
-  const { sendMessage, ...inputProps } = props;
+class Textarea extends Component<any, {}> {
+  private form: any;
 
-  return (
-    <div styleName="wrapper">
-      <div styleName="input">
-        <form onSubmit={(e) => sendMessage(e)}>
-          <input styleName="textarea" type="text" {...inputProps}/>
-        </form>
+  render() {
+    const { sendMessage, ...inputProps } = this.props;
+
+    return (
+      <div styleName="wrapper">
+        <div styleName="input">
+          <form
+            onSubmit={(e: any) => sendMessage(e)}
+            ref={(form: any) => { this.form = form; }}>
+            <TextareaResizable
+              styleName="textarea"
+              type="text"
+              onKeyDown={(e) => e.keyCode === 13 ? sendMessage(e) : null}
+              {...inputProps}/>
+          </form>
+        </div>
       </div>
-    </div>
-  );
-};
+    );
+  }
+}
 
 /**
  * Export
