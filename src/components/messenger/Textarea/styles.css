@@ -28,6 +28,7 @@
   font: normal 14px Open Sans;
   outline: none;
   max-height: 77px;
+  resize: none;
 }
 
 .add {

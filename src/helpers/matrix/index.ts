@@ -93,19 +93,26 @@ export const createRooms = (matrixRooms, users: User[]): Room[] => {
     return membersIds.length === 2 && messages.includes(true);
   });
 
+  const roomsWithoutMessages = matrixRooms.filter((room) => {
+    const membersIds = Object.keys(room.currentState.members);
+    const messages = room.timeline.reduce((acc, e) => {
+      if (e.event.type === 'm.room.message') {
+        return true;
+      }
+
+      return acc;
+    }, false);
+
+    return membersIds.length === 2 && !messages;
+  });
+
   const data = users.reduce((acc, user) => {
     if (addDomain(user.matrixId) === matrix.credentials.userId) {
       return acc;
     }
 
     const matrixRoom = roomsWithMessages.filter((room) => room.currentState.members[addDomain(user.matrixId)])[0];
-
-    // const lastSender = (id: string): string => {
-    //   if (id !== matrix.credentials.userId) {
-    //     return user.name;
-    //   }
-    //   return '';
-    // };
+    const matrixRoomWithoutMessages = roomsWithoutMessages.filter((room) => room.currentState.members[addDomain(user.matrixId)])[0];
 
     if (matrixRoom) {
       const lastMessage = matrixRoom.timeline
@@ -122,9 +129,25 @@ export const createRooms = (matrixRooms, users: User[]): Room[] => {
         timestamp: lastMessage[lastMessage.length - 1].timestamp,
         unreadIn: false,
         unreadOut: false,
-        // last: lastSender(lastMessage[lastMessage.length - 1].sender),
         last: '',
         preview: lastMessage[lastMessage.length - 1].preview,
+        userId: user.id,
+        title: user.name,
+        src: user.avatar
+      };
+
+      return acc.concat([room]);
+    }
+
+    if (matrixRoomWithoutMessages) {
+      const room = {
+        type: 'dialog',
+        id: matrixRoomWithoutMessages.roomId,
+        timestamp: 0,
+        unreadIn: false,
+        unreadOut: false,
+        last: '',
+        preview: '',
         userId: user.id,
         title: user.name,
         src: user.avatar

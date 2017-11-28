@@ -102,7 +102,7 @@ const EmployeeCard: SFC<Props> = (props) => {
  * Export
  */
 
-const TranslatedComponent = translate('app')(EmployeeCard);
+const TranslatedComponent = translate('app', 'contacts')(EmployeeCard);
 
 export default connect(
   (state) => state.app.employeeCard,
