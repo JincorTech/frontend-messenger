@@ -6,6 +6,7 @@ import matrix from '../../../utils/matrix';
 import { messagesService } from '../../../utils/matrix/messagesService';
 
 import './styles.css';
+const notificationSoundOgg = require('file-loader!../../../assets/sounds/notification.ogg');
 
 import { StateObj as MessengerState, User as EmployeeProps } from '../../../redux/modules/messenger/messenger';
 import { StateObj as MessagesAreaState } from '../../../redux/modules/messenger/messagesArea';
@@ -57,6 +58,7 @@ export type ComponentState = {
 
 class MessagesArea extends Component<Props, ComponentState> {
   private scrollbars: Scrollbars;
+  private notificationSound: any;
 
   constructor(props) {
     super(props);
@@ -84,8 +86,7 @@ class MessagesArea extends Component<Props, ComponentState> {
 
     matrix.on('Room.timeline', (event) => {
       if (event.getType() === 'm.room.message' && event.getSender() !== myId && event.getAge() < 200) {
-        const audioPlayer: any = document.getElementById('notificationAudio');
-        audioPlayer.play();
+        this.notificationSound.play();
       }
 
       if (messagesService.canLoadNewMessage()) {
@@ -227,7 +228,14 @@ class MessagesArea extends Component<Props, ComponentState> {
   public render(): JSX.Element {
     const { openedRoomId } = this.props;
 
-    return openedRoomId ? this.renderMessagesArea() : this.renderMock();
+    return (
+      <div>
+        <audio ref={(el) => { this.notificationSound = el; }}>
+          <source src={notificationSoundOgg} type="audio/ogg"/>
+        </audio>
+        {openedRoomId ? this.renderMessagesArea() : this.renderMock()}
+      </div>
+    );
   }
 }
 

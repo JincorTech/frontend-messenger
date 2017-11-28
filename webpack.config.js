@@ -99,6 +99,10 @@ module.exports = {
         }
       },
       {
+        test: /\.ogg$/,
+        use: 'file-loader'
+      },
+      {
         test: /\.(jpe?g|png|gif|ico)$/,
         loader: 'file-loader',
         options: {

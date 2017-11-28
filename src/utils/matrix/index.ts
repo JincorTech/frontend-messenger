@@ -44,8 +44,11 @@ notifTimelineSet.getLiveTimeline().setPaginationToken('', Matrix.EventTimeline.B
 matrix.setNotifTimelineSet(notifTimelineSet);
 
 // up indexeddb and start client
-const promise = matrix.store.startup();
-promise.catch((err) => { console.error(err); });
-promise.finally(() => matrix.startClient(opts));
+const rmPromise = matrix.store.deleteAllData();
+rmPromise.finally(() => {
+  const promise = matrix.store.startup();
+  promise.catch((err) => { console.error(err); });
+  promise.finally(() => matrix.startClient(opts));
+});
 
 export default matrix;
