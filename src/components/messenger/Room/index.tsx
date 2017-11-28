@@ -73,7 +73,7 @@ const Room: SFC<Props> = (props) => {
 
       <span styleName="date">
         {unreadOut && <div styleName="unread"/>}
-        {ts(timestamp)}
+        {timestamp ? ts(timestamp) : null}
       </span>
     </div>
   );

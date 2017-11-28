@@ -19,6 +19,7 @@ import UnreadSeparator from '../../../components/messenger/UnreadSeparator';
 import * as Waypoint from 'react-waypoint';
 import { getUserByMatrixId } from '../../../helpers/store';
 import { isNewMessage, getAnotherMember, getRoomMembers } from '../../../helpers/matrix';
+import notify from '../../../utils/notifications';
 
 /**
  * Types
@@ -28,6 +29,7 @@ export type StateProps = MessengerState & MessagesAreaState;
 
 export type Props = StateProps & DispatchProps & ComponentProps & {
   t: Function
+  myId: string
 };
 
 export type DispatchProps = {
@@ -38,6 +40,7 @@ export type DispatchProps = {
   loadNextPage: () => void,
   loadNewMessage: () => void,
   updateLastReadMessage: () => void
+  notify: (type: any, message: any, title: any, dismiss: any) => void // TODO fix types
 };
 
 export type ComponentProps = {
@@ -75,7 +78,16 @@ class MessagesArea extends Component<Props, ComponentState> {
   }
 
   public componentWillMount(): void {
-    matrix.on('Room.timeline', () => {
+    const {
+      myId
+    } = this.props;
+
+    matrix.on('Room.timeline', (event) => {
+      if (event.getType() === 'm.room.message' && event.getSender() !== myId && event.getAge() < 200) {
+        const audioPlayer: any = document.getElementById('notificationAudio');
+        audioPlayer.play();
+      }
+
       if (messagesService.canLoadNewMessage()) {
         this.props.loadNewMessage();
       }
@@ -229,13 +241,15 @@ export default connect<StateProps, DispatchProps, ComponentProps>(
   state => {
     return {
       ...state.messenger.messenger,
-      ...state.messenger.messagesArea
+      ...state.messenger.messagesArea,
+      myId: state.app.app.login
     };
   },
   {
     loadFirstPage,
     loadNextPage,
     loadNewMessage,
-    updateLastReadMessage
+    updateLastReadMessage,
+    notify
   }
 )(TranslatedComponent);

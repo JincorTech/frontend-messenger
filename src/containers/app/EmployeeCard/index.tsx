@@ -7,8 +7,11 @@ import './styles.css';
 
 import { StateMap as StateProps } from '../../../redux/modules/app/employeeCard';
 import { Props as PopupProps } from '../../../components/common/Popup';
+import { AddContactReq as AddContactReqProps } from '../../../redux/modules/contacts/newContact';
 
 import { closeEmployeeCard } from '../../../redux/modules/app/employeeCard';
+import { addContact, removeContact } from '../../../redux/modules/contacts/newContact';
+import { selectRoom } from '../../../redux/modules/messenger/rooms';
 
 import Popup from '../../../components/common/Popup';
 import CardAvatar from '../../../components/app/CardAvatar';
@@ -28,6 +31,9 @@ export type Props =
 
 export type DispatchProps = {
   closeEmployeeCard: () => void
+  selectRoom: (matrixId: string) => void
+  addContact: (user: AddContactReqProps) => void
+  removeContact: (userId: string) => void
 };
 
 /**
@@ -39,6 +45,9 @@ const EmployeeCard: SFC<Props> = (props) => {
     t,
     open,
     closeEmployeeCard,
+    selectRoom,
+    addContact,
+    removeContact,
     employee
   } = props;
 
@@ -50,8 +59,17 @@ const EmployeeCard: SFC<Props> = (props) => {
     lastName,
     position,
     companyName,
-    companyLogo
+    companyLogo,
+    companyId,
+    email,
+    matrixId,
+    added
   } = employee;
+
+  const openRoom = () => {
+    selectRoom(matrixId);
+    closeEmployeeCard();
+  };
 
   return (
     <Popup
@@ -70,9 +88,10 @@ const EmployeeCard: SFC<Props> = (props) => {
         companyName={companyName}
         companyLogo={companyLogo}>
         <div styleName="buttons">
-          <button type="button">{t('message')}</button>
-          <button type="button">{t('addToContacts')}</button>
-          <button type="button">{t('suspend')}</button>
+          <button type="button" onClick={() => openRoom()}>{t('message')}</button>
+          {added
+            ? <button type="button" onClick={() => removeContact(id)}>{t('removeFromContacts')}</button>
+            : <button type="button" onClick={() => addContact({ email, companyId })}>{t('addToContacts')}</button>}
         </div>
       </CardAvatar>
     </Popup>
@@ -83,11 +102,14 @@ const EmployeeCard: SFC<Props> = (props) => {
  * Export
  */
 
-const TranslatedComponent = translate('app')(EmployeeCard);
+const TranslatedComponent = translate('app', 'contacts')(EmployeeCard);
 
 export default connect(
   (state) => state.app.employeeCard,
   {
-    closeEmployeeCard
+    closeEmployeeCard,
+    addContact,
+    removeContact,
+    selectRoom
   }
 )(TranslatedComponent);

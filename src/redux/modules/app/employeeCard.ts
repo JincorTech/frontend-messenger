@@ -45,7 +45,8 @@ const initialState: State = from<StateMap>({
     position: '',
     companyId: '',
     companyName: '',
-    companyLogo: ''
+    companyLogo: '',
+    added: false
   }
 });
 
