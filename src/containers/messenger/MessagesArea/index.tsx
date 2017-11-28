@@ -229,7 +229,7 @@ class MessagesArea extends Component<Props, ComponentState> {
     const { openedRoomId } = this.props;
 
     return (
-      <div>
+      <div styleName="component-wrapper">
         <audio ref={(el) => { this.notificationSound = el; }}>
           <source src={notificationSoundOgg} type="audio/ogg"/>
         </audio>

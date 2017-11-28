@@ -1,6 +1,10 @@
 @use postcss-short;
 @use postcss-center;
 
+.component-wrapper {
+  height: 100%;
+}
+
 .mock-wrap {
   size: 100%;
   position: relative;
