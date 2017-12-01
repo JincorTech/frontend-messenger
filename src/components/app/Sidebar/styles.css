@@ -36,6 +36,20 @@
   }
 }
 
+.disabled {
+  display: block;
+  font-size: 16px;
+  cursor: not-allowed;
+  pointer-events: none;
+  margin-bottom: 12px;
+  color: #e6e6e6 !important;
+
+  &:hover {
+    color: #e6e6e6 !important;
+    text-decoration: none;
+  }
+}
+
 .active {
   display: block;
   font-size: 16px;
