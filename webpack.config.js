@@ -28,8 +28,9 @@ module.exports = {
     new webpack.DefinePlugin({
       'process.env': {
         NODE_ENV: JSON.stringify('development'),
-        API_PREFIX: JSON.stringify(process.env.API_PREFIX || ''),
-        API_HOST: JSON.stringify(process.env.API_HOST || '')
+        COMPANIES_API_PREFIX: JSON.stringify(process.env.COMPANIES_API_PREFIX || ''),
+        COMPANIES_API_HOST: JSON.stringify(process.env.COMPANIES_API_HOST || ''),
+        MESSENGER_API_HOST: JSON.stringify(process.env.MESSENGER_API_HOST || '')
       }
     }),
     new webpack.HotModuleReplacementPlugin(),
