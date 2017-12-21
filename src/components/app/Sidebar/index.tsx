@@ -63,7 +63,7 @@ class Sidebar extends PureComponent<Props, {}> {
           <a styleName="link" href="/cmp/app/profile">{t('myCompany')}</a>
           <a styleName="link" href="/cmp/app/search">{t('search')}</a>
           <a styleName="link" href="/wallets">Wallets</a>
-          <a styleName="disabled">Contracts</a>
+          <a styleName="link" href="/contracts">Contracts</a>
           <a styleName="active" href="/msg">{t('messenger')}</a>
         </nav>
       </aside>
