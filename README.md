@@ -42,7 +42,9 @@ This frontend application is an instant messenger which help employees to commun
   To connect to the real host you need to pass further NodeJS environment variables:
 
   COMPANIES_API_HOST - path to the companies api host.
+
   COMPANIES_API_PREFIX - api prefix for companies api (for example '/api/v1')
+  
   MESSENGER_API_HOST - path to the messenger api host.
 
 ## Tools & libraries
